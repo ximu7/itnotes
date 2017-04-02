@@ -1,0 +1,13 @@
+/proc/*
+/dev/*
+/sys/*
+/run/*
+/tmp/*
+/mnt/*
+/media/*
+/var/*
+/lost+found/*
+/home/*
+/boot/grub/grub.cfg
+/etc/fstab
+/root/*
