@@ -5,9 +5,10 @@
 /tmp/*
 /mnt/*
 /media/*
-/var/*
+/var/tmp/*
 /lost+found/*
 /home/*
 /boot/grub/grub.cfg
 /etc/fstab
+/etc/mtab
 /root/*
