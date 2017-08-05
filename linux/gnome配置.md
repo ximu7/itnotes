@@ -35,7 +35,7 @@
 - clac    计算器
 - randwall     壁纸切换
 - caffeine     阻止桌面锁屏和系统暂停
-- media-player-indicator  媒体播放信息显示及快捷控制（部分播放器可能不支持）
+- media-player  媒体播放信息显示及快捷控制（部分播放器可能不支持）
 
  附 media player indicator设置中l展示播放信息的pango设置示例：
 ```pango
@@ -104,8 +104,8 @@ fi
 - gnome-music   音乐播放器
 - shotwell   数码相片管理工具
 - epipthany gnome浏览器（webkit内核，可生成网页应用--其实就是快捷方式，编辑页面文件后保存时能够自动刷新--前端调试神器）
-- gnome-schedule  计划任务（cron图形端）
-- gnome-search-tool 搜索工具(可所搜文件中的文字)
+- gnome-schedule   计划任务（cron图形端）
+- gnome-search-tool  搜索工具(可所搜文件中的文字)
 - gnome appfolder manager   管理应用程序文件夹
 
 # 快捷键
@@ -116,28 +116,30 @@ fi
 
 - 一些默认的快捷键：
 
-Super+h                   隐藏当前窗口
-Super+Left/RIght    窗口平铺于左/右侧
+  Super+h                      隐藏当前窗口
+  Super+Left/RIght     窗口平铺于左/右侧
+  Super+v	                     显示通知清单
 
-Print                          截取当前屏幕为图片
-Shift+Print                截取指定区域为图片（使用鼠标拖选）
-Alt+Print						截取当前窗口为图片
-以上三条指令分别加上Ctrl，则是截取图片到剪切板
-Shift+Ctrl+Alt+r       录制屏幕短视频（最多30秒，可中途按下再次Shift+Ctrl+Alt+r停止）
-Super+v	                    显示通知清单
+  Print                       截取当前屏幕为图片-更改为super+Print避免误按截图
+  Shift+Print            截取指定区域为图片（使用鼠标拖选）
+  Alt+Print		截取当前窗口为图片
+  ​	以上三条指令分别加上Ctrl，则是截取图片到剪切板
+  Shift+Ctrl+Alt+r   录制屏幕短视频
+  ​	最多录制30秒，可中途按下再次Shift+Ctrl+Alt+r可停止录制
+  ​
 
 - 一些自行修改的快捷键：
 
-Super+f1/f2/f3/f4    切换到不同工作区
-Ctrl+f1/f2/f3/4          移动窗口到不同工作区
-Shift+Super+h    隐藏所有正常窗口（hidden)
-Super+f               切换全屏状态(fullscreen)
-Shift++shif+r                 改变窗口大小(re**size**)
-Super+shift+m             移动窗口(move)
-Super+e               文件管理器nautilus
-Super+Return      gnome-terminal终端
-Super+g              文件编辑器gedit
-Super+shift+s                搜索gnome-search-tool
+  Super+f1/f2/f3/f4     切换到不同工作区
+  Ctrl+f1/f2/f3/4          移动窗口到不同工作区
+  Shift+Super+h          隐藏所有正常窗口（hidden)
+  Super+f                      切换全屏状态(fullscreen)
+  Shift++shif+r            改变窗口大小(re**size**)
+  Super+shift+m         移动窗口(move)
+  Super+e                     文件管理器nautilus
+  Super+Return          gnome-terminal终端
+  Super+g                    文件编辑器gedit
+  Super+shift+s          文件搜索工具
 
 # 电源管理
 

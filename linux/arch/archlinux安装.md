@@ -317,15 +317,15 @@ pacman -S grub
 pacman -S efibootmgr
 # 如安装有多系统 需安装 os-prober
 pacman -S os-prober
-# 安装引导 boot非esp
+# 安装引导 boot--未使用efi的用户
 grub-install /dev/sda
-# 安装引导 boot使用了esp
+# 安装引导 boot--使用了efi的用户
 grub-install --efi-directory=/boot --bootloader-id=grub
 # 生成引导配置
 grub-mkconfig -o /boot/grub/grub.cfg
 ```
 
-**注意**：os-prober可能需要在系统安装完毕后，重启进入系统**再次执行**生成配置命令方能检测到其他系统。
+**注意**：os-prober可能需要在系统安装完毕后，**重启**进入系统**再次执行**生成**引导配置命令**就能检测到其他系统。
 
 
 ### 网络连接

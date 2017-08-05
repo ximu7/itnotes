@@ -1,5 +1,14 @@
 [TOC]
 
+!!将表达式强制转为布尔值，方便用于判断。
+
+```javascript
+let a;//undefined
+!!a;//false
+```
+
+
+
 # 事件
 
 - 下拉框（select）选项（option）的事件：**只**需再select上添加change事件即可，在change事件的方法中使用options（select下各个option的集合）的属性和方法来对不同option进行种操作。（chrome不支持在option上添加的click事件，firefox支持）
@@ -33,9 +42,14 @@
 # 字符串
 
 - slice,substr和substring切割字符串。它们都接收两个参数，区别：
-    - slice和substring接收的是**起始位置和结束位置**(不包括结束位置，前开后闭区间)；substr接收的则是**起始位置和所要返回的字符串长度**。
+    - substr和substring用于字符串，返回一个新的字符串；slice用于数组，返回一个新的数组。
+    - slice和substring接收的是**起始位置和结束位置**(不包括结束位置，前开后闭区间)。
+    - substr接收的则是**起始位置和所要返回的字符串长度**。
     - substring是以两个参数中较小一个作为起始位置，较大的参数作为结束位置。
-    - 当接收的参数是负数时：slice会将它字符串的长度与对应的负数相加，结果作为参数；substr则仅仅是将第一个参数与字符串长度相加后的结果作为第一个参数；substring则干脆将负参数都直接转换为0。
+    - 当接收的参数是负数时
+      - slice：将字符串的长度与对应的负数相加的结果作为参数；
+      - substring：负参数转换为0；
+      - substr：将第一个参数与字符串长度相加后的结果作为第一个参数。
 
 
 -   `num.toLocaleString('zh-Hans-CN-u-nu-hanidec',{useGrouping:false})`(num是一个阿拉伯数字)可以将数字转为简体中文格式。*此方法只会对数字逐一转换，并不会出现进制单位如“百”，{useGrouping:false}是为了删除每三位一个逗号分割的情况。*

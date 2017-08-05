@@ -11,7 +11,7 @@
 `ctrl+k ctrl+s`进入快捷键设置。
 快捷键手册下载:[linux](https://code.visualstudio.com/shortcuts/keyboard-shortcuts-linux.pdf) | [windows](https://code.visualstudio.com/shortcuts/keyboard-shortcuts-windows.pdf) | [macos](https://code.visualstudio.com/shortcuts/keyboard-shortcuts-macos.pdf)
 
-# 代码片段snippets
+# 自定义代码片段snippets
 
 自定代码片段示例：
 ```json
@@ -56,7 +56,8 @@
 
 - HTML
   - auto close tag  	  自动闭合HTML/XML标签  
-  - auto rename tag    自动修改HTML/XML的成对标签名  
+  - auto rename tag    自动修改HTML/XML的成对标签名 
+  - [htmlhint](https://github.com/yaniswang/HTMLHint)     校验html代码
 
 
 - CSS
@@ -64,60 +65,53 @@
   - stylelint         CSS/SCSS/Less的语法检查 
   - css peek         在HTML的id/class上查看CSS样式
 - JavaScript
-  - babel es6/es7          添加js babel es6/es7 语法高亮  
   - javascript(es6) code snippets          js(es6)代码片段  
-  - eslint  eslint        语法检查  
+  - [eslint](https://github.com/eslint/eslint)  语法检查  
   - vue 2 snippets         vue.js 2代码片段
+- php
+  - php-intellisense  智能提示
 - 调试
-  - preview          markdown、html、jade……的预览
+  - preview          markdown、html、jade……的预**览**
   - debugger for chrome      在chrome调试  
   - debugger for firefox        在firefox调试  
   - code runer       多种语言的代码运行器  
-- 智能辅助
+  - php-debug     配合php的xdebug插件和php服务器进行调试
+  - php-server    php服务器
+- 其他辅助
   - npm intelisense          npm 自动补全  
   - path intellisense          路径自动补全  
-- bracket pair colorizer  成对括号显示不同的色彩  
-- vs color picker        选色盘和取色器（限windows)
-- dash      dash和zeal的文档查询  
-- projects manager         项目管理  
-- settings sync         同步vscode的设置、主题、代码片段……  
-- translationtoolbox          划词翻译  
-- vim         vim操作模式  
+  - bracket pair colorizer  成对括号显示不同的色彩  
+  - vs color picker        选色盘和取色器（限windows)
+  - projects manager         项目管理  
+  - settings sync         同步vscode的设置、主题、代码片段……  
 
-一些vscode内置的功能[**或许**]不需要专门装插件：
+---
 
-- 缩进辅助线（guides)
-- html内支持css提示 (html css support)
-- 文档注释(document this)
-- 代码格式化
-- 内置热门主题：
-  - monokai（dimmed和dark）
-  - solarized(dark和black)
-  - tomorrow light blue
+- eslint语法检查
 
-eslint语法检查
+  安装eslint：`npm install -g eslint`
 
-安装eslint：`npm install -g eslint`
+  配置.eslintrc.json规则文件
 
-types智能提示
+- htmlhint语法检查
 
-安装types：`npm install -g types`
+  安装htmlhint:`npm install   -g htmlhint`
 
-根据需要安装@types插件`@types/[moudelName]`到node_moudels，如：
+  配置.htmlhintrc规则文件
 
-```
-npm i @types/jquery			//用于jquery
-npm i @types/angular		//用于angular
-npm i @types/node			//用于node
-```
-
-
+---
 
 # 调试
 
-- html静态页面预览可以使用preview插件（默认快捷键`ctrl+k-v`）预览。（preview还支持markdown、jade、css等等）
+- html纯静态页面预览可以使用preview插件（默认快捷键`ctrl+k-v`）预览。（preview支持markdown、jade、css等等）
 
-- `code runner`插件可以支持多种语言的调试，还支持代码片段（选中代码后运行，默认快捷键`ctrl+alt+n` ）
+- `code runner`插件支持多种语言的调试。还支持代码片段（选中代码后运行，默认快捷键`ctrl+alt+n` ）
+
+- php-debug+xdebug+php-server调试php
+
+  安装xdebug，启用`/etc/php/php.conf/xdebug.ini`文件中的所有配置项。f5启动调试。
+
+  然后调出命令输入框（ctrl-shift+p或f1）,查找Serve Project with PHP命令并执行，按下右上角php-server按钮（或者执行server project with php）启动服务器即可在浏览器中进行调试。
 
 -   使用自带调试（默认快捷键`f5`）功能，需要根据不同的调试环境需要安装相应的套件，如：
 
@@ -126,61 +120,4 @@ npm i @types/node			//用于node
   - `debug for chrome`      -- chrome/chromium
 
   - `debug for firefox`        --firefox
-
-  - dart  command line      --dart SDK
-
-    ……
-
-  按下f5后会弹出调试环境选项，选择一个调试环境后，会自动新建名为launch.json的文件并打开编辑窗口（launch.json位于当前工作区/项目的根目录下的.vscode文件夹中）,根据具体情况编辑该文件。右下角会有一个添加配置的按钮，可供选择并生成各种配置模板。
-
-## lanch模式
-
-配置文件中的 "request"默认取值是 "launch"，且称之为launch模式。
-
-这是一个我用nginx+php-fpm+php测试某php为后端的html页面的launch.json的简洁示例：
-
-  ```json
-  {
-      "version": "0.2.0",
-      "configurations": [
-          {
-              "name": "Launch localhost",
-              "type": "firefox",
-              "request": "launch",
-              "url": "http://localhost/app/index.html",
-              "webRoot": "${workspaceRoot}/app"
-          }
-      ]
-  }
-  ```
-
-  我要测试的页面在nginx上的位置/app/index.html，`${workspaceRoot}`变量指当前工作区的根目录。
-
-  此外还有`${file}`变量值该文件的绝对路径，如需监听特定端口需要设定"port"的值。
-
-  其余调试环境的配置大同小异，根据实际情况更改相应项。
-
-## attach模式
-
-launch模式的缺陷：launch模式调试时，vscode访客的身份打开一个新的 浏览器进程，浏览器原先安装的插件、缓存数据、历史记录等等都不会生效（类似打开了一个禁用插件的隐私浏览模式/无痕浏览模式）。
-
-attach模式可以弥补这个缺陷。
-
-attach模式下的launch.json（名字还是launch.json）示例：
-
-```
-{
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "type": "firefox",
-            "request": "attach",
-            "name": "firefox attatch",
-            "port": 6666,
-            "url": "http://localhost:6666/app/index.html",
-            "webRoot": "${workspaceRoot}/app"
-        }
-    ]
-}
-```
 
