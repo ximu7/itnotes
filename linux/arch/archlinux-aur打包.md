@@ -1,4 +1,4 @@
-ArchLinux aur打包建议指南
+ArchLinux aur打包简易指南
 
 ---
 
@@ -12,7 +12,7 @@ ArchLinux aur打包建议指南
 
   [登录aur账号](https://aur.archlinux.org/),在账号设置里添加本机（用以打包aur的设备）的ssh公钥（如~/.ssh/id_rsa.pub），生成ssh密钥的方法：
   ```shell
-  ssh-keygen  
+  ssh-keygen
   ssh-keygen  -t  rsa    #或者-t指定加密类型如rsa、dsa
   ```
 
@@ -55,7 +55,7 @@ PKGBUILD参考[archwiki-PKGBUILD](https://wiki.archlinux.org/index.php/PKGBUILD_
 在PKGBUILD文件目录下执行：
 
 ```bash
-makepkg    # 构建软件包
+makepkg    #生成校验码 如不需要可略过
 # 如果需要的依赖不满足，构建失败可执行  makepkg -s 自动安装依赖
 # 或者makepkg -S pkgname  手动安装依赖
 # makepkg -i 可安装构建的软件包

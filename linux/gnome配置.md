@@ -35,7 +35,7 @@
 - clac    计算器
 - randwall     壁纸切换
 - caffeine     阻止桌面锁屏和系统暂停
-- media-player-indicator  媒体播放信息显示及快捷控制（部分播放器可能不支持）
+- media-player  媒体播放信息显示及快捷控制（部分播放器可能不支持）
 
  附 media player indicator设置中l展示播放信息的pango设置示例：
 ```pango
@@ -48,8 +48,8 @@
 
 在[gnome-look](gnome-look.org)或源中可下载一些主题图标等，如：
 
-- gtk主题：arc united flat-plat candy paper windows10  osx-arc os-x-el-capitan gnome-osx vertex adapta breeze
-- 图标主题：numix-circle papirus masalla pinbadge paper flattr arc moka
+- gtk主题：arc united flat-plat candy paper vertex adapta osx-arc gnome-osx windows10
+- 图标主题：numix-circle papirus masalla paper flattr moka la-capitaine-icon-theme pinbadge  windows10-icons
 - 鼠标主题：osx-elcap xcursor-flatbed xcursor-numix numix-cursor-theme neoalien
 
 # gnome系软件使用
@@ -104,8 +104,8 @@ fi
 - gnome-music   音乐播放器
 - shotwell   数码相片管理工具
 - epipthany gnome浏览器（webkit内核，可生成网页应用--其实就是快捷方式，编辑页面文件后保存时能够自动刷新--前端调试神器）
-- gnome-schedule  计划任务（cron图形端）
-- gnome-search-tool 搜索工具(可所搜文件中的文字)
+- gnome-schedule   计划任务（cron图形端）
+- gnome-search-tool  搜索工具(可所搜文件中的文字)
 - gnome appfolder manager   管理应用程序文件夹
 
 # 快捷键
@@ -116,39 +116,41 @@ fi
 
 - 一些默认的快捷键：
 
-Super+h                   隐藏当前窗口
-Super+Left/RIght    窗口平铺于左/右侧
+  Super+h                      隐藏当前窗口
+  Super+Left/RIght     窗口平铺于左/右侧
+  Super+v	                     显示通知清单
 
-Print                          截取当前屏幕为图片
-Shift+Print                截取指定区域为图片（使用鼠标拖选）
-Alt+Print						截取当前窗口为图片
-以上三条指令分别加上Ctrl，则是截取图片到剪切板
-Shift+Ctrl+Alt+r       录制屏幕短视频（最多30秒，可中途按下再次Shift+Ctrl+Alt+r停止）
-Super+v	                    显示通知清单
+  Print                       截取当前屏幕为图片-更改为super+Print避免误按截图
+  Shift+Print            截取指定区域为图片（使用鼠标拖选）
+  Alt+Print		截取当前窗口为图片
+  ​	以上三条指令分别加上Ctrl，则是截取图片到剪切板
+  Shift+Ctrl+Alt+r   录制屏幕短视频
+  ​	最多录制30秒，可中途按下再次Shift+Ctrl+Alt+r可停止录制
+  ​
 
 - 一些自行修改的快捷键：
 
-Super+f1/f2/f3/f4    切换到不同工作区
-Ctrl+f1/f2/f3/4          移动窗口到不同工作区
-Shift+Super+h    隐藏所有正常窗口（hidden)
-Super+f               切换全屏状态(fullscreen)
-Shift++shif+r                 改变窗口大小(re**size**)
-Super+shift+m             移动窗口(move)
-Super+e               文件管理器nautilus
-Super+Return      gnome-terminal终端
-Super+g              文件编辑器gedit
-Super+shift+s                搜索gnome-search-tool
+  Super+f1/f2/f3/f4     切换到不同工作区
+  Ctrl+f1/f2/f3/4          移动窗口到不同工作区
+  Shift+Super+h          隐藏所有正常窗口（hidden)
+  Super+f                      切换全屏状态(fullscreen)
+  Shift++shif+r            改变窗口大小(re**size**)
+  Super+shift+m         移动窗口(move)
+  Super+e                     文件管理器nautilus
+  Super+Return          gnome-terminal终端
+  Super+g                    文件编辑器gedit
+  Super+shift+s          文件搜索工具
 
 # 电源管理
 
 - 按下alt后，电池图标中的关机/重启按钮会变成暂停按钮。
 - hibernate-status   扩展可以增加休眠等按钮。
-- systemctl hybrid-sleep/hibernate/supend 命令分别是：混合睡眠、休眠和暂停。为了方便使用可将他们设置别名，在~/.bashrc中写入：
+- systemctl hybrid-sleep/hibernate/supend 命令分别是：混合睡眠（通电状态，保存到硬盘和内存）、休眠（关机状态，保存到硬盘）和睡眠（通电状态，保存到内存）。为了方便使用可将他们设置别名，在~/.bashrc中写入：
 
 ```
-alias hs='systemctl hybrid-sleep'
-alias hn='systemctl hibernate'
-alias sp='systemctl suspend'
+alias hs='systemctl hybrid-sleep'  #混合睡眠
+alias hn='systemctl hibernate'    #休眠
+alias sp='systemctl suspend'  #暂停（挂起)
 ```
 
 - 笔记本用户推荐安装[tlp](https://wiki.archlinux.org/index.php/TLP)或者[laptop-mode-tools]()

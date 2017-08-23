@@ -153,9 +153,9 @@ Git 保存数据是对文件系统的一组快照。 每次提交更新时，它
 
   commit id可以使用前文的`git reflog`命令在历史操作记录中查找。
 
-  - 回退到上一个版本：`git reset --hard HEAD^`
+  回退之后要推送到远程仓库使用`git push origin HEAD --force`
 
-    ​
+  - 回退到上一个版本：`git reset --hard HEAD^`
 
     ==`HEAD`、`^`和`~`==
 
@@ -337,16 +337,25 @@ git的配置文件在`~/.gitconfig`，仓库的配置文件是仓库内的`.git/
 
 可运行`git help` `git config`和`man git`查看更多帮助信息。
 
-官方文档[git-config Manual Page](https://www.kernel.org/pub/software/scm/git/docs/git-config.html)
+官方文档[git-config Manual Page](https://www.kernel.org/pub/software/scm/git/docs/git-config.html)e
 
 部分设置命令：
+
+加上`--globle`参数，则设置内容对当前用户生效，不加`--global`则对当前仓库生效。
+
 - 检查配置情况：`git config --list`
+
+- 设置默认编辑器，如nano： `git config --global core.editor nano`
+
+- 设置默认对比工具，如meld：`git config --global merge.tool meld`
+
+    （Git可以接受kdiff3, tkdiff, meld, xxdiff, emerge, vimdiff, gvimdiff, ecmerge, 和 opendiff作为有效的合并工具。当然后续可能会支持更多。）
 
 - 彩色输出：`git config --global color.ui true`
 
 - 中文文件名显示：`git config --global core.quotepath false`（默认下会中文显示成数字）
 
-- 显示历史记录时每个提交的信息显示一行： `git config format.pretty oneline`
+- 显示历史记录时每个提交的信息显示一行： `git --global config format.pretty oneline`
 
 - 设置用户名和 
   `git config --global user.name "your name"`（your name是用户名）
@@ -376,8 +385,6 @@ git的配置文件在`~/.gitconfig`，仓库的配置文件是仓库内的`.git/
      git config --global alias.unstage 'reset HEAD'
      git config --global alias.graph 'log --graph --oneline --decorate'
 ```
-
-*加上`--globle`参数，则设置内容仅对当前用户生效，不加`--global`则对当前仓库生效*
 
 # git服务搭建
 使用systemd的linux为例：

@@ -1,16 +1,8 @@
 固态硬盘优化技巧
 
--   选择使用Btrfs
+-   禁用文件系统日志（不建议）
 
-    ！btrfs 文件系统的限制:
-
-    -  不能在不同的 [挂载点](https://wiki.archlinux.org/index.php/Fstab) 上使用不同的[文件系统](https://wiki.archlinux.org/index.php/File_systems)
-    -  不能使用 [交换空间](https://wiki.archlinux.org/index.php/Swap) (因为 btrfs 不支持 [交换文件](https://wiki.archlinux.org/index.php/Swap#Swap_file) 而且硬盘上没有空间用来创建  [交换分区](https://wiki.archlinux.org/index.php/Swap#Swap_partition)) 这同时也限制了睡眠和休眠 (因为需要交换空间) 
-    -  不能使用 [UEFI](https://wiki.archlinux.org/index.php/UEFI) 启动
-
-- 禁用文件系统日志（如Ext4的日志）
-
-     *明显缺点是非正常卸载分区（即断电后，内核锁定等）会造成数据丢失。*
+    **明显缺点是非正常卸载分区（即断电后，内核锁定等）会造成数据丢失。**
 
 - 分区对齐
      现代发行版几乎分区的时候都用了4k对齐。
@@ -19,7 +11,7 @@
 parted /dev/sda
 align-check optimal 1         
 ```
-gaparted可以调整对齐。
+​	使用图形界面的gaparted可以调整对齐。
 
 -   TRIM
 
@@ -32,7 +24,7 @@ gaparted可以调整对齐。
      **检验TRIM支持**
      需要hdparm。
 
-     ```
+     ```shell
      hdparm -I /dev/sda | grep TRIM
            //得到类似信息  *    Data Set Management TRIM supported (limit 1 block)
      ```
@@ -41,8 +33,8 @@ gaparted可以调整对齐。
 
      **执行TRIM**
 
-     ```
-     fstrim -v /home
+     ```shell
+     fstrim -v /home   #对home分区执行trim
      fstrim -v /
      ```
 
@@ -52,10 +44,10 @@ gaparted可以调整对齐。
 
     将swapiness的值改得非常低（如1）会减少内存的交换，从而提升一些系统上的响应度。
 ```shell
-cat /proc/sys/vm/swappiness
-sysctl vm.swappiness=1
+cat /proc/sys/vm/swappiness    #检查swappiness值
+sysctl vm.swappiness=1    #临时设置为1
 ```
-​	编辑`/etc/sysctl.d/99-sysctl.conf`文件，修改swappiness为1：     
+​	为了长久保存设置可新建一个`/etc/sysctl.d/99-sysctl.conf`文件，修改swappiness为1：     
 ```
 vm.swappiness=1
 vm.vfs_cache_pressure=50
@@ -75,10 +67,10 @@ vm.vfs_cache_pressure=50
 
     -   firefox在地址栏中输入 about:config 后回车，然后点击右键新建一个 String ， name 为 browser.cache.disk.parent_directory ， value 为 /dev/shm/firefox。
 
-    - Chromium/Chrome找到Chrmium（或Chrmoe）程序图标所在位置，如"/usr/share/applications/chromium.desktop"，右键该图标的属性，更改其执行命令改为`/usr/bin/chromium --disk-cache-dir="/dev/shm/chromium/"`
+    - Chromium/Chrome找到Chrmium（或Chrmoe）程序图标所在位置，如"/usr/share/applications/chromium.desktop"，修改该文件中`Exec`一行为`Exec=/usr/bin/chromium --disk-cache-dir="/dev/shm/chromium/"` 。
 
-        /usr/shar/applications下的图标需要root权限才能更改，可以先赋予777权限`sudo chmod 777 /usr/share/applications/chromium.desktop`
+        /usr/shar/applications下的图标需要root权限才能更改，可以先赋予777权限`sudo chmod 777 /usr/share/applications/chromium.desktop`；更改完后再还原权限`sudo chmod 644 /usr/share/applications/chromium.desktop`。
 
-        更改完后再还原权限`sudo chmod 644 /usr/share/applications/chromium.desktop`
+        或者复制`/usr/share/applications/chromium.desktop`到`~/.local/share/applications/chromium.desktop`，再对其修改。
 
 另：有 [anything-sync-daemon](https://aur.archlinux.org/packages/anything-sync-daemon/)允许用户将**任意** 目录使用相同的基本逻辑和安全防护措施同步入内存。
