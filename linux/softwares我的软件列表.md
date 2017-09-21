@@ -29,6 +29,8 @@
   - crossover
   - playonlinux
 
+游戏相关可参看后文[游戏](#游戏)
+
 # 网络沟通
 
 - feedreader     RSS阅读器
@@ -50,7 +52,7 @@
 
 ff指firefox，ch指的是chrome/chromium，没有说明则默认ff。以firefox为主。
 - 类vim操作：ff--vimfx   ch--vimium
-- 网络代理：ff--foxyproxy    ff&ch--switchyomega
+- 网络代理：ff&ch--switchyomega
 - RSS订阅： ff&ch--feedly notifier （ [feedly官网](https://feedly.com)）
 - 消息推送：[pushbullet]([https://www.**pushbullet**.com/ ) 
 - 屏蔽广告：ff&ch--ublock origin
@@ -67,7 +69,8 @@ ff指firefox，ch指的是chrome/chromium，没有说明则默认ff。以firefox
 ### 下载工具
 
 -   命令行     
-    -   aria2 和 axiel
+    -   aria2
+    -   axiel
     -   you-get  支持多个视频网站（youku、iqiyi、bilibili、qq……等网站），相关介绍查看[github:you-git](https://github.com/soimort/you-get)。可使用you-get和本地播放器观看视频：
     ```bash
     you-get -p mpv url    #mpv是要调用的播放器，url是视频所在网页地址。
@@ -77,9 +80,9 @@ ff指firefox，ch指的是chrome/chromium，没有说明则默认ff。以firefox
     - uget  调用aria2和curl
     - transmission     支持bt
     - amule    支持ed2k
-    - pointdownload   支持http, ftp, bt, magnet ,thunder protocol
+    - pointdownload   支持http, ftp, bt, magnet ,thunder 协议
     - moonplayer    调用you-get下载中国相关视频网站的视频
-    - clipgrab    从Veoh, DailyMotion, MyVideo等下载视频的工具
+    - clipgrab    从DailyMotion, MyVideo等下载视频的工具
 
 
 ### 网络硬盘
@@ -144,7 +147,7 @@ ff指firefox，ch指的是chrome/chromium，没有说明则默认ff。以firefox
 
 - [telegram](https://telegram.org/)  （特色：安全加密）
 - [slack](https://slack.com/)    （特色：办公协作、工具聚合）
-- [discord](https://discordapp.com/)   （特色：游戏互动、自建服务器）
+- [discord](https://discordapp.com/)   （特色：游戏互动、可自建服务器）
 - skypeforlinux     官方的skype  
 - polari   irc客户端(gnome系)
 - electronic-wechat   微信electronic版
@@ -199,8 +202,8 @@ ff指firefox，ch指的是chrome/chromium，没有说明则默认ff。以firefox
 
 - gimp    图像处理
 
-  - [gimp-plugin-export-layers](https://aur.archlinux.org/packages/gimp-plugin-export-layers/)   图层导出
-  - [Layerstodivs](https://github.com/MrHeadwar/Layerstodivs)  (aur包名：gimp-plugin-layers-to) 图层导出并生成html
+  - [gimp-plugin-export-layers](https://aur.archlinux.org/packages/gimp-plugin-export-layers/)    图层导出
+  - [Layerstodivs](https://github.com/MrHeadwar/Layerstodivs)     图层导出并生成html
   - gimp-plugin-saveforweb  保存为web页面图片
 
 - Inkscape   矢量图形制作和处理
@@ -216,10 +219,8 @@ ff指firefox，ch指的是chrome/chromium，没有说明则默认ff。以firefox
 
 - 格式转换
 
-  不同于其他图像处理工具，以下工具以格式转换为主要功能。
-
-  - imagemagick    图片格式转换（支持极多格式，命令行工具）
-  - XnConvert    图片格式转换（数百种格式）
+  - imagemagick    命令行的图像处理和图片格式转换
+  - XnConvert    图片格式转换
 
 - 相片管理
   - digikam  （plasma）
@@ -230,14 +231,17 @@ ff指firefox，ch指的是chrome/chromium，没有说明则默认ff。以firefox
 
 ### 音乐播放
 
-- rhythmbox
-- clementine
+- rhythmbox    支持podcast和一些在线音乐服务
+- clementine    支持podcast和许多在线音乐服务
 - deadbeef    良好支持cue
+- osdlyrics    自动下载和显示歌词
+- anoise    环境背景声音(雨声、鸟鸣、街市……此外有图形界面anoise-gui以及一些音频扩展anoise-media、anoise-community-extesion)
+
+### 在线音乐
+
 - netease-cloud-music    网易云音乐
 - spotify     音乐流媒体服务[spotify](https://www.spotify.com/)（注册帐号和**有时候登录时**需翻越gfw）
 - pithos      第三方的pandora客户端  [pithos](https://pithos.github.io/)
-- osdlyrics    自动下载和显示歌词
-- anoise    环境背景声音(雨声、鸟鸣、街市……此外有图形界面anoise-gui以及一些音频扩展anoise-media、anoise-community-extesion)
 
 ### 音频编辑
 
@@ -256,16 +260,17 @@ ff指firefox，ch指的是chrome/chromium，没有说明则默认ff。以firefox
 ### 视频播放器
 
 - mpv       简洁但功能强大的播放器
-- parole      符合xfce风格的简洁播放器
+- parole      风格简洁的播放器
 - vlc和smplayer     功能全面的两个播放器
 - kodi     多媒体平台（图片浏览、音乐、播客、视频等等）
 - popcorn time    在线视频观看（具有torrent即时观看和下载功能）
 - moonplayer    中国的在线视频网站视频播放[github:moonplayer](https://github.com/coslyk/moonplayer)
-  - 插件 [moonplayer-plugins](https://github.com/coslyk/moonplayer-plugins)
+  - 插件   [moonplayer-plugins](https://github.com/coslyk/moonplayer-plugins)
 - yout-get   配合视频播放器观看
 
 ### 视频编辑
 
+- mencoder    命令行的视频编码处理工具
 - handbrake    视频格式转换
 - openshot    功能强大的视频编辑工具
 - lightworks   专业的视频剪辑工具
@@ -325,9 +330,9 @@ ff指firefox，ch指的是chrome/chromium，没有说明则默认ff。以firefox
 
 - goldendict    功能丰富的支持多种格式词典库词典
 - sdcv    星际译王（StartDict)的命令行版
-- moedict   [萌典](https://racklin.github.io/moedict-desktop/download.html)   汉语词典（还包括客家话、闽南语，以及简单的中翻英法德语）
+- moedict    [萌典](https://racklin.github.io/moedict-desktop/download.html)   汉语词典（还包括客家话、闽南语，以及简单的中翻英法德语）
 - 有道词典系列
-  - ydcv    命令行的有道中英互译在线词典
+  - ydcv    命令行的有道在线词典
   - youdao-dict    有道词典
   - iSearch    命令行的有道词典（pip安装，使用了柯林斯词典，可存储到本地）[Github-iSearch](https://github.com/louisun/iSearch)
 
@@ -335,7 +340,7 @@ ff指firefox，ch指的是chrome/chromium，没有说明则默认ff。以firefox
 
 ## 游戏
 
-使用wine/虚拟机或模拟器进行游戏参考前文的“模拟器/虚拟机/wine”。
+使用wine/虚拟机或模拟器进行游戏参考前文的[模拟器/虚拟机/wine](#模拟器/虚拟机/wine)。
 
 - steam    [steam平台上支持linux的游戏](http://store.steampowered.com/search/?sort_by=Reviews_DESC&category1=998&os=linux)
 - gog    [gog平台上支持linux的游戏](https://www.gog.com/games?system=lin_mint,lin_ubuntu&sort=bestselling&page=1)
@@ -362,21 +367,20 @@ ff指firefox，ch指的是chrome/chromium，没有说明则默认ff。以firefox
   - 包含中文或中文版的fortune：fortune-zh或者fortune-mod-zh (包名在不同发行版有出入)   
   - cowfortune    将fortune和cowsay配合
 - asciiquarium    水族馆
-- espeak    字符阅读，使用`espeak hello`就可以读出hello
 
 # 系统配置
 
 - manpages-zh_cn和manpages-zh_tw  [中文man手册](https://github.com/man-pages-zh/manpages-zh)
 - 电源节能
   - tlp   电源管理工具（默认配置已针对电池优化，安装后以systemctl enable tlp启用即可） 
-  - laptop-mode-tools 笔记本电源管理
-  - powertop  针对intel的节电工具
+  - laptop-mode-tools    笔记本电源管理
+  - powertop    针对intel的节电工具
 - fancontrol   风扇控制（图形界面fancontrol-gui）
 - 中文输入法
   - fcitx-cloudpinyin  fcitx的云拼音插件（不支持fcitx-rime）
   - libpinyin   更智能的拼音（SunPinyin、Novel Pinyin和iBus-Pinyin社区联合创建），可导入词库（内置下载导入搜狗词库的功能）。fcitx-libpinyin和ibus-libpinyin
   - fcitx-sogoupinyin  搜狗拼音（支持全拼双拼下载词库以云词库支持）
-  - rime    中州韵，跨平台的中文输入工具，fcitx-rime和ibus-rime
+  - rime    中州韵，跨平台的中文输入工具，有fcitx-rime和ibus-rime版本
 - caffeine    在全屏播放时禁止系统挂起/锁屏/睡眠/休眠……
 - htop    进程管理器
 - displaycal   显示器色彩调整
@@ -395,8 +399,8 @@ ff指firefox，ch指的是chrome/chromium，没有说明则默认ff。以firefox
   - firewalld    图形界面防火墙管理工具
   - firebuild    图形界面防火墙管理工具 (支持iptables)
 - 反病毒
-  - clamtk
   - clamav
+    - clamtk    图形界面的clamav
 - backintime    备份工具
 
 ## 个性化设置
@@ -414,11 +418,18 @@ ff指firefox，ch指的是chrome/chromium，没有说明则默认ff。以firefox
 # 开发工具
 
 - zeal 类似dash（mac软件）的api查询工具
-- git图形界面
-  - gitg   查看为主，有简单操作功能 (gnome系)
-  - [git-cola](http://git-cola.github.io/)  python编写(win/mac/linux)
-  - [gitkraken](https://www.gitkraken.com/)  基于nodeGit(win/mac/linux)
+- git相关
+  - [gisto](http://www.gistoapp.com/)    gist管理工具
+  - 图形界面git工具
+    - github-desktop
+    - gitg   查看为主，有简单操作功能 (gnome系)
+    - [git-cola](http://git-cola.github.io/)  python编写(win/mac/linux)
+    - [gitkraken](https://www.gitkraken.com/)  基于nodeGit(win/mac/linux)
 - gpick       取色工具
+- 终端美化
+  - [powerline-shell](https://github.com/banga/powerline-shell)
+  - [bash-powerline](https://github.com/riobard/bash-powerline)
+  - [zsh-powerline](https://github.com/riobard/zsh-powerline)
 
 # 其他软件
 

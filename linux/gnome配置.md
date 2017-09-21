@@ -14,7 +14,6 @@
 - dash-to-dock    dock设置
 - unite    将右下角通知栏融入顶部栏（仿unity风格）
 - hide-top-bar  定义顶部栏隐藏策略
-- dynamic-top-bar    顶部栏动态调整（可调透明度）
 - pixel-saver    窗口最大化时将标题栏融合进顶部pannel
 - coverflow-alt-tab    alt+tab进行切换时可显示大幅预览
 - workspace-indicator    显示工作区序号
@@ -46,10 +45,10 @@
 
 # 主题外观
 
-在[gnome-look](gnome-look.org)或源中可下载一些主题图标等，如：
+在[gnome-look](gnome-look.org)或源中可下载一些主题图标，也可是使用[ocsstore](https://www.linux-apps.com/p/1175480/)下载，一些主题如：
 
-- gtk主题：arc united flat-plat candy paper vertex adapta osx-arc gnome-osx windows10
-- 图标主题：numix-circle papirus masalla paper flattr moka la-capitaine-icon-theme pinbadge  windows10-icons
+- gtk主题：arc united flat-plat candy paper vertex adapta osx-arc gnome-osx
+- 图标主题：numix-circle papirus masalla paper flattr moka la-capitaine-icon-theme pinbadge
 - 鼠标主题：osx-elcap xcursor-flatbed xcursor-numix numix-cursor-theme neoalien
 
 # gnome系软件使用
@@ -88,7 +87,7 @@ fi
 65/100是透明系数（65%）。
 注意：wayland中无效。
 
-## gnome软件
+## gnome相关软件
 
 一些gnome系软件
 
