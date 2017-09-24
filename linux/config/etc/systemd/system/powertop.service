@@ -1,0 +1,11 @@
+[Unit]
+Description=Powertop tunings
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/powertop --auto-tune
+ExecStart=echo 'on' > '/sys/bus/usb/devices/usb2/power/control'
+RemainAfterExit=true
+
+[Install]
+WantedBy=multi-user.target
