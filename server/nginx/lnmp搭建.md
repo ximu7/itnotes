@@ -67,30 +67,25 @@ group = nginx #修改组为nginx
 
 编辑/etc/nginx/conf.d/下的.conf文件，如果/etc/nginx/conf.d/中没有任何conf文件，下新建一个.conf文件，如website.conf，内容如下(据情况修改)：
 ```nginx
-server {
-	listen 80;
-   #此处server_name后填写域名
-   server_name www.xxx.com; 
-   #ngnix默认的主目录，可根据具体情况修改
-   root /srv/web; 
-   #添加上index.php
-   index index.php index.html index.htm;
-   # php解析
-   location ~ \.php$ {
-        fastcgi_pass 127.0.0.1:9000;
-        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-        include fastcgi_params;
-   }
+server {
+  listen 80;#端口
+  server_name www.xxx.com;#服务器名
+  root /srv/web;#ngnix默认的主目录，可根据具体情况修改
+  index index.php index.html;#默认主页
+  location ~ \.php$ {#php解析
+    fastcgi_pass 127.0.0.1:9000;
+    fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    include fastcgi_params;
+  }
 }
 ```
 
 *禁止通过ip直接访问网站，防止恶意解析，添加一个新的server：
 ```nginx
 server{
-        listen 80;
-        # ip处填写服务器ip地址
-        server_name: ip;
-        return 444;
+        listen 80;
+        server_name ip;#写上ip地址
+        return 444;
 }
 ```
 在通过ip地址访问时会返回444http状态码，服务器不会返回信息给客户端，并且会关闭连接。
