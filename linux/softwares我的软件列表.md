@@ -98,12 +98,12 @@ ff指firefox，ch指的是chrome/chromium，没有说明则默认ff。以firefox
 
 区别于“网络硬盘”，以下这些工具主要功能是同步，没有中心服务器概念。
 
-- rsync
+- rsync  （图形界面grsync）
 - resilio sync   原bt sync
-- syncthing　同步工具
+- syncthing　同步工具   （图形界面 syncthing-gtk）
 - freefilesync  同步＋对比
 
-## 科学上网/网络代理
+## 网络代理
 
 - shadowsocks    影梭
   - shadowsocks-qt5    shadowsocks的图形前端工具
@@ -132,8 +132,8 @@ ff指firefox，ch指的是chrome/chromium，没有说明则默认ff。以firefox
   - adhost    [github-levinit/adhosts](https://github.com/levinit/adhosts)    科学上网+屏蔽广告
 
 - 代理管理
-  - proxychains    配置好代理后执行  `proxychains 程序名`
-  - redsocks   
+  - proxychains    可TCP转发socks5/http，配置好代理后执行  `proxychains 程序名`
+  - privoxy    可以转发socks5为http（此外还能用于屏蔽广告等）
 
 ## 通讯
 

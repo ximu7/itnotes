@@ -12,7 +12,9 @@
 
 - usertheme    启用后可自定义shell主题
 - dash-to-dock    dock设置
-- unite    将右下角通知栏融入顶部栏（仿unity风格）
+- unite    将左下角通知栏融入顶部栏（仿unity风格）
+- topicons plus    将左下角通知栏融入顶部栏
+- taskbar    任务栏
 - hide-top-bar  定义顶部栏隐藏策略
 - pixel-saver    窗口最大化时将标题栏融合进顶部pannel
 - coverflow-alt-tab    alt+tab进行切换时可显示大幅预览
@@ -79,8 +81,8 @@
 
 ```shell
 if [ -n "$WINDOWID" ]; then
-TRANSPARENCY_HEX=(printf 0x%x ((0xffffffff * 65 / 100)))
-xprop -id "WINDOWID" -f _NET_WM_WINDOW_OPACITY 32c -set _NET_WM_WINDOW_OPACITY "TRANSPARENCY_HEX"
+  TRANSPARENCY_HEX=$(printf 0x%x $((0xffffffff * 77/100)))
+  xprop -id "$WINDOWID" -f _NET_WM_WINDOW_OPACITY 32c -set _NET_WM_WINDOW_OPACITY "$TRANSPARENCY_HEX"
 fi
 ```
 
