@@ -89,6 +89,18 @@ fi
 65/100是透明系数（65%）。
 注意：wayland中无效。
 
+## 修改gnome屏幕录制时间上限
+
+使用`ctrl`-`alt`-`shift`-`r`可以录制不超过30秒的短视频，可以使用dconf-editor修改`/org/gnome/settings-daemon/plugins/media-keys/max-screencast-length`的值。
+
+## 修改夜光(nigh-light)色温值
+
+gnome的设置中的夜光（night-light）默认色温值是4000，可使用dconf-editor修改`/org/gnome/settings-daemon/plugins/color/night-light-temperature`的值。
+
+## 修改networkmanager网络热点（AP)密码
+
+首先在网络设置中开启热点，会随机生成一串密码，然后关闭热点，再修改`etc/NetworkManager/system-connections/ap`文件中`psk=`后面的内容为想要修改的新密码。重启networkmanager后再开启热点就会使用修改后的密码。
+
 ## gnome相关软件
 
 一些gnome系软件
@@ -104,7 +116,7 @@ fi
 - totem   视频播放器
 - gnome-music   音乐播放器
 - shotwell   数码相片管理工具
-- epipthany gnome浏览器（webkit内核，可生成网页应用--其实就是快捷方式，编辑页面文件后保存时能够自动刷新--前端调试神器）
+- epipthany gnome浏览器（webkit内核，可生成网页应用--其实就是快捷方式，编辑页面文件后保存时能够**自动刷新**）
 - gnome-schedule   计划任务（cron图形端）
 - gnome-search-tool  搜索工具(可所搜文件中的文字)
 - gnome appfolder manager   管理应用程序文件夹

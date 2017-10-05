@@ -76,13 +76,16 @@ ff指firefox，ch指的是chrome/chromium，没有说明则默认ff。以firefox
     you-get -p mpv url    #mpv是要调用的播放器，url是视频所在网页地址。
     #更多选项查看   you-get --help
     ```
+
 -   图形化
-    - uget  调用aria2和curl
-    - transmission     支持bt
-    - amule    支持ed2k
-    - pointdownload   支持http, ftp, bt, magnet ,thunder 协议
-    - moonplayer    调用you-get下载中国相关视频网站的视频
-    - clipgrab    从DailyMotion, MyVideo等下载视频的工具
+
+    -   uget  调用aria2和curl
+
+    -   transmission     支持bt
+    -   amule    支持ed2k
+    -   pointdownload   支持http, ftp, bt, magnet ,thunder 协议
+    -   moonplayer    调用you-get下载中国相关视频网站的视频
+    -   clipgrab    从DailyMotion, MyVideo等下载视频的工具
 
 
 ### 网络硬盘
@@ -175,6 +178,7 @@ ff指firefox，ch指的是chrome/chromium，没有说明则默认ff。以firefox
 - regexxer  使用正则搜索（包含文本内容）
 - gnome-search-tool   搜索档案（包含文本内容，可使用正则）
 - catfish    搜索工具
+- albert    综合性搜索工具及启动器
 
 ## 乱码处理
 
@@ -240,6 +244,7 @@ ff指firefox，ch指的是chrome/chromium，没有说明则默认ff。以firefox
 ### 在线音乐
 
 - netease-cloud-music    网易云音乐
+  - [musicbox](https://github.com/darknessomi/musicbox)    网易音乐终端版
 - spotify     音乐流媒体服务[spotify](https://www.spotify.com/)（注册帐号和**有时候登录时**需翻越gfw）
 - pithos      第三方的pandora客户端  [pithos](https://pithos.github.io/)
 
@@ -312,6 +317,7 @@ ff指firefox，ch指的是chrome/chromium，没有说明则默认ff。以firefox
 ## 思维图/流程图/设计稿
 
 - pencil     设计稿制作（web页面、桌面程序界面、移动应用界面……）
+- scribus     出版物设计软件（设计杂志、海报、演示稿件等等）
 - mockingbot   [墨刀](http://modao.cc) 原型设计工具
 - dia    示意图制作（丰富的类型：流程图、UML、气象、地理、工程……）
 - 思维图
@@ -370,6 +376,11 @@ ff指firefox，ch指的是chrome/chromium，没有说明则默认ff。以firefox
 
 # 系统配置
 
+- 系统盘制作
+  - dd    `dd if=/path/system-image.iso of=/dev/sdb bs=10M`
+  - multibootusb    在一个U盘安装多个系统的工具
+
+
 - manpages-zh_cn和manpages-zh_tw  [中文man手册](https://github.com/man-pages-zh/manpages-zh)
 - 电源节能
   - tlp   电源管理工具（默认配置已针对电池优化，安装后以systemctl enable tlp启用即可） 
@@ -396,12 +407,16 @@ ff指firefox，ch指的是chrome/chromium，没有说明则默认ff。以firefox
 ##  安全
 
 - 防火墙
-  - firewalld    图形界面防火墙管理工具
-  - firebuild    图形界面防火墙管理工具 (支持iptables)
+  - firewalld    防火墙管理工具
+  - firebuild    防火墙管理工具 (支持iptables)
 - 反病毒
-  - clamav
+  - clamav  病毒扫描
     - clamtk    图形界面的clamav
 - backintime    备份工具
+- 数据加密
+  - truecrypt    跨平台的硬盘加密工具
+  - veracrypt    加密硬盘 基于TrueCrypt
+  - cryptsetup    加密硬盘（命令行）
 
 ## 个性化设置
 

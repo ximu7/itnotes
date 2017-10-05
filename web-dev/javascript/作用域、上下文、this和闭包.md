@@ -2,7 +2,11 @@
 
 定义在词法阶段的作用域。词法作用域是变量和语句块在**定义时所处的位置**决定的。
 
-×*ES6中大括号`{}`之间的区域就会定义一个作用域块。*
+- 全局
+- 块级：在`{}`之内是一个块级作用域（ES6之前没有块级作用于只有函数内的局部作用域）
+- eval（
+  - 直接调用时：eval内代码块的作用域绑定到**当前**作用域。
+  - 间接调用时：eval内代码块的作用域绑定到**全局**作用域。
 
 # 执行上下文execution context
 
@@ -26,38 +30,56 @@
 
 ## 函数调用的形式
 
-- 函数直接调用：fn()
-- 对像方法调用：obj.fn()
-- 使用call/apply方法指定：fn.call(context,param1,param2)
+- 直接调用：fn()
 
-**每个函数其实都包含着apply/call方法**，this的指向即是该方法的第一个参数——调用函数时的执行环境（context）。
+- 调用对象的方法：obj.fn()
 
-省略call/apply的写法实际相当于默认将函数前面对象作为apply/call的第一参数传入；`fn()`就相当于`fn.call(undefined)`，`obj.fn()`相当于`obj.fn(obj)`。
+  注：方法也是函数，只是将函数以**对象的属性方式来调用**时，一般称其为方法；一般将定义的全局范围的函数称作函数（在浏览器中，自定义的函数其实也是window对象的方法，可以用windows.xx()来调用）
 
-非严格模式下，在浏览器中：
+- 使用call/apply/bind方法
 
-> 如果传的 context 就 null 或者 undefined，那么 window 对象就是默认的 context。
+  - `fn.call(context,param1,param2...)`（call需要列出所有参数）
 
-nodejs的全局对象是global。
+  - `fn.apply(context,[arguments|array])`（apply参数是数组形式或arguments时）
+
+  - `bind`方法的参数可以使用逐个列出，也可以使用数组或arguments，不同与call/apply之处：
+
+    > bind()会**创建一个新的函数**
+
+    也就是**call()和aplly()方法会直接执行，而bind需要再调用一次**，因此如果调用bind()方法还需加上`()`：`fn.bind(context,param)()`
+
+  ​
 
 各种情况下的this指向
 ---
 
-- 全局范围内--全局对象
+参看[MDN-this](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/this)
 
-- 函数调用--全局对象
+- 定义时就能确定this：箭头函数中的this -- [其定义时的外层对象](#this)
 
-- 方法调用--方法所属的对象
 
-- 调用构造函数--新创建的实例对象
+- 执行时才能确定this—指向调用它的对象
 
-- 显式地设置this--call/apply/bind的第一个参数
+  注：浏览器中this是window，node中window是global；但严格模式下this则是undefined。
 
-  如果call和apply的第一个参数写的是null，那么this指向的是window对象。
+  - 全局范围内使用 -- 全局对象
+  - 函数调用 -- 全局对象
+  - 方法调用 -- 方法所属的对象
+  - 调用构造函数 -- 新创建的实例对象
+  - 显式地设置this：call/apply/bind方法的第一个参数
 
-- 箭头函数中的this--其定义时的外层对象
+  **如果call和apply的第一个参数写的是null，那么this指向的是全局对象。**
 
-以全局对象为window的示例：
+  **每个函数其实都包含着apply/call方法**，this的指向即是该方法的第一个参数——调用时的执行环境（context）。
+
+  省略call/apply的写法实际相当于默认将函数前面对象作为ap是ply/call的第一参数传入：
+
+  - `obj.fn()`相当于`obj.fn.call(obj)`，this也就指向obj；
+  - `fn()`相当于`fn.call(undefined)`，this也就指向undefined，非严格模式下浏览器就会给出默认的this——window来代替undefined，于是`fn()`中的this也就是window。
+
+  ---
+
+  以全局对象为window的示例：
 
 ```javascript
 let goo={};
@@ -121,7 +143,7 @@ c();//Hello Closure!
 
 ​	函数内部定义了一个函数，然后这个函数调用到了父函数内的相关变量，相关父级变量就会存入闭包作用域里面。
 
-- 闭包特性
+- 闭包特点
   - 函数嵌套函数
   - 函数内部可以引用外部的参数和变量
   - 参数和变量不会被垃圾回收机制回收
@@ -141,3 +163,20 @@ c();//Hello Closure!
   2. 回调函数（callback）
   3. 事件句柄（event handle）
   4. 模块化开发
+
+- 闭包相关问题解决
+
+  - 循环闭包中需要用到计数器
+
+    - 使用let代替var
+    - 使用匿名自执行函数（立即执行函数）
+
+    ```javascript
+    for(var i=1;i<3;i++){
+        (function(i){
+            //some codes need use i
+        })(i)
+    }
+    ```
+
+    ​

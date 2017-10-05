@@ -35,6 +35,7 @@
      - sharp : 音乐升调符  C# - C sharp
      - anchor（HTML) 
      - hash, hash key, hash mark  英国和澳洲多用以称呼电话的#键
+     - comment （编程语言中常用作）注释
 
   4. `$`   dollar或peso  参见后文[货币符号](#货币符号)
 

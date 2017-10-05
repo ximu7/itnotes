@@ -1,0 +1,212 @@
+ 部署lnmp环境
+
+[TOC]
+
+LNMP（linux,nginx,mariadb,php）部署，以下默认在root权限下操作，以centos７为例。
+
+# 安装
+
+- 安装nmp(nginx-mariadb-php)
+
+`yum install nginx mariadb-server php php-fpm`
+
+- 设置开机启动并立即启动服务：
+
+`systemctl enable nginx mariadb php-fpm && systemctl start nginx mariadb php-fpm`
+
+- 可安装phpmyadmin方便管理mariadb数据库：
+
+`yum install phpmyadmin`
+
+# 配置
+
+## mariadb配置
+
+`mysql_secure_installation`
+
+回车>根据提示输入Y>输入2次密码(不建议无密码)>回车>根据提示一路输入Y>最后出现：Thanks for using MariaDB!
+
+## php配置
+
+编辑**/etc/php.ini**文件，找到如**session.save_path**行，去掉注释，修改如下：
+
+`session.save_path = "/var/lib/php/session"`
+
+查看session目录是否存在，如果不存在，则手工创建 ： 
+```shell
+ls /var/lib/php/session
+mkdir /var/lib/php/session
+```
+为确保权限符合，更改session目录文件权限：
+
+`chown nginx:nginx /var/lib/php/session -R`
+
+## phpmyadmin配置
+
+复制phpMyAdmin目录到nginx根目录，以根目录为/srv/web为例：
+
+`cp /usr/share/phpMyAdmin/ /srv/web/phpMyAdmin;`
+
+！说明：centos以yum安装的phpmyadmin在/usr/share/目录下，archlinux的在/usr/share/webapps/目录下，其余发行版根据情操作。
+
+phpMyAdmin可改为phpmyadmin或者其他便于操作的名字。如果更改了名字，那么nginx的配置时要改为相应的目录名称。
+
+×也可软链接phpmyadmin目录：
+
+`ln -sf /usr/share/phpMyAdmin /srv/web/phpMyAdmin`
+
+## php-fpm配置
+
+编辑/**etc/php-fpm.d/www.conf**，修改用户名和组：
+```p
+user = nginx #修改用户为nginx
+group = nginx #修改组为nginx
+```
+
+## nginx配置
+
+在[/etc/nginx/nginx.conf](nginx/nginx.conf)使用`include conf.d/*.conf;` ，而从`/tec/nginx/conf.d`中引入各个配置文件。
+
+在`/etc/nginx/conf.d/`中新建一个.conf文件，如website.conf，内容如下(据情况修改)：
+```nginx
+server {
+  listen 80;     #80是默认的端口
+  server_name www.xxx.com;    #服务器名
+  root /srv/http;    #ngnix默认的主目录，可根据具体情况修改
+  index index.html index.php;    #默认主页
+  charset utf-8,gbk;    #防止中文乱码可加上
+}
+```
+
+### php解析
+
+在server中添加[php解析](nginx/backend-parse/php)：
+
+```nginx
+location ~ \.php$ {
+    fastcgi_pass 127.0.0.1:9000;
+    fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    include fastcgi_params;
+  }
+```
+
+### 禁止通过ip直接访问网站
+
+[禁止使用ip访问](nginx/conf.d/donotvisitbyip.conf)以防止恶意解析，添加一个新的server：
+
+```nginx
+server{
+        listen 80; 
+        server_name ip;    #ip处写上ip地址
+        return 444;
+}
+```
+
+### 子域名访问对应的子目录
+
+如abc.xx.com访问xx.com/abc
+
+1. 确保在域名解析服务商设置了泛解析：使用A记录，主机记录填写`*`
+
+2. 配置一个server：
+
+   ```nginx
+   server{
+     		listen 80;
+   		server_name ~^(?<subdomain>.+).xx.com$;
+     		root   /home/http/website/$subdomain;
+     		index index.html;
+   }
+   ```
+
+### 目录浏览
+
+在server（或者指定的location中）添加（示例[autoindex](nginx/indexview/autoindex) ）：
+
+```nginx
+        autoindex on;
+        autoindex_exact_size off;
+        autoindex_localtime on;
+```
+
+- 如果要修改目录浏览页面的样式需要使用[fancy插件](https://github.com/aperezdc/ngx-fancyindex)
+
+  - [fancy配置](nginx/indexview/fancy)
+
+    ```nginx
+    fancyindex on;
+    fancyindex_exact_size off;
+    fancyindex_localtime on;
+    fancyindex_name_length 255;
+
+    fancyindex_header "/fancyindex/header.html";
+    fancyindex_footer "/fancyindex/footer.html";
+    fancyindex_ignore "/fancyindex";
+    ```
+
+  使用fancy配置就不要再添加autoindex相关配置了。
+
+  - 添加相应位置的header.html和footer.html页面（可以是空白页面）
+
+    在header.html和footer.html进行目录浏览页面相关配置。
+
+  - 配置fancy后提示unknown directive "fancyindex" :
+
+    在/etc/nginx/nginx.conf文件中加载fancy模块（例如该模块位于/usr/lib/nginx/modules下）：`load_module "/usr/lib/nginx/modules/ngx_http_fancyindex_module.so";` 。
+
+- 目录浏览加密
+
+  可以用htpasswd工具来生成密码，然后在要加密的目录的location中单独[配置](nginx/indexview/passlock)：
+
+  ```nginx
+  auth_basic "passwd";  #passwd是使用htpasswd生成的密码
+  auth_basic_user_file /var/www/html/.htpasswd;  #密码文件路径
+  ```
+
+
+### 权限问题
+
+如果出现“403forbiden”，可能是该目录下没有index规定的默认主页文件（如index.html）或者nginx的执行用户不具有读取该目录的权限。可以用以下方法解决：
+
+- 确保正确的读取权限
+
+  文件644（rw-r--r--），文件夹755（rwx-r-xr-x）。假如nginx的执行用户是nginx组的nginx，web主目录是/srv/http，可使用以下命令修改所有权限：
+
+  ```shell
+  chown -R nginx.nginx /srv/http/
+  find /srv/web/ -type f -exec chmod 644 {} \;
+  find /srv/web/ -type d -exec chmod 755 {} \;
+  ```
+
+
+- 给予该用户相应权限，如将执行用户（假如执行用户名为nginx）加入具有读取该目录的用户组（假如该用户组是users）中`useradd -aG users nginx` 。
+- 换用具有权限的用户执行，如换用root用户，在`/etc/nginx/nginx.conf`中将user改为root。
+
+## 测试
+
+配置完后，测试前重启所有服务：
+
+`systemctl restart nginx mariadb php-fpm`
+
+- 测试nginx：
+
+`nginx -t`  
+
+成功则返回如下内容：
+>nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
+>nginx: configuration file /etc/nginx/nginx.conf test is successful
+
+- 登录网站测试，在浏览器打开域名或IP。
+
+- 测试php解析：
+  添加phpinfo.php测试文件到根目录，其内容为：
+
+```php
+<?php
+phpinfo();
+?>
+```
+保存后，打开网站，例如网址是xxx.com，浏览xxx.com/info.php，就可以看到php详情页面。
+
+- mariadb测试，以主目录下phpMyAdmin名字未更改为例，例如网址是xxx.com，浏览xxx.com/phpMyAdmin进入到mariadb的登录页面，用户名root，密码是mariadb配置时输入的密码。
+

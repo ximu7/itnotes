@@ -8,7 +8,7 @@ nginx的[Let's Encrypt HTTPS](https://github.com/certbot/certbot)部署
 
 2. 生成SSL证书
 
-   如果是安装的`certbot`，执行`certbot`按照引导进行操作即可。
+   如果是安装的`certbot`，执行`certbot certonly`按照引导进行操作即可。
 
    如果是下载的源代码，在其目录中执行：
 

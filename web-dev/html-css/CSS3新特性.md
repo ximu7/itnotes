@@ -325,7 +325,7 @@ animation-name 属性为 @keyframes 动画指定名称。
 
 # 媒体查询@media
 
-css语法：`@media not|only|all mediatype and (expression){css-style}`
+css语法：`@media not|only|all mediatype and (expression){css-style}`（注意and和小括号之间有一个空格）
 
 也可以link样式文件：`<link rel="stylesheet" media="mediatype and|not|only (expressions)" href="cssname.css">`
 
@@ -398,6 +398,9 @@ css语法：`@media not|only|all mediatype and (expression){css-style}`
 
 
 # 选择器selector
+
+CSS3新增的选择器
+
 - 元素选择器
   - 同级别`~`：`p ~ ul`
 
@@ -413,43 +416,43 @@ css语法：`@media not|only|all mediatype and (expression){css-style}`
 
 - 伪类选择器
   - 某（些）类子元素
-    - :first-of-type
-    - :last-of-type
-    - :nth-of-type(n)
-    - :nth-last-of-type(n)
-    - :only-of-type
+    - `:first-of-type`
+    - `:last-of-type`
+    - `:nth-of-type(n)`
+    - `:nth-last-of-type(n)`
+    - `:only-of-type`
   - 某（些）个子元素
-    - :first-child
-    - :last-child
-    - :nth-child(n)
-    - :nth-last-child(n)
-    - :only-child
-  - 根元素  :root
-  - 没有子元素的元素 :empty
-  - 当前活动的元素   :target
-  - 选中的元素  :checked
-  - 非某个元素 :not(selector)
+    - `:first-child`
+    - `:last-child`
+    - `:nth-child(n)`
+    - `:nth-last-child(n)`
+    - `:only-child`
+  - 根元素  `:root`
+  - 没有子元素的元素 `:empty`
+  - 当前活动的元素   `:target`
+  - 选中的元素  `:checked`
+  - 非某个元素 `:not(selector)`
   - 启用或禁用的元素
     元素可以设置disabled属性（如果为设置默认enabled）
-    - 启用的元素  :enabled
-    - 禁用的元素  :disabled
+    - 启用的元素  `:enabled`
+    - 禁用的元素  `:disabled`
   - 有校验属性的元素
     设置了min和max的input元素以及email元素等可以校验输入情况
-    - 输入值为非法的元素  :invalid 
-    - 输入值为合法的元素  :valid
+    - 输入值为非法的元素  `:invalid`
+    - 输入值为合法的元素  `:valid`
   - 必要和可选属性的元素
     表单元素可以设置required属性（不设置就是optional）
-    - 有可选的输入元素  :optional
-    - 有required属性的元素  :required
+    - 有可选的输入元素  `:optional`
+    - 有required属性的元素  `:required`
   - 读写属性的元素
     input、textarea等元素可以设置readonly属性（不设置则是读写）
-    - 有readonly属性的元素 :read-only
-    - 有读写属性的元素  :read-write
+    - 有readonly属性的元素  `:read-only`
+    - 有读写属性的元素  `:read-write`
 
   - input区间指定元素
     input元素可以设置min和max属性规定输入的区间
-    - 指定区间内的input元素  :in-range
-    - 指定区间外的input元素  :out-of-range
+    - 指定区间内的input元素  `:in-range`
+    - 指定区间外的input元素  `:out-of-range`
 
 - 伪类选择器
-  - 选中的元素  ::selection
+  - 选中的元素  `::selection`

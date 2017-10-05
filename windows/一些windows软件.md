@@ -8,4 +8,8 @@
 - everything   文件索引
 - ​uget   下载器，特色：支持aria2，可带针对某个下载任务或某队列下载任务单独开启网络代理
 - fdm   free download manager 下载软件
+- ext2fsd  读取ext4分区
+- winsetupfromusb  可以在一个u盘上制作有多个系统的启动盘
+- usbwirter  u盘启动盘制作工具
+- mactype    调校windows字体为Mac系统的风格
 

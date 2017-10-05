@@ -39,53 +39,38 @@ rfkill --help    #查看rfkill相关命令
 
 # 电源管理
 
-## 综合型电源管理工具
+## 电源管理工具
 
 - 桌面环境的电源管理工具
 
   桌面环境一般都有自己的电源管理工具，可设置对各种使用行为响应的电源动作 ，如使用电池时的亮度、灭屏时间、挂起时间、睡眠时间、盖上笔记本盖子的响应动作、按下电源键的响应动作等等。
 
-  如果使用窗口管理器（WM）或者使用的桌面环境（DE）没有电源管理工具，（目前）推荐使用mate桌面的电源管理工具`mate-power-manager` ，它没有多余的依赖且功能齐全。
-
-  可参看下文[电源相关行为的响应动作](#电源相关行为的响应动作)进行一些更为详细或者电源管理工具为提供的设置。
+  可参看下文[电源相关行为的响应动作](#电源相关行为的响应动作)进行一些更为详细或者电源管理工具为提供的设置，推荐配合tlp或laptop-mode-tools使用。
 
 - [tlp](https://github.com/linrunner/TLP)
 
-  其配置文件在[/etc/default/tlp](config/etc/default/tlp)
+  多功能电源管理工具，其默认配置已经针对常见使用情况进行优化，安装后执行`systemctl enable tlp` 使其开启自启动即可。如需进行更多配置，可修改[/etc/default/tlp](config/etc/default/tlp) 文件。另可再安装tlp-rdw用以设置无线设备。
 
-  另可再安装tlp-rdw用以设置无线设备。执行`systemctl enable tlp` 使其开启自启动。该工具配置简单，其默认配置已经针对常见使用情况进行优化。
+  可参看[tlp英文文档](http://linrunner.de/en/tlp/docs/tlp-configuration.html#rdw) 。
 
-  参考：[tlp英文文档](http://linrunner.de/en/tlp/docs/tlp-configuration.html#rdw) 。
+- [laptop-mode-tools](https://github.com/rickysarraf/laptop-mode-tools)
 
-  （类似工具有[laptop-mode-tools](https://github.com/rickysarraf/laptop-mode-tools)，功能繁多但配置复杂，可参看[archwiki-Laptop Mode Tools (简体中文)](https://wiki.archlinux.org/index.php/Laptop_Mode_Tools_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)#.E5.9B.BA.E6.80.81.E7.A1.AC.E7.9B.98)） 。
+  让内核开启适合的笔记本电脑的模式以达到相关电源控制的目的。功能较多，配置较tlp复杂，和tlp二选一即可。
 
-- [powertop](https://github.com/fenrus75/powertop)    intel处理器使用的电源管理工具，可参看[powertop(简体中文)](https://wiki.archlinux.org/index.php/Powertop_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))
+  可参看[archwiki-Laptop Mode Tools (简体中文)](https://wiki.archlinux.org/index.php/Laptop_Mode_Tools_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)#.E5.9B.BA.E6.80.81.E7.A1.AC.E7.9B.98) 。
 
-  执行`sudo powertop --auto-tune` 即可启动自行调节，如果希望使其开机自启动，可以编写脚本使其开机运行，或者自建一个systemd启动服务项，新建[/etc/systemd/system/powertop.service](config/etc/systemd/system/powertop.service)：
 
-  ```shell
-  [Unit]
-  Description=Powertop tunings
+- [powertop](https://github.com/fenrus75/powertop)    intel处理器使用的电源管理工具。
 
-  [Service]
-  Type=oneshot
-  ExecStart=/usr/bin/powertop --auto-tune
-  ExecStart=echo 'on' > '/sys/bus/usb/devices/usb2/power/control'
-  RemainAfterExit=true
+  使用`sudo powertop --auto-tune`可启用所有选项，欲开机自启动`auto-tune`参看[powertop(简体中文)](https://wiki.archlinux.org/index.php/Powertop_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)) 。
 
-  [Install]
-  WantedBy=multi-user.target
-  ```
-
-  然后执行`systemctl enable powertop`使其开启自启动。
-
-  其中`ExecStart=echo 'on' > '/sys/bus/usb/devices/usb2/power/control'`一行是用来关闭usb自动挂起（usb auto suspend）功能。`powertop --auto-tune`默认设置所有选项生效，其中USB电源会在用户一段时间未使用后挂起，导致再次使用鼠标需要两秒左右的激活时间。
+  提示：如果使用了tlp和laptop-mode-tools，几乎没必要再启用该工具，前二者功能覆盖了powertop的设置项。
 
 - thermald
 
-  tel开源技术中心开发的一款用于监视和控制cpu温度并**防止过热的工具**，仅在温度达到某个阈值的时候thermald才会应用各种降温方式，但它不会对系统性能产生重大的影响。安装即可，无需进行任何设置（如需设置，编辑``/etc/thermald/thermal-conf.xml` 文件）。
+  一个用于防止平台过热的守护进程。此守护进程会监控平台温度，并采用可用的冷却方式来降低温度。该软件安装即可，无需额外设置。
 
-  注意：该工具可能过早启用风扇或风扇转速更快，带来较原使用情况下更大的噪音，宜根据设备具体情况选用。
+  提示：该工具**可能**过早启用风扇或风扇转速更快，从而带来较原使用情况下更大的噪音，宜根据设备具体情况和个人使用体验考虑是否使用。
 
 ## 电源相关行为的响应动作
 
@@ -150,11 +135,11 @@ CriticalPowerAction的取值有Poweroff、Hibernate和Hybid-sleep。
 
 更多配置项参考该文件中的说明。
 
-## 处理器调频
+## 处理器调整
 
 使一般是降低频率以**减少发热**，同时**降低风扇**转速以减少**噪音**，并**提升**笔记本的电池**续航**时间。
 
-在`/sys/devices/system/cpu`目录下有着cpu相关配置信息。
+在`/sys/devices/system/cpu`目录下有着cpu相关信息。
 
 如intel处理器的设备，其系统在`/sys/devices/system/cpu/intel_pstate` 目录下（可能存在）的文件规定着cpu运行频率相关参数，如：
 
@@ -195,9 +180,7 @@ max_freq="2.5GHz"    #最大频率
 
 - 使用工具，如上文提到的工具cpupower-gui，图形界面，操作简单。
 
-- sudo 或 root执行` echo 1 > /sys/devices/system/cpu/intel_pstate/no_turbo`
-
-  重启后会恢复睿频，可令其开启自动执行而保持关闭睿频。
+- root执行` echo 1 > /sys/devices/system/cpu/intel_pstate/no_turbo` （重启后会恢复睿频）
 
 - 使用**tlp**（推荐）或**laptop-mode-tools**等电源管理工具
 
@@ -211,23 +194,23 @@ max_freq="2.5GHz"    #最大频率
 
 ### intel_pstate
 
-只针对intel处理器中**SandyBridge（含IvyBridge）及更新的构架**的CPU。intel构架列表：[List of Intel CPU microarchitectures](https://en.wikipedia.org/wiki/List_of_Intel_CPU_microarchitectures)。援引：
+- 只针对intel处理器中**SandyBridge（含IvyBridge）及更新的构架**的CPU。intel构架列表：[List of Intel CPU microarchitectures](https://en.wikipedia.org/wiki/List_of_Intel_CPU_microarchitectures)。援引：
 
-> **Linux内核**对CPU的工作频率管理，已经跟不上现代的CPU的需求，无法在效能与省电取得平衡，所以intel自己写了一段内核代 码，Intel_pstate……内核3.13中，已经放入这段代码，但没有默认启用。
+  > **Linux内核**对CPU的工作频率管理，已经跟不上现代的CPU的需求，无法在效能与省电取得平衡，所以intel自己写了一段内核代 码，Intel_pstate……内核3.13中，已经放入这段代码，但没有默认启用。
 
-启用方法：
+  启用方法：
 
-编辑[/etc/default/grub](config/etc/default/grub)，在`GRUB_CMDLINE_LINUX_DEFAULT`一行添加`intel_pstate=enable`，例如该行原有内容是：
+  编辑[/etc/default/grub](config/etc/default/grub)，在`GRUB_CMDLINE_LINUX_DEFAULT`一行添加`intel_pstate=enable`，例如该行原有内容是：
 
-> GRUB_CMDLINE_LINUX_DEFAULT=”quiet”
+  > GRUB_CMDLINE_LINUX_DEFAULT=”quiet”
 
-添加添加`intel_pstate=enable`后即是：
+  添加添加`intel_pstate=enable`后即是：
 
-> GRUB_CMDLINE_LINUX_DEFAULT=”quiet intel_pstate=enable”
+  > GRUB_CMDLINE_LINUX_DEFAULT=”quiet intel_pstate=enable”
 
-然后执行`sudo grub-mkconfig -o /boot/grub/grub.cfg` ，重启生效。
+  然后执行`sudo grub-mkconfig -o /boot/grub/grub.cfg` ，重启生效。
 
-检查：执行`cat /sys/devices/system/cpu/cpu*/cpufreq/scaling_driver`，如果显示`intel_pstate`则表示启用成功，否则是未启用成功或不支持该功能。
+  检查：执行`cat /sys/devices/system/cpu/cpu*/cpufreq/scaling_driver`，如果显示`intel_pstate`则表示启用成功，否则是未启用成功或不支持该功能。
 
 ## 休眠配置
 
