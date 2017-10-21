@@ -22,7 +22,7 @@ DOM标准规定（DOM2级）事件流包括三个阶段，按顺序为：
 1. 事件捕获阶段——**事件从Document开始传播**
 
    - 实际上浏览器是从window对象开始捕获的。
-   - DOM2级事件标准规范规定事件捕获阶段不会涉及事件目标，但是浏览器会在捕获阶段也触发事件对象上的事件。（也就是有两次机会在目标对象上面操作事件）
+   - “DOM2级事件标准规范”规定，事件捕获阶段不会涉及事件目标对象，但在浏览器中捕获阶段也会触发目标对象上的事件。（也就是有两次机会在目标对象上面操作事件）
 
 
 2. 处于目标阶段——**事件在目标上发生并处理**（执行事件处理程序）
@@ -43,12 +43,10 @@ DOM标准规定（DOM2级）事件流包括三个阶段，按顺序为：
 
 在HTML标签中添加事件属性，该属性的值为要执行的脚本代码或者要调用的函数。
 
-示例：
-
 ```html
 <!-- 直接写上代码 -->
 <input type="button" value="click me" onclick="alert('hi')" />
-<!-- 调用方法 -->
+<!-- 或 -->
 <input type="button" value="click me" onclick="show()" />
 <script type="text/javascript">
 function show(){
@@ -59,9 +57,13 @@ function show(){
 
 ## DOM0级事件处理程序
 
-将函数赋值给一个事件处理程序的属性：首先取得要操作的对象；将一个函数赋值给该对象的事件处理程序。(事件名前面要用on，如click事件写成`onclick`)
+将函数赋值给一个事件处理程序的属性：
 
-删除事件处理程序方法：将事件处理程序属性设置为`null`;
+1. 取得要操作的对象
+
+2. 将一个函数赋值给该对象的事件处理程序属性。(事件名前面要用on，如click事件写成`onclick`)
+
+   删除事件处理程序方法：将事件处理程序属性设置为`null`;
 
 ```javascript
 var ele=document.getElementById("btn");//取得一个id名为btn的元素对象
@@ -71,11 +73,15 @@ btn.onclick=function(){  //添加事件处理程序
 btn.onclick=null; // 删除事件处理程序 
 ```
 
-实际上没有官方的DOM0标准，1998 年 10 月 才有W3C的推荐规范——DOM1级，DOM1级推出时并没有添加增加事件功能，而此前的事件功能的实现被习惯称为DOM0级。（IE4和Netscape 4.0这些浏览器最初支持的DHTML）。
+实际上没有DOM0官方标准，1998 年 10 月 才有W3C的DOM1级推荐规范，DOM1级推出时并没有添加增加事件功能，而此前的事件功能的实现被习惯称为DOM0级。（IE4和Netscape 4.0这些浏览器最初支持的DHTML）。
 
 ## DOM2级事件处理程序
 
-取得要操作的对象，向该对象使用`addEventListener("事件名",处理函数,false或true) `或 `removeEventListener("事件名",处理函数,false或true)`方法以添加或删除事件处理程序。
+1. 取得要操作的对象
+
+2. 向该对象添加`addEventListene() `方法（三个参数：事件类型，该事件的处理函数，fasle/true--冒泡或捕获）
+
+   删除事件处理程序用 `removeEventListener()`
 
 ```javascript
 var btn=document.getElementById("btn");
@@ -91,7 +97,7 @@ IE8-使用`attachEvent()`和`deattatchEvent()`（事件名前面要用on，如cl
 ## DOM3级事件处理程序
 
 - DOM3添加一些新的事件（如XPath模块和加载与保存(Load and Save)模块）
-- DOM3事件区分大小
+- DOM3事件区分大小写
 
 
 
@@ -99,21 +105,13 @@ IE8-使用`attachEvent()`和`deattatchEvent()`（事件名前面要用on，如cl
 
 > 在触发DOM上的某个事件时，会在事件处理程序函数中会产生一个事件对象event，这个对象中包含着所有与事件有关的信息。
 
-- 事件对象——W3C标准规定，事件对象通过事件函数的第一个参数（参数名随意）传入，兼容性写法：
+- 事件对象——W3C标准规定，事件对象通过事件函数的第一个参数（参数名随意）传入，但是一些浏览器中自带event对象，兼容性写法示例：
 
 ```javascript
 ele.onclick=function(ev){
     var e=ev||event;  //或window.event
   //some codes need Event object
 }
-```
-
-或者定义一个获取事件对象的方法以便使用：
-
-```javascript
-getEvent: function(event) {
-        return event ? event : window.event;
-    }
 ```
 
 - DOM2事件对象的属性
@@ -131,8 +129,8 @@ getEvent: function(event) {
 
   - timeStamp    事件生成的日期和时间
   - type    当前 Event 对象表示的事件的名称
-  - bubbles    事件是否是起泡事件类型。
-  - cancelable   事件是否可拥可取消的默认动作
+  - bubbles    事件是否是起泡事件类型
+  - cancelable   事件是否可拥可取消的默认动作的属性（如果有—值为true，则能使用preventDefault()阻止事件的默认动作）
   - eventPhase   事件传播的当前阶段
 
 - DOM2事件对象方法
@@ -141,26 +139,9 @@ getEvent: function(event) {
   - stopPropagation()    中止事件传播
   - initEvent()    初始化新创建的 Event 对象的属性
 
-附：兼容低版本IE的事件对象
-
-- 事件对象的目标节点
-
-  `event.target||event.srcElement`
-
-- 阻止浏览器默认行为
-
-  `event.preventDefault ? event.preventDefault() : (event.returnValue = false);`
-
-
-- 阻止冒泡写法
-
-  `event.stopPropagation ? event.stopPropagation() : (event.cancelBubble = true);`
-
 # 事件委托
 
-解决事件处理程序过多影响的情况。
-
-例如对某ul下的多个li添加点击事件处理程序：
+解决事件处理程序过多影响的情况。例如对某ul下的多个li添加点击事件处理程序：
 
 ```javascript
 var list = document.getElementById("lists");  //获取id为lists的ul对象

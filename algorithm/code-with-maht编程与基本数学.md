@@ -29,4 +29,4 @@
 - $x=r + cosθ×r$
 - $y=r + sinθ×r$
 
-注意：数学函数如`Math.sin(x)`或`Math.cos(x)`等中的x均是弧度值。
+注意：编程语言中的数学函数如`Math.sin(x)`或`Math.cos(x)`等中的x均是弧度值。

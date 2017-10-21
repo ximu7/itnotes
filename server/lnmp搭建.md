@@ -84,10 +84,36 @@ server {
 
 ```nginx
 location ~ \.php$ {
-    fastcgi_pass 127.0.0.1:9000;
-    fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-    include fastcgi_params;
-  }
+  fastcgi_pass 127.0.0.1:9000;
+  fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+  include fastcgi_params;
+}
+```
+
+### SSL和HTTP2
+
+使用ssl/http2，需在listen后的端口号后面加上ssl/http2；填写ssl的证书路径和私钥路径。示例（仅示例server中ssl和http2相关配置部分）：
+
+```nginx
+server{
+  listen  443 ssl http2;
+  ssl_certificate  /etc/letsencrypt/live/xx.xxx/fullchain.pem;
+  ssl_certificate_key  /etc/letsencrypt/live/xx.xx/privkey.pem;
+  ssl_session_cache  shared:SSL:1m;
+  ssl_session_timeout  10m;
+  ssl_ciphers HIGH:!aNULL:!MD5;
+  ssl_prefer_server_ciphers on;
+}
+```
+
+http地址跳转到https地址可以新建一个server，示例：
+
+```nginx
+server{
+  listen 80;
+  server_name xxx;
+  return 301 https://$server_name$request_uri;
+}
 ```
 
 ### 禁止通过ip直接访问网站
@@ -96,26 +122,39 @@ location ~ \.php$ {
 
 ```nginx
 server{
-        listen 80; 
-        server_name ip;    #ip处写上ip地址
-        return 444;
+  listen 80; 
+  server_name ip;    #ip处写上ip地址
+  return 444;
+}
+```
+
+### 配置websocket
+
+WebSocket协议的握手兼容于HTTP的，使用HTTP的`Upgrade`设置可以将连接从HTTP升级到WebSocket。配置示例（server内其他内容略）：
+
+```nginx
+location /wsapp/ {
+  proxy_pass https://wsapp.xx.xxx;
+  proxy_http_version 1.1;
+  proxy_set_header Upgrade $http_upgrade;
+  proxy_set_header Connection "upgrade";
 }
 ```
 
 ### 子域名访问对应的子目录
 
-如abc.xx.com访问xx.com/abc
+*如abc.xx.com访问xx.com/abc*
 
 1. 确保在域名解析服务商设置了泛解析：使用A记录，主机记录填写`*`
 
-2. 配置一个server：
+2. 配置一个server，简单[示例](nginx/conf.d/donotvisitbyip.conf)：
 
    ```nginx
    server{
-     		listen 80;
-   		server_name ~^(?<subdomain>.+).xx.com$;
-     		root   /home/http/website/$subdomain;
-     		index index.html;
+     listen 80;
+     server_name ~^(?<subdomain>.+).xx.com$;
+     root   /home/http/website/$subdomain;
+     index index.html;
    }
    ```
 
@@ -124,35 +163,33 @@ server{
 在server（或者指定的location中）添加（示例[autoindex](nginx/indexview/autoindex) ）：
 
 ```nginx
-        autoindex on;
-        autoindex_exact_size off;
-        autoindex_localtime on;
+autoindex on;
+autoindex_exact_size off;
+autoindex_localtime on;
 ```
 
-- 如果要修改目录浏览页面的样式需要使用[fancy插件](https://github.com/aperezdc/ngx-fancyindex)
+- [fancy插件](https://github.com/aperezdc/ngx-fancyindex) ：如果要修改目录浏览页面的样式需要使用
 
-  - [fancy配置](nginx/indexview/fancy)
+  1. 在server中添加[fancy配置](nginx/indexview/fancy)（使用fancy配置就不要再添加autoindex相关配置了）：
 
-    ```nginx
-    fancyindex on;
-    fancyindex_exact_size off;
-    fancyindex_localtime on;
-    fancyindex_name_length 255;
+  ```nginx
+  fancyindex on;
+  fancyindex_exact_size off;
+  fancyindex_localtime on;
+  fancyindex_name_length 255;
 
-    fancyindex_header "/fancyindex/header.html";
-    fancyindex_footer "/fancyindex/footer.html";
-    fancyindex_ignore "/fancyindex";
-    ```
+  fancyindex_header "/fancyindex/header.html";
+  fancyindex_footer "/fancyindex/footer.html";
+  fancyindex_ignore "/fancyindex";
+  ```
+  2. 添加相应位置的header.html和footer.html页面（可以是空白页面）
 
-  使用fancy配置就不要再添加autoindex相关配置了。
+     在header.html和footer.html进行目录浏览页面相关配置。
 
-  - 添加相应位置的header.html和footer.html页面（可以是空白页面）
 
-    在header.html和footer.html进行目录浏览页面相关配置。
+  3. 配置fancy后提示unknown directive "fancyindex" :
 
-  - 配置fancy后提示unknown directive "fancyindex" :
-
-    在/etc/nginx/nginx.conf文件中加载fancy模块（例如该模块位于/usr/lib/nginx/modules下）：`load_module "/usr/lib/nginx/modules/ngx_http_fancyindex_module.so";` 。
+     在/etc/nginx/nginx.conf文件中加载fancy模块（例如该模块位于/usr/lib/nginx/modules下）：`load_module "/usr/lib/nginx/modules/ngx_http_fancyindex_module.so";` 。
 
 - 目录浏览加密
 

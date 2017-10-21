@@ -453,9 +453,7 @@ ff指firefox，ch指的是chrome/chromium，没有说明则默认ff。以firefox
 - 天气/日历
 
   - wego   终端天气
-
   - cal    自如界面月历
-
   - ccal   字符界面中国日历
-
   - chinese-calendar  农历（带日程便签功能）
+  - wunderlistux  奇妙清单

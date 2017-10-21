@@ -4,6 +4,8 @@
 
 [全形和半形](https://zh.wikipedia.org/wiki/%E5%85%A8%E5%BD%A2%E5%92%8C%E5%8D%8A%E5%BD%A2)（全角形式和半角形式）：全形-Halfwidth forms  半形- fullwidth forms。
 
+[TOC]
+
 # 常规键盘上的符号
 
 常规的QWERT键盘。
@@ -25,7 +27,7 @@
 
      exclamation  UK: [,eksklə'meɪʃ(ə)n], US: [ˌɛkskləˈmeʃən]
 
-  2. `@`  at  在   UK: [kə'mɜːʃ(ə)l], US: [kə'mɝʃəl]   正式名称commercial at
+  2. `@`  at  在  正式名称commercial at  UK: [kə'mɜːʃ(ə)l], US: [kə'mɝʃəl] 
 
   3. `#`   井号
 
@@ -72,7 +74,7 @@
     - positive sign  正号
   - `=`  equals sign  等号  
 
-## p键右边的键
+## P键右边的键
 
   - 方/中括号和花/大括号
     - 方/中括号  square brackets
@@ -85,7 +87,7 @@
     - `\`  backslash  反斜线
     - `|`  vertical bar, vertical virgule 竖线
 
-##回车键左边的键
+## 回车键左边的键(L右边的键)
 
 - 冒号和分号
   - `:`  colon  冒号  UK: ['kəʊlən], US: ['kolən]
@@ -95,7 +97,7 @@
   - `''`  single quotation marks  单引号
   - `""`  double quotation marks  双引号
 
-## 右shift键左边的键
+## 右shift键左边的键(M右边的键)
 
 - 逗号、点号、句号、省略号和尖括号
 
@@ -154,7 +156,7 @@
 - `△`   triangle  三角形
 - `⬜`   square  正方形  rectangle 矩形，长方形
 - `⊥`  perpendicular to  垂直于
-- `°`  degree(angle)  度（角）
+- `°`  degree(angle)  度（角）  （弧度rad是radian UK: ['reɪdɪən], US: ['redɪən]）
 - `′`  prime  角分
 - `″`  double prime  角秒
 
@@ -177,32 +179,31 @@
 
 # 希腊字母
 
-- α　Α　alpha /alpha/
-- β　Β   beta /be:ta/
-- γ　Γ　gamma /gam:a/
-- δ　Δ　delta /de:lta/
-- ε　Ε　epsilon /epsilo:n/
-- ζ　Ζ　zeta /ze:ta, dze:ta/
-- η　Η　eta /e:ta/
-- θ　Θ　theta /the:ta/
-- ι　Ι　iota /jo:ta，io:ta/
-- κ　Κ　kappa /kap:a/
-- λ　Λ　lambda /lambda/
-- μ　Μ　my /my/
-- ν　Ν　ny /ny:/
-- ξ　Ξ　xi /ksi:/
-- ο　Ο　omicron /omikro:n/
-- π　Π　pi /pi:/
-- ρ　Ρ　rho /rho:/
-- σ　Σ　sigma /sigma/
-- τ　Τ　tau /tau,tay?/
-- υ　Υ　ypsilon /y:psilo:n/
-- φ　Φ　phi /phi:/
-- χ　Χ　chi /khi:/
-- ψ　Ψ　psi /psi:/
-- ω　Ω　omega /o:me:ga/
-
-## 其他
+- α  Α  alpha /alpha/
+- β  Β  beta /be:ta/
+- γ  Γ  gamma /gam:a/
+- δ  Δ  delta /de:lta/
+- ε  Ε  epsilon /epsilo:n/
+- ζ  Ζ  zeta /ze:ta, dze:ta/
+- η  Η  eta /e:ta/
+- θ  Θ  theta /the:ta/
+- ι  Ι  iota /jo:ta，io:ta/
+- κ  Κ  kappa /kap:a/
+- λ  Λ  lambda /lambda/
+- μ  Μ  my /my/
+- ν  Ν  ny /ny:/
+- ξ  Ξ  xi /ksi:/
+- ο  Ο  omicron /omikro:n/
+- π  Π  pi /pi:/
+- ρ  Ρ  rho /rho:/
+- σ  Σ  sigma /sigma/
+- τ  Τ  tau /tau,tay?/
+- υ  Υ  ypsilon /y:psilo:n/
+- φ  Φ  phi /phi:/
+- χ  Χ  chi /khi:/
+- ψ  Ψ  psi /psi:/
+- ω  Ω  omega /o:me:ga/
+# 其他
 
 - `→`  arrow   箭号
 - `§`  section; division  分节号

@@ -7,7 +7,16 @@ let a;//undefined
 !!a;//false
 ```
 
+- 容易被不小心使用到的关键字:float top
 
+- setTimeout的时间即使设置为0也会后执行
+
+  ```javascript
+  setTimeout(function(){console.log(2)},0);  //后打印该行
+  console.log(1);  //先打印该行
+  ```
+
+  ​
 
 # 事件
 
@@ -107,3 +116,17 @@ let a;//undefined
   - **构造函数**中的this指向新创建的对象。
   - 全局范围内this指向window
   - 对象方法调用中的this指向该对象（obj.test()中，this指向obj）
+
+
+
+- Math.ramdom()生成的小数位数不是固定的
+
+- replace方法的第二个参数可以是函数
+
+  ```javascript
+  str.replace(reg,function (){
+      //some codes
+  })
+  ```
+
+  ​

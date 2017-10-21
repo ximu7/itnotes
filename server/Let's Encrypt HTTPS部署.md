@@ -26,14 +26,14 @@ nginx的[Let's Encrypt HTTPS](https://github.com/certbot/certbot)部署
 
    - web服务器
 
-     以Nginx为例，修改虚拟主机配置文件，将**监听端口改为`443 ssl`**，并加SSL配置信息（证书和密钥的路径），配置示例：
+     以Nginx为例，修改虚拟主机配置文件（server中的内容），将**监听端口改为`443 ssl`**（ 若要使用http2，在ssl后加上http2即可），并加SSL配置信息（证书和密钥的路径），配置示例：
 
      ```nginx
-     listen       443 ssl;
-     ssl_certificate      /etc/letsencrypt/live/xx.xxx/fullchain.pem;
+     listen  443 ssl http2;
+     ssl_certificate  /etc/letsencrypt/live/xx.xxx/fullchain.pem;
      ssl_certificate_key  /etc/letsencrypt/live/xx.xx/privkey.pem;
-     ssl_session_cache    shared:SSL:1m;
-     ssl_session_timeout 10m;
+     ssl_session_cache  shared:SSL:1m;
+     ssl_session_timeout  10m;
      ssl_ciphers HIGH:!aNULL:!MD5;
      ssl_prefer_server_ciphers on;
      ```
@@ -42,7 +42,6 @@ nginx的[Let's Encrypt HTTPS](https://github.com/certbot/certbot)部署
 
      ```nginx
      server{
-         listen 80;
          server_name example.com;
          add_header Strict-Transport-Security max-age=15768000;
          return 301 https://$server_name$request_uri;
@@ -51,9 +50,8 @@ nginx的[Let's Encrypt HTTPS](https://github.com/certbot/certbot)部署
 
      或者
 
-     ```shell
+     ```nginx
      server{
-         listen 80;
          server_name example.com;
          rewrite ^(.*)$ https://$host$1 permanent;
      }
