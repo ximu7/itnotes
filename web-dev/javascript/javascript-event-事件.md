@@ -96,9 +96,7 @@ IE8-使用`attachEvent()`和`deattatchEvent()`（事件名前面要用on，如cl
 
 ## DOM3级事件处理程序
 
-- DOM3添加一些新的事件（如XPath模块和加载与保存(Load and Save)模块）
-- DOM3事件区分大小写
-
+在DOM2基础上添加一些新的事件（如input、textInput、Location），对不同类型事件进行了重新定义和分类（如UI、焦点、鼠标、滚轮等等类）。
 
 
 # 事件对象
@@ -133,10 +131,14 @@ ele.onclick=function(ev){
   - cancelable   事件是否可拥可取消的默认动作的属性（如果有—值为true，则能使用preventDefault()阻止事件的默认动作）
   - eventPhase   事件传播的当前阶段
 
+  其他事件对象的属性……（如键盘、鼠标事件等等 略）
+
 - DOM2事件对象方法
 
   - preventDefault() 	阻止事件的默认动作
   - stopPropagation()    中止事件传播
+
+
   - initEvent()    初始化新创建的 Event 对象的属性
 
 # 事件委托

@@ -22,7 +22,7 @@
 
 ## 计算圆上每个点的坐标
 
-![pot-cordiante-on-circle](pot-cordiante-on-circle.png)
+![pot-cordiante-on-circle](coordinate-point-on-circle.png)
 
 假设一个圆的圆心坐标是(r,r)，半径为r，那么圆上每个点的坐标(x,y)：
 
