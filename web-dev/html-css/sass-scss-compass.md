@@ -1,25 +1,25 @@
 [TOC]
 
-# sass/scss简介
+# sass/sCSS简介
 
 SASS(Sassy CSS)是一种CSS的开发工具，提供了许多便利的写法，大大节省了设计者的时间，使得CSS的开发，变得简单和可维护。
 
-## sass和scss
+## sass和sCSS
 
 实质上是同一种语言，只是采用了两种不同风格的写法：
 
 - sass采用ruby/python的**缩进**风格写法；文件后缀名.sass。
-- scss采用css的大括号风格写法；文件后缀名.scss。
+- sCSS采用CSS的大括号风格写法；文件后缀名.sCSS。
 
 注意：**同一个文件**中，**不**能混合使用以上两种写法。
 
-以下均以scss为例。
+以下均以sCSS为例。
 
 ## 安装/更新/删除
 
 - 使用gem，gem需要ruby
 
-  - OSX/FreeBSD/Linux：先用包管理器（或其他方法）安装ruby，如后再使用gem命令（需要root或sudo）安装sass。
+  - OSX/FreeBSD/Linux：先用包管理器（或其他方法）安装ruby，如后再使用gem命令（推荐全局安装，需要root或sudo）安装sass。
 
     ```shell
     dnf install ruby  #centos/fedora等安装ruby
@@ -40,13 +40,13 @@ Sass 的编译有多种方法：命令编译、GUI工具编译和自动化编译
 
 sass提供四种编译风格：
 
-> expanded：展开的多行css代码，输出的CSS后半部分大括号另起一行。
+> expanded：展开的多行CSS代码，输出的CSS后半部分大括号另起一行。
 >
-> nested：嵌套缩进的css代码，输出的CSS后半部分大括号在行尾。
+> nested：嵌套缩进的CSS代码，输出的CSS后半部分大括号在行尾。
 >
-> compact：简洁格式的css代码，输出的CSS是单行风格。
+> compact：简洁格式的CSS代码，输出的CSS是单行风格。
 >
-> compressed：压缩后的css代码，输出的CSS去掉了所有的注释和空格。
+> compressed：压缩后的CSS代码，输出的CSS去掉了所有的注释和空格。
 
 如果希望压缩后保留注释信息，参看后文[注释](#注释) 。
 
@@ -55,10 +55,10 @@ sass提供四种编译风格：
   - 使用sass的命令
 
     ```shell
-    sass file.scss  #在命令行显示生成的css
-    sass file.scss file.css   #生成css
-    sass --watch file.scss:file.css  #watch参数监听文件/目录的变化，自动生成css
-    sass --style compressed test.sass test.css  #使用压缩风格生成css
+    sass file.sCSS  #在命令行显示生成的CSS
+    sass file.sCSS file.CSS   #生成CSS
+    sass --watch file.sCSS:file.CSS  #watch参数监听文件/目录的变化，自动生成CSS
+    sass --style compressed test.sass test.CSS  #使用压缩风格生成CSS
     ```
 
   - 使用其他工具：如[compass](http://compass-style.org/)，参看尾部[附-compass](#compass)
@@ -67,7 +67,7 @@ sass提供四种编译风格：
 
 - GUI工具
 
-  - [Koala](http://koala-app.com/)  支持编译sass/scss、less、coffee script；处理javascript（如压缩、格式化等等）、CSS（如果添加浏览器厂商前缀、合并文件等等）；配置compass……
+  - [Koala](http://koala-app.com/)  支持编译sass/sCSS、less、coffee script；处理javascript（如压缩、格式化等等）、CSS（如果添加浏览器厂商前缀、合并文件等等）；配置compass……
   - [codekitapp](https://codekitapp.com/)和[prepros](https://prepros.io/) （注意这两个软件可能需要付费）
 
 - 自动化编译：如Webpack、Gulp和Grunt（具体参看该工具相关说明文档）
@@ -114,7 +114,7 @@ body{
 
   在变量值后使用**`!global`可使其成为全局变量**。
 
-- 定义在元素内部的变量是局部变量，只在该范围内生效
+- 定义在元素内部的变量是局部变量，只在该范围内生效。
 
 ## 运算
 
@@ -143,16 +143,18 @@ SASS共有两种注释风格：
 
 ## 嵌套
 
-### 媒体查询@media
+### 媒体查询@media嵌套
 
-和CSS 的使用方法一样，不过在**内层**使用的 @media会**作用到外层**的选择器上
+和CSS 的使用方法一样，但是：
+
+- SCSS/Sass中可以将@media样式嵌套在其他样式中。（CSS文件中是不能将@media嵌套到其他样式块中的，当然，编译生成的CSS文件中，@media样式会被提取编写到最外层）
+- 在**内层**使用的 @media会**作用到外层**的选择器上。
 
 ### 样式嵌套
 
 有两种嵌套：**选择器嵌套**和**属性嵌套**
 
-- 嵌套中的一些字符
-  - `&`：代表&所在的嵌套结构。
+- `&`：代表&所在的嵌套结构。
 
 ```scss
 //选择器嵌套
@@ -185,9 +187,9 @@ nav {
 }
 ```
 
-### 跳出嵌套@at-root
+### 跳出嵌套
 
-跳出所有上级选择器。
+- @at-root跳出所有上级选择器（@at-root不能跳出`@media`或`@support` ）
 
 ```scss
 .parent {
@@ -198,12 +200,12 @@ nav {
 }
 ```
 
-@at-root不能跳出`@media`或`@support`，可使用`@at-root (without: media)`，`@at-root (without: support)`跳出。without后的关键词有四个：
+- `@at-root (without: media)`  跳出媒体查询
+- `@at-root (without: support)`  跳出support
 
-- media
-- support
-- all    --所有
-- rule    --常规css
+
+- `@rule`   跳出常规CSS
+- `@all`   跳出所有  
 
 ```scss
 @media print {
@@ -220,63 +222,117 @@ nav {
 
 ## 复用
 
-### 导入@import
+### 引入@import
 
-能够引入 SCSS 和 SCSS 文件，引入的文件会被合并输出到单一的 CSS 文件中。但是，在少数几种情况下，它会被编译成 CSS 的 @import 规则：
+引入外部SCSS 和 SCSS 文件，编译时，引入的内容会被合并进当前文件中输出。
 
-- 如果文件的扩展名是 .css；
-- 如果文件名以 http:// 开头；
-- 如果文件名是 url()；
-- 如果 @import 包含了任何媒体查询（media queries）。
-
-### 继承/扩展@extend
-
-`@extend`来**继承已存在的类样式块。**
+- 引入时可以省略后缀名
+- 引入多个文件时，可以在一个`@import`后面添加多个引入文件
 
 ```scss
-.noborder{
-  border:none;
+@import "example.sCSS";
+@import "example","test";
+```
+
+但是，在以下几种情况下，@import不会被当成引入，而会被当成 CSS的`@import`：
+
+- 文件的扩展名是 .CSS；
+- 文件名以 http:// 开头；
+- 文件名是 url()；
+- @import 包含了任何媒体查询（media queries）。
+
+#### 片段文件
+
+如果需要引入某个 SCSS 或 Sass 文件，但又不希望被引入的文件被单独编译为一个 CSS 文件，可以在文件名前面加一个下划线`_`避免被编译。这种下划线`_`开始的sCSS/sass文件就是片段文件（或叫做本地文件）
+
+- 引用片段文件时可以省略掉文件名前面的下划线
+
+示例：片段文件名为`_mixin.sCSS`，需要在`main.sCSS`中引用片段文件中的内容，可在`main.CSS`写入：
+
+```scss
+@import "_mixin";
+@import "mixin"; //可以省略下划线
+```
+
+编译后只会将`_mixin.sCSS`中的被引用的内容添加到`main.sCSS`编译出来的`main.CSS`中，不会再生成一个`_mixin.sCSS`文件。
+
+### 继承类@extend
+
+`@extend`来继承已存在的**类**样式块。
+
+注意：
+
+- 不能继承嵌套选择器的样式。
+- 无论声明的样式块有没有被`@extend`引用，该样式都会出现在编译后的文件中（造成代码冗余），使用[占位符%](#占位符%)来声明样式可以避免这种情况出现。（推荐使用）
+
+```scss
+.nounderline {
+  text-decoration: none;
 }
-div{
-  @extend .noborder;    //将.noborder中的样式继承到了div中
+a {
+  @extend .nounderline;
 }
 ```
 
-#### 占位符%
-
-占位符声明的样式块**如果没有被extend引用，不会在编译生成的css文件中出现**。
+ 编译后：
 
 ```scss
-%linkstyle{
-    text-decoration: none;
-  	color:red;
-}//以上样式如果没被 @extend %linkstyle  ，就不会出现在编译的css文件中
+.nounderline, a {
+  text-decoration: none;
+}
 ```
 
-通过 @extend 调用的占位符，编译出来的代码会将**相同的代码合并在一起**。
+如果.nounderline没有被引用过，编译后的CSS文件中也有.nonderline这三行样式。
 
-### 混合@mixin
+#### 占位符%声明样式块
+
+占位符声明仅用来被继承的样式块，无论该样式块被引用与否，它都**不会出现在编译生成的CSS文件中** （当然，占位符声明的样式被引用后，其中的样式内容会出现在引用的位置）。样式名使用`%`开始：
+
+```scss
+%error {
+  color: red;
+}
+.warn {
+  @extend %error;
+}
+```
+
+编译后：
+
+```scss
+.warn {
+  color: red;
+}
+```
+
+如果%error没有被引用过，它就不会出现在编译后的CSS文件中。
+
+### 混入类@mixin声明及其调用@include
 
 混合样式有是可以重用的代码块。
 
 使用`@mixin`声明，`@include`调用。mixin中还**可以传入参数**（形参）和参数默认的值（实参）。
 
 ```scss
-@mixin link($size:1.8rem){    //声明一个mixin  可在mixn中定义参数和默认值
+@mixin link($size:1.8rem){//声明 可在mixn中定义参数和默认值
     text-decoration: none;
   	color:#bbc5d3;
   	font-size:$size;
 }
 body{
-  @include link(1.6rem);    //调用 并让size为1.6rem，覆盖默认的1.8rem
+  @include link(1.6rem);//调用 并让size为1.6rem，覆盖默认的1.8rem
 }
 ```
 
-避免滥用mixin：Sass 在调用相同的混合样式时，并不能智能的将相同的样式代码块合并在一起。例如某选择器中已经有`color:red;`，而include进来的mixin样式中也有`color:red;`，在生成的css中就，该选择器内就会有两条`color:red;`
+注意：
+
+- Sass 在调用相同的混合样式时，并**不能**智能的**将相同的样式代码块合并在一起**。
+
+  例如某选择器中已经有`color:red;`，而include进来的mixin样式中也有`color:red;`，在生成的CSS中就，该选择器内就会有两条`color:red;`
 
 #### 向混合样式中导入内容@content
 
-将一段代码导入到混合指令中，然后再输出混合样式，额外导入的部分将出现在 `@content` 标志的地方：
+将一段代码导入到混合类指令中，然后再输出混合类样式，额外导入的部分将出现在 `@content` 标志的地方：
 
 ```scss
 @mixin apply-to-ie6-only {
@@ -289,30 +345,6 @@ body{
     background-image: url(/logo.gif);
   }
 }
-```
-
-## 调试
-
-- @debug 
-
-  在Sass 代码在编译出错时，在命令终端会输出错误提示。
-
-- @warn
-
-  在@warn后添加要输出的警告信息。
-
-- @error
-
-  在@warn后添加要输出的错误信息。
-
-```scss
-@debug 54px + 86px;
-    @if unitless($y) {
-    	@warn "#{$y} 的单位是像素px";
-    	$y: 1px * $y;
-  	}@else{
-         @error "$y不存在";
-  	}
 ```
 
 ## 流程控制
@@ -387,9 +419,9 @@ p {
       }
   }
   ```
-## 函数
+## 常用函数
 
-### 字符串
+### 字符串函数
 - `unquote($string)`：删除字符串中的引号；
 - `quote($string)`：给字符串添加引号；
 - `To-upper-case()`：将字符串小写字母转换成大写字母；
@@ -415,7 +447,7 @@ p {
 - `zip($lists…)`：将几个列表结合成一个多维的列表；
 - `index(list, value)`：返回一个值在列表中的位置值。
 
-### 映射
+### 映射函数
 - `map-get($map,$key)`：根据给定的 key 值，返回 map 中相关的值。
 - `map-merge($map1,$map2)`：将两个 map 合并成一个新的 map。
 - `map-remove($map,$key)`：从 map 中删除一个 key，返回一个新 map。
@@ -423,6 +455,13 @@ p {
 - `map-values($map)`：返回 map 中所有的 value。
 - `map-has-key($map,$key)`：根据给定的 key 值判断 map 是否有对应的 value 值，如果有返回 true，否则返回 false。
 - `keywords($args)`：返回一个函数的参数，这个参数可以动态的设置 key 和 value。
+
+### Introspection 函数
+
+- `type-of($value)`：返回一个值的类型；
+- `unit($number)`：返回一个值的单位；
+- `unitless($number)`：判断一个值是否带有单位；
+- `comparable($number-1, $number-2)`：判断两个值是否可以做加、减和合并。
 
 ### 颜色函数
 #### RGB
@@ -452,13 +491,23 @@ p {
 - `rgba($color, $alpha)`：改变颜色的透明度值；
 - `opacify($color, $amount) / fade-in($color, $amount)`：使颜色更不透明；
 - `transparentize($color, $amount) / fade-out($color, $amount)`：使颜色更加透明。
-### Introspection 函数
+## 调试
 
-- `type-of($value)`：返回一个值的类型；
-- `unit($number)`：返回一个值的单位；
-- `unitless($number)`：判断一个值是否带有单位；
-- `comparable($number-1, $number-2)`：判断两个值是否可以做加、减和合并。
+- @debug   在Sass 代码在编译出错时，在命令终端会输出错误提示。
 
+- @warn    在@warn后添加要输出的警告信息。
+
+- @error    在@warn后添加要输出的错误信息。
+
+```scss
+@debug 54px + 86px;
+    @if unitless($y) {
+    	@warn "#{$y} 的单位是像素px";
+    	$y: 1px * $y;
+  	}@else{
+         @error "$y不存在";
+  	}
+```
 
 # compass
 
@@ -476,41 +525,63 @@ compass需要ruby，使用gem安装/更新/删除：`gem install compass` （参
   ```
 
   - 创建（create）项目后，项目文件夹中会生成stylesheets文件夹、sass文件夹和config.rb文件；
-  - 在sass文件夹中的sass/scss文件在编译（compile）后会在stylesheets文件夹中生成css文件；
+  - 在sass文件夹中的Sass/SCSS文件在编译（compile）后会在stylesheets文件夹中生成CSS文件；
   - 项目文件夹中的config.rb文件中可以定义[相关编译参数](http://compass-style.org/help/documentation/configuration-reference/)（如`_output_style=:expand` ）
 
-- 模块
+## 模块
 
-  在sass/scss文件顶部引用模块：
+使用`@import`引用模块
 
-  ```scss
-  @import "compass/reset";
-  @import "compass/css3"
-  //more modules...
-    
-  //scss codes
-  ```
+  - 核心模块
 
-  - reset  重置浏览器默认样式
+    核心模块使用`@import compass`即可引用一下所有模块，当然也可以单独引用：
+
+    - [CSS3](http://compass-style.org/reference/compass/CSS3/)  CSS3相关属性支持
+
+      使用`@include`引用该模块定义的mixin（参看前文[混合@mixin](#混合@mixin) ），如[opacity](http://compass-style.org/reference/compass/CSS3/opacity/) ：
+
+      ```scss
+      @import "compass/CSS3";
+       
+      #opacity-10 {
+        @include opacity(0.1);
+      }
+      ```
+
+      内容较多 更多CSS3模块中的内容 参看链接的官方文档
+
+    - [typograph](http://compass-style.org/reference/compass/typography/)   文本样式
+
+    - [utilities](http://compass-style.org/reference/compass/utilities/)  各种其他功能如清除浮动使用`@include clearfix`即可
+
+    - [Helpers](http://compass-style.org/reference/compass/helpers/)   一些Sass增强函数
+
+  - 非核心模块
+
+    - reset  重置浏览器默认样式
+    - [layout](http://compass-style.org/reference/compass/layout/)  布局功能 栅格背景和页脚等
+
+    非核心模块需要单独引用：
+
+    ```scss
+    @import "compass/reset";
+    @import "compass/layout";
+    ```
 
   - [support](http://compass-style.org/reference/compass/support/)  跨浏览器支持（浏览器兼容）
 
-  - [css3](http://compass-style.org/reference/compass/css3/)  CSS3相关属性支持
+## 常用扩展
 
-    使用`@include`引用该模块定义的mixin（参看前文[混合@mixin](#混合@mixin) ），如[opacity](http://compass-style.org/reference/compass/css3/opacity/) ：
+使用`gem install`扩展安装后，使用require引入：
 
-    ```scss
-    @import "compass/css3";
-     
-    #opacity-10 {
-      @include opacity(0.1);
-    }
-    ```
+- `require 'compass-normalize'`
 
-    内容较多 更多css3模块中的内容 参看链接的官方文档
+  ​
 
-  - [layout](http://compass-style.org/reference/compass/layout/)  布局功能 栅格背景和页脚等
+- `require 'compass/import-once/activate'`   只引用一次文件
 
-  - [typograph](http://compass-style.org/reference/compass/typography/)   页面版式
+  使用了该扩展后，在Sass/SCSS中使用`@import`引用一个文件多次，该文件内容也不会在编译时被添加多次。
 
-  - [utilities](http://compass-style.org/reference/compass/utilities/)  各种其他功能如清除浮动使用`@include clearfix`即可
+  如果使用了扩展，但又需要多次引入同一个文件，只需要在引用语句最后加上一个`!`即可。
+
+  ​
