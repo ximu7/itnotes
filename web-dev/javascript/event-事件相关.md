@@ -6,33 +6,38 @@
 
 > 页面中接收事件的**顺序**。
 
-## 事件流模型：冒泡 与 捕获
+## 事件模型：冒泡 与 捕获
 
-*假如目标元素是div*，二者的接收顺序分别如下：
+假如目标元素是div，二者的接收顺序分别如下：
 
 - 冒泡：div>body>html>Document
 - 捕获：Document>html>body>div
 
 ## DOM事件流
 
-DOM标准采用捕获+冒泡。IE9、Firefox、Chrome、Opera、和Safari都支持DOM事件流。
+W3C标准采用了捕获+冒泡的模型，即DOM事件流。
 
 DOM标准规定（DOM2级）事件流包括三个阶段，按顺序为：
 
-1. 事件捕获阶段——**事件从Document开始传播**
+1. 事件**捕获**阶段——**事件从Document开始传播**
+
+   注：
 
    - 实际上浏览器是从window对象开始捕获的。
    - “DOM2级事件标准规范”规定，事件捕获阶段不会涉及事件目标对象，但在浏览器中捕获阶段也会触发目标对象上的事件。（也就是有两次机会在目标对象上面操作事件）
 
 
-2. 处于目标阶段——**事件在目标上发生并处理**（执行事件处理程序）
+2. 处于**目标**阶段——**事件在目标上发生并处理**（执行事件处理程序）
 
    注：事件处理会被看成是冒泡阶段的一部分。
 
-3. 事件冒泡阶段——**事件传播回Document**
+3. 事件**冒泡**阶段——**事件传播回Document**
 
 ---
+有些事件是可以取消的，在整个事件流的任何位置通过调用事件的stopPropagation方法可以停止事件的传播过程。参看后文[事件对象的属性和方法](#事件对象的属性和方法)
+
 此外：
+
    > 所有的事件都要经过捕获阶段和处于目标阶段，但是有些事件会跳过冒泡阶段。
 
    例如：focus事件（获取焦点）和的blur事件（失去焦点）会跳过冒泡阶段。
@@ -112,18 +117,15 @@ ele.onclick=function(ev){
 }
 ```
 
-- DOM2事件对象的属性
+## 事件对象的属性和方法
 
+以下是常用的属性和方法：
+
+- DOM事件对象的属性
   - target    触发此事件的节点
   - currentTarget   事件监听器触发该事件的节点
 
-  ---
-
-  target和currentTarget：
-
   target在事件流的目标阶段；currentTarget可在事件流任何阶段。currentTarget是事件处理程序当前正在处理事件的那个元素，只有当事件流处在目标阶段的时候，两个的指向才是一样的。
-
-  ---
 
   - timeStamp    事件生成的日期和时间
   - type    当前 Event 对象表示的事件的名称
@@ -131,36 +133,36 @@ ele.onclick=function(ev){
   - cancelable   事件是否可拥可取消的默认动作的属性（如果有—值为true，则能使用preventDefault()阻止事件的默认动作）
   - eventPhase   事件传播的当前阶段
 
-  其他事件对象的属性……（如键盘、鼠标事件等等 略）
-
-- DOM2事件对象方法
+- DOM事件对象方法
 
   - preventDefault() 	阻止事件的默认动作
   - stopPropagation()    中止事件传播
-
-
   - initEvent()    初始化新创建的 Event 对象的属性
 
 # 事件委托
 
-解决事件处理程序过多影响的情况。例如对某ul下的多个li添加点击事件处理程序：
+将事件“委托”给父节点，用解决事件处理程序过多的情况。例如对某ul下的多个li添加点击事件处理程序：
 
 ```javascript
-var list = document.getElementById("lists");  //获取id为lists的ul对象
-list.addHandler("click", function(ev) {  //给ul对象绑定事件处理程序
-    var e=ev||event;
-    var target = e.target;  //获取真正触发点击的元素
+const list = document.getElementById('lists') //获取id为lists的ul对象
+list.addEventListener('click', fn)
 
-    switch(target.id) {  //针对每个元素添加不同的事件处理程序
-        case "a":  //id为a的li元素
-            location.href = "http://www.w3.org";
-            break;
-        case "b":  //id为b的li元素
-            alert("Me");
-            break;
-        case "c":  //id为c的li元素
-            alert("Hi");
-            break;
-    }
-});
+//给list对象绑定事件处理程序
+function fn(ev) {
+  const e = ev || event
+  const target = e.target //获取真正触发点击的元素
+
+  switch (target.id) { //针对每个元素添加不同的事件处理程序
+    case 'a': //id为a的li元素
+      location.href = 'http://www.w3.org'
+      break
+    case 'b': //id为b的li元素
+      alert('Me')
+      break
+    // ...
+    default:
+      break
+  }
+}
 ```
+

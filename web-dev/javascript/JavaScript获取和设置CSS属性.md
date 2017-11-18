@@ -113,31 +113,28 @@ let eleInfo= obj.getBoundingClientRect();
 
 ## CSS StyleSheets对象的属性和方法
 
-StyleSheets是一个类数组对象，包含了当前文档的所有css样式表。
+`document.styleSheets`返回StyleSheetList是一个类数组对象，包含了当前文档的所有css样式表。
 
-属性：cssRules，是一个类数组对象CSSStyleRule，其元素是包含样式表中CSS规则。cssRules 属性，返回cssRuleList**类数组对象**，该对象其包含样式表中**所有 CSS 规则**。
+- cssRules  返回一个类数组对象cssRuleList，其包含样式表中所有CSS规则。
 
-cssRules对象的属性（获取的属性值是**字符串**）
-
-- cssText属性返回css样式字符串
-
-- style.cssText 返回该条规则的**所有**样式声明
-
-- style.[attr]   返回具体某个属性的样式
-
-- selectorText  返回该条规则的选择器
-
-- parentRule 返回包含规则（如果有，如 @media 块中的样式规则）
-
-  等等……
-
-  注意： 以上属性**只读**
+  cssRules数组对象内元素的常用属性（属性均为**只读**，属性值均是字符串）：
+  - cssText  返回css样式
+  - style.cssText 返回该条规则的**所有**样式声明
+  - style.[attr]   返回具体某个属性的样式
+  - selectorText  返回该条规则的选择器
+  - parentRule  返回包含规则（如果有）（例如 @media 块中的样式规则）
 
 ```javascript
-let csstext=document.styleSheets[0].cssRules[0].cssText;
-let oWidth=document.styleSheets[0].cssRules[0].style.width;
-```
+document.styleSheets; //当前文档所有css样式表的类数组对象
+document.styleSheets.lenth; //当前文档有多少样式表
+document.styleSheets[0]; //当前文档第0个样式表的类数组对象
+document.styleSheets[0].cssRules[0]; //当前文档第0个样式表的第0条样式
 
+document.styleSheets[0].cssRules.length; //当前样式表有多少条样式
+document.styleSheets[0].cssRules[0].cssText; //第0条样式的内容
+document.styleSheets[0].cssRules[0].style.width; //第0条样式中的宽
+document.styleSheets[0].cssRules[0].selectorText; //第0条样式选择器
+```
 # 设置样式
 
 ## 直接设置元素的属性

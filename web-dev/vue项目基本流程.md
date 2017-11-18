@@ -126,7 +126,7 @@ vue项目：main.js > *.vue >  *.html
 
    1. **引入**vue、vue-router和其他组件
 
-   2. **启用**vue-router
+   2. **启用**vue-router（的实例对象）作为vue的插件
 
    3. **导出**一个路由对象实例（其包含了路由相关配置和各个子路由映射信息）
 

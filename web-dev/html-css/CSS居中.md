@@ -30,7 +30,7 @@ margin值为父容器宽/高的50%减去自身宽/高的50%：
 
 注意：inline水平的元素margin/padding设置**仅在左右方向上有效**。
 
-## margin:auto左右居中
+## margin:0 auto左右居中
 
 要居中的**块级元素（block）**元素设置`margin:0 auto` 。
 
@@ -140,7 +140,7 @@ margin值为父容器宽/高的50%减去自身宽/高的50%：
 .parent-element{
   display:flex; /*使用flex盒子*/
   justify-content:center;/*水平轴上居中*/
-  align-items:center;/*垂直轴上居中*/
+  align-content:center;/*垂直轴上居中*/
 }
 ```
 
