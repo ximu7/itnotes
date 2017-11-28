@@ -136,7 +136,7 @@ ff指firefox，ch指的是chrome/chromium，没有说明则默认ff。以firefox
 
 - 代理管理
   - proxychains    可TCP转发socks5/http，配置好代理后执行  `proxychains 程序名`
-  - privoxy    可以转发socks5为http（此外还能用于屏蔽广告等）
+  - privoxy    可以转发socks5为http（可用于屏蔽广告等）
 
 ## 通讯
 
@@ -216,6 +216,8 @@ ff指firefox，ch指的是chrome/chromium，没有说明则默认ff。以firefox
 
 - blender    3D制作
 
+- freecad
+
 - 绘图
 
   - mypaint    绘画(支持绘图板)
@@ -293,6 +295,7 @@ ff指firefox，ch指的是chrome/chromium，没有说明则默认ff。以firefox
 - gitbook-editor   [gitbook](https://gitbook.com)书籍制作工具
 - calibre    电子书制作编辑格式转换
 - stellarium    天文软件
+- [anki](https://apps.ankiweb.net/)  跨平台、多语言的词汇卡片学习工具
 
 ## pdf
 

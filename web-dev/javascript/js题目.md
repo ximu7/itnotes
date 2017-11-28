@@ -1,19 +1,19 @@
 # 函数和数据类型判断
-- arguments
+- arguments是一个对象
 
   ```javascript
   (function() {
     return typeof arguments; //argument是一个对象（注意：arguments不是数组）
   })(); //object
   ```
-- 函数表达式的函数名
-  ```javacript
+- 不能函数表达式的函数名调用函数
+  ```javascript
   let f = function g() { //函数表达式的函数名不能被调用
     return 23;
   };
   typeof g(); //reference error g() is not defined
   ```
-- delete
+- delete只能删除对象的属性
   ```javascript
   (function(x) {
     delete x; //delete只能删除对象的属性
@@ -46,13 +46,15 @@
     return typeof arguments[0]();
   })(foo.bar); //"undefined" 传入foo才能得到对象本身 不应该传入函数名.属性
   ```
-- 函数的形参
+  ​
   ```javascript
   (function (foo) { //此处的foo是一个形参 foo= {foo:{bar:1}}
     return typeof foo.bar; //该形参下没有bar这个属性 只有一个foo属性
   })({ foo: { bar: 1 } }); //undefined
   ```
-  - 分组选择符
+
+- 分组选择符
+
   ```javascript
   var f = (function f() {
     return "1";
@@ -62,6 +64,7 @@
   })(); //分组选择符 示例 var a=(1,2,3); a就为3
   typeof f; //"number"
   ```
+
 - if判断条件的真假
   ```javascript
   var x = 1;
@@ -89,7 +92,7 @@
   new f() instanceof f; //false
   ```
 
-- 函数的长度
+- 函数的长度是函数形参的个数
   ```javascript
   with (function (x, undefined) { }) length; //函数的长度就是函数的形参 2
   //附注：arguments是函数实参
@@ -270,13 +273,11 @@
   }
   ```
 
-  ​
 
-#  
 
-- 有两个变量a和b 不使用第三个变量 而调换两个变量的值
+- 调换两个变量的值(不使用第三个变量)
 
-  - 只使用数字
+  - 只适合数字
 
     ```javascript
     let a = 1;
@@ -296,7 +297,17 @@
     a = a[1];
     ```
 
-- n=5 不用for循环 得到数组[1,2,3,4,5]
+  - 变量解构赋值（ES6支持）
+
+    ```javascript
+    let a = 1;
+    let b = 'hello';
+    [a,b]=[b,a]
+    ```
+
+- 创建数组
+
+  不用for/while创建一个数组[1,2,3,4,5]
 
   - Array对象的方法
 
@@ -322,21 +333,20 @@
     }
     ```
 
+    - replace方法
 
-  - replace方法
-
-    ```javascript
-    function newArr(n) {
-      const arr = [];
-      arr.length = n+1;
-      let str = arr.join('a'); //aaaaa
-      const arr2 = [];
-      str.replace(/a/g, function () { //匹配5次 会执行五次改函数
-        arr2.unshift(n--);
-       })
-      return arr2;
-    }
-    ```
+      ```javascript
+      function newArr(n) {
+        const arr = [];
+        arr.length = n+1;
+        let str = arr.join('a'); //aaaaa
+        const arr2 = [];
+        str.replace(/a/g, function () { //匹配5次 会执行五次改函数
+          arr2.unshift(n--);
+         })
+        return arr2;
+      }
+      ```
 
 - 写一个函数，如果传入的数字小于100，返回该数字，否则返回100，不能使用if、switch...case、while、三目运算符。
 

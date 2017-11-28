@@ -1,12 +1,22 @@
 说明：
 
-- **须知某些情况不设置元素宽高，无法看出居中效果，也就无所谓居中与否**。示例代码只是写出了该居中方法所需要的那部分样式，不一定写出了宽高（以及边框等）样式。
 - 示例代码中，`.center-element`表示要被居中的元素，`parent-element` 表示要居中的元素的父元素。
-- **inline元素**，准确来说，是不可替换（non-replace）的inline元素，**不能设置竖直方向上的margin和padding**。（参看[margin规定](http://www.w3.org/TR/CSS2/box.html#margin-properties)和[padding规定](http://www.w3.org/TR/CSS2/box.html#padding-propertie) ，之所以不能设置padding，是因为padding的值是根据目标元素的width计算出来的，而inline中的non-replace元素的width是不确定的。）
+
+- **须知某些情况不设置元素宽高，无法看出居中效果，也就无所谓居中与否**。例如父容器不设置背景色或边框等，无法看出子元素是否居中，示例代码只是写出了该居中方法所需要的那部分样式，不一定写出了父元素相关样式。
+
+- **inline元素**，准确来说，是不可替换（non-replace）的inline元素，**不能设置竖直方向上的margin和padding**，下不赘述。
+
+  参看[margin规定](http://www.w3.org/TR/CSS2/box.html#margin-properties)和[padding规定](http://www.w3.org/TR/CSS2/box.html#padding-propertie) ，之所以不能设置margin/padding，是因为
+
+  > padding的值是根据目标元素的width计算出来的，而inline中的non-replace元素的width是不确定的。
+
+  （margin同理）
 
 
-- CSS兼容性情况未作说明，具体自行查阅。
-- 推荐使用那些不必使用到精确数值的方法。
+- CSS兼容性情况未作说明，具体自行查阅[caniuse](http://caniuse.com/)。
+- 推荐使用那些不必使用到精确数值（如50px，20rem这种情况，不包括百分比值）的方法。
+
+---
 
 [TOC]
 
@@ -14,11 +24,11 @@
 
 # margin/padding值设置居中
 
-最基础的方法是设置**精确的**padding（父元素上）或margin（子元素上）**值**使得子元素居中，这里不再示例。以下方法使用更加容易：
+最基础的方法是设置**精确的**padding（父元素上）或margin（子元素上）**值**使得子元素居中，这里不再示例。
 
 ## clac计算数值
 
-margin值为父容器宽/高的50%减去自身宽/高的50%：
+margin值为 父容器宽/高的50% 减去 自身宽/高的50%：
 
 ```css
 .center-element{
@@ -35,6 +45,18 @@ margin值为父容器宽/高的50%减去自身宽/高的50%：
 要居中的**块级元素（block）**元素设置`margin:0 auto` 。
 
 注意：**对浮动元素、绝对定位和固定定位的元素无效** 。（注意：使用绝对定位+[偏移量0+margin:auto](偏移量0+margin:auto)方法中使用了四个方向的值为0偏移量例外）
+
+---
+
+附：
+
+注意margin/pading
+
+> 百分比值参照其**包含块的宽度**进行计算
+
+因此使用`margin:auto`并不能实现垂直方向上的居中，垂直居中最好不要使用`margin/pading`来实现。（当然如果确切知道父容器的高度，使用精确的margin/pading数值来实现不再此讨论之列）
+
+---
 
 # text-align:center水平居中
 
@@ -144,8 +166,6 @@ margin值为父容器宽/高的50%减去自身宽/高的50%：
 }
 ```
 
-注意：如果有多个子元素，默认情况下子元素会成一排分布在父元素容器中，因为flex默认子元素不折行显示（`flex-wrap: nowrap` ），使用`flex-wrap: wrap`可使子元素自动折行显示。（下同）
-
 - 父元素设置为弹性容器`display:flex`，子元素设置`magrin:auto` ：
 
 ```css
@@ -156,6 +176,16 @@ margin值为父容器宽/高的50%减去自身宽/高的50%：
   margin: auto;
 }
 ```
+
+---
+
+附：如果有多个弹性子元素，默认情况下子元素会成一横排分布在父元素容器中，因为
+
+- flex默认子元素水平排列到一行（`flex-direction:row`），使用`flex-direction:column`可以使子元素垂直排列。
+
+  排列方式包括：`row|row-reverse|column|column-reverse-initial|inherit`
+
+- flex默认子元素不折行显示（`flex-wrap: nowrap` ），使用`flex-wrap: wrap`可使子元素自动折行显示（当一行宽/高度不足容下多个子元素时折行）。
 
 # object-fit和object-postion居中
 

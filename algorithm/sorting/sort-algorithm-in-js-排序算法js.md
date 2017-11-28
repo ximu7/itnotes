@@ -68,7 +68,7 @@ function insetion(arr) {
 
 ```javascript
 function selection(arr) {
-  for (let i = 0; i < arr.length; i++) {
+  for (let i = 0; i < arr.length-1; i++) {
     let flag = i;//每轮给第i个元素立一个flag
     for (let j = i + 1; j < arr.length; j++) {
       if (arr[j] < arr[flag]) {//从i+1(j)开始和flag对比
