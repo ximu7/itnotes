@@ -83,19 +83,30 @@ btn.onclick=null; // 删除事件处理程序
 ## DOM2级事件处理程序
 
 1. 取得要操作的对象
-
-2. 向该对象添加`addEventListene() `方法（三个参数：事件类型，该事件的处理函数，fasle/true--冒泡或捕获）
-
-   删除事件处理程序用 `removeEventListener()`
+2. 向该对象添加`addEventListene() `方法，该方法有三个参数：
+   - type事件类型
+   - listener事件处理程序：该事件的处理函数（或实现了EventListener 接口的对象）
+   - options参数对象（可选）：包含三个属性（属性值均为布尔值，默认false）
+     - capture  事件处理程序是否在事件**捕获阶段**传播到该 EventTarget 时触发
+     - once       事件处理程序是否调用（一次）之后被**自动移除**
+     - passive  事件处理程序是否调用 `preventDefault()`
+   - useCapture使用捕获（可选） 布尔值 默认false
 
 ```javascript
 var btn=document.getElementById("btn");
 var fn=function(){  //事件处理的方法
 	alert(this.id);
 };
-btn.addEventListener("click",fn,false);  //添加
+btn.addEventListener('click', openItem, {
+      capture: false,
+      once: false,
+      passive: false
+    },false) ;  //添加
+
 btn.removeEventListener("click",fn,false);  //删除
 ```
+
+删除事件处理程序用 `removeEventListener()`
 
 IE8-使用`attachEvent()`和`deattatchEvent()`（事件名前面要用on，如click事件写成`onclick`）
 
