@@ -34,9 +34,7 @@
 
 附加：
 
-`parseInt()`还可以用作向下取整，但其和`Math.floor`不同在于负数上：
-
-- `parseInt()`  是去
+`parseInt()`还可以用作向下取整，但其和`Math.floor`不同在于负数上
 
 # 数字转字符串
 

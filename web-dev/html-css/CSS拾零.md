@@ -32,6 +32,10 @@
 
   解决方法：父元素`position:relative`改为`position:absolute`；浮动元素添加position属性（如relative，absolute等）；浮动元素去除浮动。
 
+- border-radius使用百分比值时，是以该元素宽度为标准的。
+
+  若想在长方形两端形成半圆，只需将border-radius的值和该元素高度设为一致即可。
+
   ​
 
 # 兼容性

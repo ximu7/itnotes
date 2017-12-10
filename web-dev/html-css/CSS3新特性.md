@@ -104,6 +104,8 @@ h和v设置为0并设置blur模糊、spread扩展的值，可以实现盒子边�
 
 `border-radius:px|em|%|rem`
 
+注意：百分比值以该元素宽度为标准的。
+
 ## 边框图像border-image
 
 `border-image: border-image-source border-image-slice border-image-repeat`
@@ -247,43 +249,53 @@ transform-function变换方法包括：
 
 # 过渡transition
 
-过渡是元素从一种样式逐渐改变为另一种的效果。要实现效果，必须：
+过渡是元素从一种样式逐渐改变为另一种的效果。
 
-- 指定要添加效果的CSS属性
-- 指定效果的持续时间。
-- 同时还需要再设置该元素过渡效果的触发方式（如hover），并在该触发方式的样式内写入过渡效果完毕后的状态。
+- 简写方法：`transiton：property duration [timing-function] [delay];`，默认值分别对应：all 0 ease 0
+
+  简写方法相当于：
+
+  - 应用的属性（可选，不设置则默认为全部[可使用过渡效果的属性](https://developer.mozilla.org/zh-CN/docs/Web/CSS/CSS_animated_properties)）
+
+     `transition-property: none|all|property;`
+
+    property定义应用过渡效果的 CSS 属性名称列表，all则会应用到所有CSS属性上。
+
+  - 耗时（必须，原因是默认值为0，没有过渡效果，过渡无意义）
+
+     `transition-duration: time;`
+
+  - 过渡速度变化曲线（可选）
+
+    `transition-timing-function: linear|ease|ease-in|ease-out|ease-in-out|cubic-bezier(n,n,n,n);`
+
+    可参看[贝塞尔曲线cubiz-bezier](cubic-bezier.com)
+
+  - 过渡延迟时间（可选）
+
+    `transition-delay: time;`
+
+  ​
+
+- 要实现效果，需要：
+
+  1. 给目标元素设置transition
+  2. 给目标元素添加过渡效果的触发方式（如hover、事件监听）及过渡效果完毕后的最终样式。（**必须**）
+
+  -   使用事件监听：在目标元素对象事件处理函数中设置目标元素对象的最终样式。
 
 ```html
 <div></div><!--要应用过渡效果的元素-->
 <style> 
 div{
-	width:100px;height:100px;background:red;
 	transition: width 2s;/*该元素需要实现的过渡效果：针对宽度变化，过渡时间持续2秒*/
+    width:100px;height:100px;background:red;
 }
 div:hover{/*当悬停在该元素上触发效果*/
 	width:300px;/*过渡效果完毕后的状态*/
 }
 </style>
 ```
-
-简写方法：`transiton：property duration [timing-function] [delay];`
-
-- 过渡应用的属性
-
-  `transition-property: none|all|property;`
-  property定义应用过渡效果的 CSS 属性名称列表，all则会应用到所有CSS属性上。
-
-- 过渡耗时
-
-  `transition-duration: time;`
-
-- 过渡速度变化曲线
-
-  `transition-timing-function: linear|ease|ease-in|ease-out|ease-in-out|cubic-bezier(n,n,n,n);`
-
-- 过渡延迟时间
-
-  `transition-delay: time;`
 
 # 动画@keyframes
 
@@ -416,22 +428,22 @@ CSS3新增的选择器
 
 - 伪类选择器
   - 某（些）类子元素
+    - `:only-child`
     - `:first-of-type`
     - `:last-of-type`
     - `:nth-of-type(n)`
     - `:nth-last-of-type(n)`
     - `:only-of-type`
-  - 某（些）个子元素
+  - 某个子元素
     - `:first-child`
     - `:last-child`
     - `:nth-child(n)`
     - `:nth-last-child(n)`
-    - `:only-child`
   - 根元素  `:root`
   - 没有子元素的元素 `:empty`
   - 当前活动的元素   `:target`
   - 选中的元素  `:checked`
-  - 非某个元素 `:not(selector)`
+  - 非某种（个）元素 `:not(selector)`
   - 启用或禁用的元素
     元素可以设置disabled属性（如果为设置默认enabled）
     - 启用的元素  `:enabled`
