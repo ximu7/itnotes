@@ -4,10 +4,9 @@
 var factorialize=function f(num) {//新建立一函数f
     if(num===0){
 		return 1;
-    }else{
+    }
 	return num*f(num-1);//factorialize改变不影响此处（更松散的代码耦合）
   // return num*arguments.callee(num-1);//严格模式无法使用agrument.callee
-  }
 };
 ```
 

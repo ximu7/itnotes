@@ -54,11 +54,17 @@ CSS3新特性整理
 
   `align-items: stretch|center|flex-start|flex-end|baseline|initial|inherit;`
 
-- 多行子元素侧轴对齐
+- 多行子元素侧轴（纵轴）对齐
 
   `align-content: stretch|center|flex-start|flex-end|space-between|space-around|initial|inherit;`
 
-  在弹性容器内的各项没有占用交叉轴上所有可用的空间时对齐容器内的各项（垂直），（各项将紧挨一起而不会像align-items一样各项中有空白空间），align-content属性只适用于**多行**的flex容器（否则没有渲染效果）。
+  注意：
+
+  - `align-content`属性只适用于**多行子元素**（超过一行）的flex容器，**如果只有一行子元素，该属性不起作用；**`align-items`适用于任意行子元素的`flex`容器。
+
+  - `align-content`是设置一列子元素在整个纵轴上的对其方式；而`align-items`是设置每个子元素在该行的高度范围内的侧轴上的对齐方式（垂直对齐）。
+
+    `align-items`相当于将侧轴高度按行平分，设置的是子元素在该行高度上的对其方式。
 
 - 子元素出现的順序
 
