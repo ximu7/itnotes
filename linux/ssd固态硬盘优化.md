@@ -55,22 +55,28 @@ vm.vfs_cache_pressure=50
 
 -   频繁读取的分区（如`/var`）放置于HDD
 
-- 频繁读取的文件置于内存
+- 使用tmpfs将频繁读取的文件置于内存
 
     注：内存没用完，linux不会去用交换区。
 
     `df -h`可查看使用tmpfs的情况。
 
-    注：/tmp已经默认使用tmpfs，无需设置。
+    Archlinux默认/tmp使用tmpfs，无需设置，大小为物理内存的一半。如果遇到tmp空间不够而默认分配的空间不够大，可以可在/etc/fstab中指定size，例如指定tmp使用6G大小：
 
-    **浏览器的cache使用tmpfs**
+    ```shell
+    # /tmp tmpfs' default size is half of physical memory size
+    tmpfs /tmp      tmpfs nodev,nosuid,size=6G          0 0
+    ```
 
-    -   firefox在地址栏中输入 about:config 后回车，然后点击右键新建一个 String ， name 为 browser.cache.disk.parent_directory ， value 为 /dev/shm/firefox。
+    重启后可生效。
 
-    - Chromium/Chrome找到Chrmium（或Chrmoe）程序图标所在位置，如"/usr/share/applications/chromium.desktop"，修改该文件中`Exec`一行为`Exec=/usr/bin/chromium --disk-cache-dir="/dev/shm/chromium/"` 。
+    - 浏览器的cache使用tmpfs**
+      - firefox在地址栏中输入 about:config 后回车，然后点击右键新建一个 String ， name 为 browser.cache.disk.parent_directory ， value 为 /dev/shm/firefox。
 
-        /usr/shar/applications下的图标需要root权限才能更改，可以先赋予777权限`sudo chmod 777 /usr/share/applications/chromium.desktop`；更改完后再还原权限`sudo chmod 644 /usr/share/applications/chromium.desktop`。
+      - Chromium/Chrome找到Chrmium（或Chrmoe）程序图标所在位置，如"/usr/share/applications/chromium.desktop"，修改该文件中`Exec`一行为`Exec=/usr/bin/chromium --disk-cache-dir="/dev/shm/chromium/"` 。
 
-        或者复制`/usr/share/applications/chromium.desktop`到`~/.local/share/applications/chromium.desktop`，再对其修改。
+      /usr/shar/applications下的图标需要root权限才能更改，可以先赋予777权限`sudo chmod 777 /usr/share/applications/chromium.desktop`；更改完后再还原权限`sudo chmod 644 /usr/share/applications/chromium.desktop`。
+
+      或者复制`/usr/share/applications/chromium.desktop`到`~/.local/share/applications/chromium.desktop`，再对其修改。
 
 另：有 [anything-sync-daemon](https://aur.archlinux.org/packages/anything-sync-daemon/)允许用户将**任意** 目录使用相同的基本逻辑和安全防护措施同步入内存。
