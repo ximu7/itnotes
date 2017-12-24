@@ -10,7 +10,7 @@ nginx的[Let's Encrypt HTTPS](https://github.com/certbot/certbot)部署
 
    如果是安装的`certbot`，执行`certbot certonly`按照引导进行操作即可。
 
-   如果是下载的源代码，在其目录中执行：
+   如果是下载的源代码，在其目录中执行`./cerbot-auto`按照提示进行操作。也可以直接指定参数，例如：
 
    ```shell
    #为已经在运行的网站设置SSl证书使用-d进行指定域名即可
@@ -80,7 +80,7 @@ nginx的[Let's Encrypt HTTPS](https://github.com/certbot/certbot)部署
 
 4. 自动更新证书
 
-   使用crontab建立周期任务：
+   证书有使用期限，失效后需要重新生成。可以使用crontab建立周期任务更新证书：
 
    ```shell
    30 2 1 * * /usr/bin/certbot renew >> /var/log/le-renew.log 

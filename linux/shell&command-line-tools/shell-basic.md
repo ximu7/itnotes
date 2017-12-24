@@ -117,7 +117,9 @@ cat /etc/shells    #查看当前系统支持的shell
 
 #### 显示样式和颜色
 
-写法：在样式或颜色之后要使用m，如`1m`，如果使用颜色和样式，二者以`;`分隔，只在第二个数字后写上m即可，例如：`echo -e '\e[1;35m文字文字\e[0m'` 。这些样式和颜色值是ANSI escape code中的[SGR](https://en.wikipedia.org/wiki/ANSI_escape_code#CSI_codes) ，某些SGR码支持并不广泛，以下列出常见SGR code。
+写法：在样式或颜色之后要使用m，如`1m`，如果使用颜色和样式，二者以`;`分隔，只在第二个数字后写上m即可，例如：`echo -e '\e[1;35m文字文字\e[0m'` 。
+
+这些样式和颜色值是ANSI escape code中的[SGR](https://en.wikipedia.org/wiki/ANSI_escape_code#CSI_codes) ，某些SGR码支持并不广泛，以下列出常见SGR code。
 
 - 样式：
 |  样式  |  加粗  |  弱化  |  斜体  | 下划线  |  闪烁  |  反色  |  隐藏  | 删除线  |

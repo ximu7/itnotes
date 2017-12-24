@@ -1,4 +1,12 @@
-参照[react native](https://facebook.github.io/react-native/docs/getting-started.html)文档的步骤进行安装，安装完毕后，打开Android Studio，导入你的项目项目（或者官方提供的实验项目AwesomeProject）文件夹，开启安卓虚拟机(Android Emulator，当然也可以选择真机调试），然后进入命令行，cd到项目文件夹下，中执行：`react-native run-anroid`就能在模拟器中进行调试了。
+参照[react native](https://facebook.github.io/react-native/docs/getting-started.html)文档的步骤进行安装，安装完毕后，打开Android Studio，导入你的项目项目（或者官方提供的实验项目AwesomeProject）文件夹，开启安卓虚拟机(Android Emulator，当然也可以选择真机调试）。
+
+调试步骤——进入命令行，cd到项目文件夹下，中执行：
+
+1. 项目运行`npm start`（使用yarn则是`yarn start` ）
+2. 虚拟机启动
+3. 连接虚拟机进行调试 `react-native run-anroid`
+
+[TOC]
 
 当然你也许会遇到以下问题：
 

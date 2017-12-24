@@ -200,7 +200,6 @@ autoindex_localtime on;
   auth_basic_user_file /var/www/html/.htpasswd;  #密码文件路径
   ```
 
-
 ### 权限问题
 
 如果出现“403forbiden”，可能是该目录下没有index规定的默认主页文件（如index.html）或者nginx的执行用户不具有读取该目录的权限。可以用以下方法解决：
@@ -219,7 +218,7 @@ autoindex_localtime on;
 - 给予该用户相应权限，如将执行用户（假如执行用户名为nginx）加入具有读取该目录的用户组（假如该用户组是users）中`useradd -aG users nginx` 。
 - 换用具有权限的用户执行，如换用root用户，在`/etc/nginx/nginx.conf`中将user改为root。
 
-## 测试
+## 测试
 
 配置完后，测试前重启所有服务：
 

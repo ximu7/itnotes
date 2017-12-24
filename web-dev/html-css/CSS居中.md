@@ -218,13 +218,15 @@ margin值为 父容器宽/高的50% 减去 自身宽/高的50%：
 
 父元素设置为弹性盒子（容器），子元素就成为了弹性元素，利用flex相关属性进行居中。
 
+更多flex相关信息>>[MDN-弹性盒子](https://developer.mozilla.org/zh-CN/docs/Web/CSS/CSS_Flexible_Box_Layout/Using_CSS_flexible_boxes)
+
 - 在父元素上设置相关属性即可使子元素居中：
 
 ```css
 .wrap{
   display:flex; /*使用flex盒子*/
-  justify-content:center;/*水平轴上居中*/
-  align-items:center;/*垂直轴上居中*/
+  justify-content:center;/*主轴上居中*/
+  align-items:center;/*侧轴上居中*/
 }
 ```
 
@@ -246,15 +248,13 @@ margin值为 父容器宽/高的50% 减去 自身宽/高的50%：
 - 如果有多个弹性子元素，默认情况下弹性子元素会成一横排分布在父元素容器中，因为
   1. flex默认将子元素水平排列到一行（`flex-direction:row`），使用`flex-direction:column`可以使子元素垂直排成一列。
   2. flex默认子元素不折行显示（`flex-wrap: nowrap` ），使用`flex-wrap: wrap`可使子元素自动折行显示（当一行宽/高度不足容下多个子元素时折行为多行/列）。
+- 弹性盒子的主轴不是固定的，它由弹性子元素的排列方式（flex-direction）决定。
 
 
 - `align-items`和`align-content`区别：
 
-  - `align-content`属性只适用于**多行子元素**（超过一行）的flex容器，**如果只有一行子元素，该属性不起作用；**`align-items`适用于任意行子元素的`flex`容器。
-
-  - `align-content`是设置一列子元素在整个纵轴上的对其方式；而`align-items`是设置每个子元素在该行的高度范围内的侧轴上的对齐方式（垂直对齐）。
-
-    `align-items`相当于将侧轴高度按行平分，设置的是子元素在该行高度上的对其方式。
+  - `align-content`属性只适用于**多行子元素**（超过一行，当然如果主轴是垂直轴，则应该称为多列，下同）的 flex 容器，**如果只有一行子元素，该属性不起作用；**`align-items`适用于任意行子元素的`flex`容器。
+  - `align-content`是设置一列子元素在整个侧轴上的对其方式；而`align-items`是设置每个子元素在该行的高度范围内的侧轴上的对齐方式，相当于将侧轴按行平分，设置的是子元素在该行高度范围内的对齐方式。
 
 
 ## object-fit和object-postion居中

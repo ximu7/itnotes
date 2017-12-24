@@ -20,8 +20,9 @@
   - [OCS-Store](https://www.linux-apps.com/p/1175480/)  OCS的客户端
 
 # 模拟器/虚拟机/wine
-- virtualbox  可前去下载[微软官方提供的vbox镜像](https://developer.microsoft.com/en-us/microsoft-edge/tools/vms/)（免费使用）
-- genymotion    安卓模拟器（配合virtualbox）
+- virtualbox  即vbox可前去下载[微软官方提供的vbox镜像](https://developer.microsoft.com/en-us/microsoft-edge/tools/vms/)（免费使用）
+- genymotion    安卓模拟器（需安装virtualbox）
+- android-emulator   安卓模拟器
 - ppsspp    PSP模拟器
 - dophin-emu    Wii模拟器
 - wine相关
@@ -51,7 +52,7 @@
 ### 浏览器扩展/插件
 
 ff指firefox，ch指的是chrome/chromium，没有说明则默认ff。以firefox为主。
-- 类vim操作：ff--vimfx   ch--vimium
+- 类vim操作：ff--vixen   ch--vimium
 - 网络代理：ff&ch--switchyomega
 - RSS订阅： ff&ch--feedly notifier （ [feedly官网](https://feedly.com)）
 - 消息推送：[pushbullet]([https://www.**pushbullet**.com/ ) 
@@ -59,7 +60,7 @@ ff指firefox，ch指的是chrome/chromium，没有说明则默认ff。以firefox
 - 网页收集：ch--save to pocket(保存到[pocket](https://getpocket.com))  ff集成了保存到pocket
 - UA更改：user-agent-switcher
 - 视频抓取：ff&ch--video downlodhelper
-- js脚本扩展：ff-greasemonkey    ch--Violent monkey  ([下载脚本](https://greasyfork.org/zh-CN))
+- 脚本管理：ff-greasemonkey    ch--tampermonkey  ([下载其他脚本管理器](https://greasyfork.org/zh-CN))
 - 网页风格：stylish   ([下载配置](https://userstyles.org/))
 - 网页截图：easy screenshot   (ff自带截取页面功能，按下`：`——即`shift+;`，输入screenshot)
 - 下载工具：ff--flashgot(下载、下载工具管理、抓取视频)  ff&ch--downthemall（特点是批量下载）
@@ -133,6 +134,8 @@ ff指firefox，ch指的是chrome/chromium，没有说明则默认ff。以firefox
     以后执行`hosts`命令即可。
 
   - adhost    [github-levinit/adhosts](https://github.com/levinit/adhosts)    科学上网+屏蔽广告
+
+  - [switchhosts](https://github.com/oldj/SwitchHosts)  快速切换hosts
 
 - 代理管理
   - proxychains    可TCP转发socks5/http，配置好代理后执行  `proxychains 程序名`
@@ -315,6 +318,7 @@ ff指firefox，ch指的是chrome/chromium，没有说明则默认ff。以firefox
 -  simplenote   支持markwon的简单笔记
 -  leanote    蚂蚁笔记  markdown为主 可发布博客(使用官方服务收费，也可免费自建笔记服务)
 -  tomboy    客扩展带便签功能的笔记（可借助其他工具同步数据库）
+-  zim  使用wiki管理方式念的笔记
 
 
 ## 思维图/流程图/设计稿
