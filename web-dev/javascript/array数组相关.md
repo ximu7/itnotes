@@ -51,7 +51,13 @@
   }
   ```
 
+- 使用set
 
+  ```javascript
+  const arr=[1,2,3,3,2]
+  const list=new Set(arr) //转换成set 将自动去重
+  arr=Array.from(list) //使用from方法将set转为数组
+  ```
 
 
 

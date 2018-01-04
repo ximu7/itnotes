@@ -25,7 +25,7 @@ PKGBUILD参考[archwiki-PKGBUILD](https://wiki.archlinux.org/index.php/PKGBUILD_
 在PKGBUILD文件目录下执行：
 
 ```bash
-makepkg    #生成校验码 如不需要可略过
+makepkg    #makepkg -f 可覆盖构建
 # 如果需要的依赖不满足，构建失败可执行  makepkg -s 自动安装依赖
 # 或者makepkg -S pkgname  手动安装依赖
 # makepkg -i 可安装构建的软件包
@@ -76,7 +76,7 @@ pacman -U pkgname    #安装软件包
 
   ```shell
   updpkgsums     #生成校验码 如果不想使用校验，跳过该步骤
-  makepkg --printsrcinfo > .SRCINFO     #生成源文件信息文件
+  makepkg --printsrcinfo > .SRCINFO     #生成信息文件
   git add PKGBUILD .SRCINFO	# 提交变动到暂存区
   git commit -m 'some description'     #增加快照
   git push    #推送 

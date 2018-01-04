@@ -18,74 +18,9 @@ CSS3 新特性整理
 
 注意：应用于图片时，尺寸大小不可能变化到大于其原始大小。
 
-# 盒子 box
-
 ## 盒子尺寸 box-sizing
 
 `box-sizing: content-box|border-box|inherit`
-
-## 弹性盒子 flexbox
-
-弹性盒子由弹性容器(Flex container)和弹性子元素(Flex item)组成。弹性容器内包含了一个或多个弹性子元素。
-
-### 弹性容器flex-container的属性
-
-* 使用弹性盒子 `display:flex`或`display: inline-flex`
-
-  使用该属性后，该容器成为弹性盒子。注意：默认弹性盒子内主轴是水平轴，所有子元素排列在一行。
-
-* 子元素排列方式
-
-  `flex-flow: flex-direction flex-wrap|initial|inherit;`
-
-  * 子元素排列方向
-
-    `flex-direction: row|row-reverse|column|column-reverse|initial|inherit;`
-
-    每个弹性框布局包含两个轴，弹性项目沿其依次排列的那根轴称为**主轴(main axis)** ，垂直于**主轴**的那根轴称为**侧轴(cross axis)**。因此，flex-direction 的可以确立主轴（默认情况下排列方式是水平排列，因此默认情况下主轴是水平轴或者说横轴）。
-
-  * 子元素换行方式
-
-    `flex-wrap: nowrap|wrap|wrap-reverse|initial|inherit;`
-
-    **默认**情况每个容器只有一行（因为默认的 flex-wrap 值是 nowrap）。
-
-* 子元素在主轴的对齐方式
-
-  `justify-content: flex-start|flex-end|center|space-between|space-around|initial|inherit;`
-
-* 子元素在侧轴的对齐方式
-
-  * `align-items: stretch|center|flex-start|flex-end|baseline|initial|inherit;`
-  * `align-content: stretch|center|flex-start|flex-end|space-between|space-around|initial|inherit;`
-
-  使用区别：
-
-  * `align-content`属性只适用于**多行子元素**（超过一行，当然如果主轴是垂直轴，则应该称为多列，下同）的 flex 容器，**如果只有一行子元素，该属性不起作用；**`align-items`适用于任意行子元素的`flex`容器。
-
-  * `align-content`是设置一列子元素在整个侧轴上的对其方式；而`align-items`是设置每个子元素在该行的高度范围内的侧轴上的对齐方式，相当于将侧轴按行平分，设置的是子元素在该行高度范围内的对齐方式。
-
-### 弹性子元素flex-items的属性
-
-* 子元素出现的顺序
-
-  `order: number|initial|inherit;`
-
-* 子元素单独的对齐方式
-
-  `align-self: auto|stretch|center|flex-start|flex-end|baseline|initial|inherit;`
-
-  该属性需写在子元素的样式上。
-
-* 子元素空间分配
-
-  `flex: flex-grow flex-shrink flex-basis|auto|initial|inherit;`
-
-  该属性需写在子元素的样式上。
-
-  * 弹性盒子伸缩基准值`flex-basis: number|auto|initial|inherit;`
-  * 弹性盒子的扩展比率`flex-grow: number|initial|inherit;`
-  * 弹性盒子的收缩比率`flex-shrink: number|initial|inherit;`
 
 # 边框风格 border style
 
@@ -119,10 +54,17 @@ h 和 v 设置为 0 并设置 blur 模糊、spread 扩展的值，可以实现�
 **图片来源、图片偏移值和图片铺排方式是必须的三个值。** border-image 用于设置:
 
 * `border-image-source: url()|none`
+
 * `border-image-slice: number|%|fill`
-* `border-image-repeat: stetch（默认）|repeat|round|space|initial|inherit`
+
+* `border-image-repeat: stetch|repeat|round|space|initial|inherit`
+
 * `border-image-width:number|%|auto`
-* `border-image-outset: length|number` 注意：number 是倍数值。
+
+* `border-image-outset: length|number` 
+
+  注意：number 是倍数值。
+
   # 背景 background
 
 ## 背景图像 background-image
@@ -356,7 +298,7 @@ css 语法：`@media not|only|all mediatype and (expression){css-style}`（注�
 * 朝向 (智能手机横屏，竖屏) 。
 * 分辨率
 
-# 生成内容
+# 生成内容content
 
 使用伪元素和 content 属性添加内容，content 取值：
 
@@ -371,6 +313,72 @@ css 语法：`@media not|only|all mediatype and (expression){css-style}`（注�
   display: table;
 }
 ```
+
+# 弹性盒子 flexbox
+
+弹性盒子由弹性容器(Flex container)和弹性子元素(Flex item)组成。弹性容器内包含了一个或多个弹性子元素。
+
+## 弹性容器flex-container的属性
+
+- 使用弹性盒子 `display:flex`或`display: inline-flex`
+
+  使用该属性后，该容器成为弹性盒子。注意：默认弹性盒子内主轴是水平轴，所有子元素排列在一行。
+
+- 子元素排列方式
+
+  `flex-flow: [flex-direction]|[flex-wrap]|initial|inherit;`
+
+  - 子元素排列方向
+
+    `flex-direction: row|row-reverse|column|column-reverse|initial|inherit;`
+
+    每个弹性框布局包含两个轴，弹性项目沿其依次排列的那根轴称为**主轴(main axis)** ，垂直于**主轴**的那根轴称为**侧轴(cross axis)**。因此，flex-direction 的可以确立主轴（默认情况下排列方式是水平排列，因此默认情况下主轴是水平轴或者说横轴）。
+
+  - 子元素换行方式
+
+    `flex-wrap: nowrap|wrap|wrap-reverse|initial|inherit;`
+
+    **默认**情况每个容器只有一行（因为默认的 flex-wrap 值是 nowrap）。
+
+- 子元素在主轴的对齐方式
+
+  `justify-content: flex-start|flex-end|center|space-between|space-around|initial|inherit;`
+
+- 子元素在侧轴的对齐方式
+
+  - `align-items: stretch|center|flex-start|flex-end|baseline|initial|inherit;`
+  - `align-content: stretch|center|flex-start|flex-end|space-between|space-around|initial|inherit;`
+
+  使用区别：
+
+  - `align-content`属性只适用于**多行子元素**（超过一行，当然如果主轴是垂直轴，则应该称为多列，下同）的 flex 容器，**如果只有一行子元素，该属性不起作用；**`align-items`适用于任意行子元素的`flex`容器。
+  - `align-content`是设置一列子元素在整个侧轴上的对其方式；而`align-items`是设置每个子元素在该行的高度范围内的侧轴上的对齐方式，相当于将侧轴按行平分，设置的是子元素在该行高度范围内的对齐方式。
+
+## 弹性子元素flex-items的属性
+
+- 子元素出现的顺序
+
+  `order: number|initial|inherit;`
+
+- 某个子元素在**交叉轴**上的对齐方式
+
+  `align-self: auto|stretch|center|flex-start|flex-end|baseline|initial|inherit;`
+
+  该属性需写在子元素的样式上。
+
+- 子元素空间分配
+
+  `flex: [flex-grow]|[flex-shrink]|[flex-basis]|auto|initial|none|inherit;`
+
+  其中auto相当于1 1 auto ，none相当于0 0 auto，intial相当于0 1 auto
+
+  - 弹性盒子伸缩基准值`flex-basis: number|auto|initial|inherit;`
+  - 弹性盒子的扩展比率`flex-grow: number|initial|inherit;`
+  - 弹性盒子的收缩比率`flex-shrink: number|initial|inherit;`
+
+# 网格布局grid
+
+//todo
 
 # 多列 columns
 

@@ -97,7 +97,7 @@ var btn=document.getElementById("btn");
 var fn=function(){  //事件处理的方法
 	alert(this.id);
 };
-btn.addEventListener('click', openItem, {
+btn.addEventListener('click', fn, {
       capture: false,
       once: false,
       passive: false
