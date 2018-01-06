@@ -75,7 +75,10 @@ var ele=document.getElementById("btn");//取得一个id名为btn的元素对象
 btn.onclick=function(){  //添加事件处理程序 
 	alert('hi');
 }
-btn.onclick=null; // 删除事件处理程序 
+btn.onclick=function(){
+  	alert('yes')  //会覆盖前面的事件处理程序
+}
+btn.onclick=null; // 删除事件处理程序
 ```
 
 实际上没有DOM0官方标准，1998 年 10 月 才有W3C的DOM1级推荐规范，DOM1级推出时并没有添加增加事件功能，而此前的事件功能的实现被习惯称为DOM0级。（IE4和Netscape 4.0这些浏览器最初支持的DHTML）。
@@ -105,6 +108,8 @@ btn.addEventListener('click', fn, {
 
 btn.removeEventListener("click",fn,false);  //删除
 ```
+
+注意：DOM2级事件，同一节点的**相同事件的多个事件处理程序中，后面的事件处理程序并不会覆盖前面的事件处理程序，而是会按先后顺序叠加执行**，故而：对于某节点可能出现反复绑定同一事件处理程序的情况，一定记得在下一次绑定该事件处理程序前**适时地解除事件绑定**！**或改为DOM0级事件进行前后覆盖。**
 
 删除事件处理程序用 `removeEventListener()`
 
@@ -168,7 +173,7 @@ function fn(ev) {
       location.href = 'http://www.w3.org'
       break
     case 'b': //id为b的li元素
-      alert('Me')
+      alert('Me')解除事件绑定
       break
     // ...
     default:
@@ -176,4 +181,3 @@ function fn(ev) {
   }
 }
 ```
-
