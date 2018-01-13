@@ -20,21 +20,16 @@
 
 - 父级标签上添加`autocomplete="off"`可禁止其子元素的自动补全。
 
-- z-index仅用于**使用了定位的元素**：relative、fixed和absolute。
+- 元素使用z-index在以下情况有效：
 
-  无效的情况：
-
-  -   父元素`position:relative`；
-
-  -   元素进行了浮动（非`float:none` ）；
-
-  -   元素没有position属性（非`position:static`）。
-
-  解决方法：父元素`position:relative`改为`position:absolute`；浮动元素添加position属性（如relative，absolute等）；浮动元素去除浮动。
+  - **使用定位**：relative、fixed和absolute
+  - 使用transform
 
 - border-radius使用百分比值时，是以该元素宽度为标准的。
 
   若想在长方形两端形成半圆，只需将border-radius的值和该元素高度设为一致即可。
+
+- 中日韩越（CJKV）文字不断行：`  word-break:keep-all;`
 
   ​
 

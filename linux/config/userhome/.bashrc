@@ -16,6 +16,9 @@ PS1='[\u@\h > \w ] \$ '
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
+# PATH
+export PATH="$PATH:`yarn global bin`"
+
 # proxy | use privoxy transfer socks5 to http
 #export http_proxy=http://192.168.1.1:8010
 #export https_proxy=http://192.168.1.1:8010

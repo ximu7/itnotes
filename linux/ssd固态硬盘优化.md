@@ -7,11 +7,12 @@
 - 分区对齐
      现代发行版几乎分区的时候都用了4k对齐。
      对齐检查：
-```bash
-parted /dev/sda
-align-check optimal 1         
-```
-​	使用图形界面的gaparted可以调整对齐。
+
+     ```shell
+     parted /dev/sda
+     align-check optimal 1        
+     ```
+     ​使用图形界面的gaparted可以调整对齐。
 
 -   TRIM
 
@@ -43,15 +44,18 @@ align-check optimal 1
 - swap分区swapiness
 
     将swapiness的值改得非常低（如1）会减少内存的交换，从而提升一些系统上的响应度。
-```shell
-cat /proc/sys/vm/swappiness    #检查swappiness值
-sysctl vm.swappiness=1    #临时设置为1
-```
-​	为了长久保存设置可新建一个`/etc/sysctl.d/99-sysctl.conf`文件，修改swappiness为1：     
-```
-vm.swappiness=1
-vm.vfs_cache_pressure=50
-```
+
+    ```shell
+    cat /proc/sys/vm/swappiness    #检查swappiness值
+    sysctl vm.swappiness=1    #临时设置为1
+    ```
+    为了长久保存设置可新建一个`/etc/sysctl.d/99-sysctl.conf`文件，修改swappiness为1:
+
+    ```shell
+    vm.swappiness=1
+    vm.vfs_cache_pressure=50
+    ```
+
 
 -   频繁读取的分区（如`/var`）放置于HDD
 
@@ -71,7 +75,7 @@ vm.vfs_cache_pressure=50
     重启后可生效。
 
     - 浏览器的cache使用tmpfs**
-      - firefox在地址栏中输入 about:config 后回车，然后点击右键新建一个 String ， name 为 browser.cache.disk.parent_directory ， value 为 /dev/shm/firefox。
+      - firefox在地址栏中输入 about:config 后回车，然后点击右键新建一个 String ， name 为 `browser.cache.disk.parent_directory` ， value 为 `/dev/shm/firefox`。
 
       - Chromium/Chrome找到Chrmium（或Chrmoe）程序图标所在位置，如"/usr/share/applications/chromium.desktop"，修改该文件中`Exec`一行为`Exec=/usr/bin/chromium --disk-cache-dir="/dev/shm/chromium/"` 。
 

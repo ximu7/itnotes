@@ -62,7 +62,9 @@ webpack的loader配置是从上往下，从右往左读取的，且后读取的�
 
 - css-loader  处理css文件
 
-- postcss-loader及常用插件（sass使用sass-loader和node-sass，less使用less-loader和less）
+  ### postcss-loader及常用插件
+
+  （sass使用sass-loader和node-sass，less使用less-loader和less）
 
   - autoprefixer  浏览器前缀自动补全
   - precss  可以在使用像sass/less等预处理语言的特性（不必再使用sass/less的loader，文件扩展名依然用.css）
@@ -154,6 +156,8 @@ babel-loader babel-core babel-preset-env（一般使用preset-env预设即可，
 
   ```javascript
   import $ from 'expose-loader?$!jquery'
+  //或使用require()
+  //require("expose-loader?$!jquery");
   ```
 
 
@@ -233,14 +237,17 @@ new webpack.optimize.CommonsChunkPlugin({
   filename: 'js/base.js' //要提取到的路径
 }),
 ```
-## uglifyjs-webpack-plugin 压缩JavaScript代码
+## webpack-parallel-uglify-plugin 压缩JavaScript代码
 
-简易开发环境不使用。
+建议开发环境不使用。简单使用如下（更多配置项参看[webpack-parallel-uglify-plugin](https://github.com/gdborton/webpack-parallel-uglify-plugin)）：
 
 ```javascript
-new webpack.optimize.UglifyJsPlugin()
+new ParallelUglifyPlugin()
 ```
+
+
 # 开发的其他常用配置
+
 ## webpack-dev-server
 
 配合webpack的简单web服务器。webpack-dev-server的配置直接在module下，`plugins[]`外。

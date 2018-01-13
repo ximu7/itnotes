@@ -373,6 +373,7 @@ ff指firefox，ch指的是chrome/chromium，没有说明则默认ff。以firefox
 ## 可能没什么用的趣味命令行
 
 - cmatrix     黑客帝国风格的字符下落
+- [hollywood](https://github.com/dustinkirkland/hollywood)    假装是好莱坞电影中的黑客
 - `telnet towel.blinkenlights.nl`    运行该命令可欣赏《星球大战》电影
 - sl    一辆小火车奔驰而过的画面
 - screenfetch  或 neofetch    发行版logo及系统简要信息显示

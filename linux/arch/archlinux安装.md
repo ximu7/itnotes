@@ -15,9 +15,10 @@
   - windows可使用[usbwriter](https://sourceforge.net/projects/usbwriter/)、[poweriso](http://www.poweriso.com)、[winsetupfromusb](http://www.winsetupfromusb.com/)等工具。
 
   - Linux/OSX可使用dd命令。示例：
-  ```shell
-  dd if=/path/arch.iso of=/dev/sdb bs=10M
-  ```
+
+    ```shell
+    dd if=/path/arch.iso of=/dev/sdb bs=10M
+    ```
   `/path/arch.iso`是archlinux的ISO文件的路径，`sdx`是U盘的设备编号如sda、sdb、sdc等（可插上优盘后在终端用`df -h`命令查看），`10M`是读写块的大小（默认512b）。
 
 ---
@@ -69,26 +70,26 @@
 
   - LVM分区法
 
+      这里使用lvm，将root、home和swap均放置到一个卷组（vg）中。（LVM相关查看[archwiki:lvm](https://wiki.archlinux.org/index.php/LVM_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))）
 
-  这里使用lvm，将root、home和swap均放置到一个卷组（vg）中。（LVM相关查看[archwiki:lvm](https://wiki.archlinux.org/index.php/LVM_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))）
+      先用`cfdisk`建立一个分区（假设为`/dev/sda2` ），再**建立物理卷->建立卷组->建立逻辑卷**->格式化逻辑卷：
 
-  先用`cfdisk`建立一个分区（假设为`/dev/sda2` ），再**建立物理卷->建立卷组->建立逻辑卷**->格式化逻辑卷：
+    ```shell
+      #1.建立物理卷：在 /dev/sda2建立物理卷
+      pvcreate /dev/sda2
+      #2.建立卷组：新建名为linux的卷组并将sda2加入到卷组中
+      vgcreate linux /dev/sda2
+      #3.建立逻辑卷：在linux卷组中建立root、swap和home逻辑卷
+      lvcreate -L 30G linux -n root
+      lvcreate -L 4G linux -n swap
+      lvcreate -L 100G linux -n home
+      # lvcreate -l +100%FREE linux -n home  #3.2.1  用linux卷组中所有剩余空间建立home逻辑卷
 
-  ```shell
-  #1.建立物理卷：在 /dev/sda2建立物理卷
-  pvcreate /dev/sda2
-  #2.建立卷组：新建名为linux的卷组并将sda2加入到卷组中
-  vgcreate linux /dev/sda2
-  #3.建立逻辑卷：在linux卷组中建立root、swap和home逻辑卷
-  lvcreate -L 30G linux -n root
-  lvcreate -L 4G linux -n swap
-  lvcreate -L 100G linux -n home
-  # lvcreate -l +100%FREE linux -n home  #3.2.1  用linux卷组中所有剩余空间建立home逻辑卷
+      mkfs.ext4 /dev/mapper/Linux-root    #格式化root
+      mkfs.ext4 /dev/mapper/Linux-home    #格式化home
+      mkswap /dev/mapper/Linux-swap       #格式化swap
+    ```
 
-  mkfs.ext4 /dev/mapper/Linux-root    #格式化root
-  mkfs.ext4 /dev/mapper/Linux-home    #格式化home
-  mkswap /dev/mapper/Linux-swap       #格式化swap
-  ```
 
 ### 分区挂载
 
@@ -326,7 +327,7 @@ pacman -S fcitx-libpinyin           #智能拼音（支持搜狗词库）
 pacman -S fcitx-sogoupinyin    #可使用搜狗拼音（自带云拼音）
 ```
 
-环境变量设置：在``/etc/environment`添加
+环境变量设置：在`/etc/environment`添加
 
 > export GTK_IM_MODULE=fcitx
 >
@@ -543,7 +544,7 @@ sudo cp /tmp/nvidia.conf /etc/modprobe.d/nvidia.conf  #移动
 - [prime](https://wiki.archlinux.org/index.php/PRIME_%28%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87%29)（NVIDIA和ATI均支持）
 - [NVIDIA optimus](https://wiki.archlinux.org/index.php/NVIDIA_Optimus_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))（NVIDIA的方案，这里主要推荐以下两个）
   - [bumblebee](https://wiki.archlinux.org/index.php/Bumblebee_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))
-  - [nvidia-xrun](https://github.com/Witko/nvidia-xrun)（更推荐，该方案支持Vulkan接口）
+  - [nvidia-xrun](https://github.com/Witko/nvidia-xrun)（该方案支持Vulkan接口）
 
 ## 科学上网
 

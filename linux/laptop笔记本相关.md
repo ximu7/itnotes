@@ -295,4 +295,4 @@ max_freq="2.5GHz"    #最大频率
 - [prime](https://wiki.archlinux.org/index.php/PRIME_%28%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87%29)（NVIDIA和ATI均支持）
 - [NVIDIA optimus](https://wiki.archlinux.org/index.php/NVIDIA_Optimus_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))（NVIDIA的方案，这里主要推荐以下两个）
   - [bumblebee](https://wiki.archlinux.org/index.php/Bumblebee_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))
-  - [nvidia-xrun](https://github.com/Witko/nvidia-xrun)（更推荐，该方案支持Vulkan接口。配置方法参考[archlinux安装](arch/archlinux安装.md)中其他配置-双显卡管理。）
+  - ###### [nvidia-xrun](https://github.com/Witko/nvidia-xrun)（该方案支持Vulkan接口。配置方法参考archlinux安装中其他配置-双显卡管理。）

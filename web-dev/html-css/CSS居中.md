@@ -70,10 +70,6 @@ vertical-align的使用效果要分为以下不同情况：
   使用伪元素（也可以`.wrap`的父元素和兄弟元素进行居中，将下面代码中的`.wrap::before`换成`.wrap`的兄弟元素的选择器即可）
 
   ```css
-  .wrap{
-    display:inline-block;
-    vertical-align: middle;
-  }
   .wrap::before{ //或者::after
     content: '';
     display: inline-block;
@@ -89,7 +85,7 @@ vertical-align的使用效果要分为以下不同情况：
 
     > vertical-align大部分取值是**相对于父元素**来说的
 
-    例如`vertical-align:baseline`（vertical-align的默认值）是相对于父元素的基线对齐，`vertical-align: middle`是相对与父元素的中线对齐（中线位置受到基线的影响）。
+    例如`vertical-align:baseline`（vertical-align的默认值）是相对于父元素的基线对齐，`vertical-align:middle`是相对与父元素的中线对齐（中线位置受到基线的影响）。
 
     而父元素的基线取值有以下规则：
 
