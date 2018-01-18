@@ -109,9 +109,6 @@ Plugin 'VundleVim/Vundle.vim'
 "主题
 "Plugin 'tomasr/molokai'
 
-"缩进指示线
-Plugin 'nathanaelkane/vim-indent-guides'
-
 "目录树
 Plugin 'scrooloose/nerdtree'
 
@@ -134,16 +131,6 @@ filetype plugin indent on " required
 "=====molokai theme"
 let g:molokai_original = 1
 let g:rehash256 = 1
-
-"=====indent-guides"
-"随 vim 自启动
-let g:indent_guides_enable_on_vim_startup=1
-"从第二层开始可视化显示缩进
-let g:indent_guides_start_level=2
-"色块宽度
-let g:indent_guides_guide_size=1
-"快捷键 i 开/关缩进可视化
-:nmap <silent> <Leader>i <Plug>IndentGuidesToggle
 
 "=====emmet"
 

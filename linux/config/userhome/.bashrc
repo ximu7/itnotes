@@ -146,9 +146,6 @@ alias atd='systemctl start atd'
 # tree
 alias tree='tree -C -L 1 --dirsfirst'
 
-# blackarea
-alias blackarea='adb -d shell sh /data/data/me.piebridge.brevent/brevent.sh'
-
 # youdao dict 有道词典
 alias yd='ydcv'
 
