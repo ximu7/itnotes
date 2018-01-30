@@ -86,7 +86,7 @@ let oBgc=window.getComputedStyle(obj, null).getPropertyValue("background-color")
 
   注意：
 
-  - 只用于**行内元素**
+  - 返回的矩形不包括任何可能超出元素范围的子元素的边界
   - 只能获取样式（**只读**）
 
 ```javascript

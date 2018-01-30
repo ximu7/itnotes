@@ -106,6 +106,7 @@ gnome的设置中的夜光（night-light）默认色温值是4000，可使用dco
 一些gnome系软件
 
 - gnome-software   软件商店
+- gnome-todo  待办事项清单 可连接到todoist（在设置-在线帐号众添加todoist帐号）
 - gedit的插件：gedit-code-assistance和gedit-plugins。
 - file-roller 压缩解压打包
 - geary   邮箱客户端 简洁

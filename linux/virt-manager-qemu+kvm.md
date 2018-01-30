@@ -1,4 +1,4 @@
-qemu-kvm安装配置。本文内容基于在ArchLinux上的使用经验，与其他发行版**或有出入**。
+qemu-kvm安装配置。本文内容基于——主机**ArchLinux**，虚拟机**centos 7.x**，其他发行版**或有出入** 。
 
 [TOC]
 
@@ -21,8 +21,8 @@ qemu-kvm安装配置。本文内容基于在ArchLinux上的使用经验，与其
 需要加载kvm相关内核模块kvm、kvm_intel(或kvm_amd)和virtio，查看是否已经启用这些模块：
 
 ```shell
-$ lsmod | grep kvm    #出现kvm kvm_intel(或kvm_amd)
-$ lsmod | grep virtio  #出现 virtio
+lsmod | grep kvm    #出现kvm kvm_intel(或kvm_amd)
+lsmod | grep virtio  #出现 virtio
 ```
 
 如果没有加载，对其加载
@@ -33,7 +33,7 @@ modprobe virtio kvm kvm_intel
 
 # 基本安装和配置
 
-## 虚拟工具
+## 相关工具
 
 - `qemu`虚拟操作系统仿真器  
 
@@ -46,9 +46,11 @@ modprobe virtio kvm kvm_intel
   ```
 
 
+- 图形查看`virt-viewer`
+
 - 虚拟机网络连接相关
 
-  - NAT/DHCP支持：`ebtables`和`dnsmasq`
+  - NAT/DHCP（默认的网络连接方式）：`ebtables`和`dnsmasq`
 
     未安装和配置这些工具而使用了NAT/DHCP时会报错：`libvirt: “Failed to initialize a valid firewall backend”` ，需在安装这些工具后启用之：
 
@@ -58,13 +60,10 @@ modprobe virtio kvm kvm_intel
     systemctl start libvirtd
     ```
 
-  - 桥接网络：`bridge-utils`
+  - 网桥模式：`bridge-utils`
 
   - ssh连接：`openbsd-netcat`
 
-
-
-# 相关问题解决
 
 ## Failed to initialize a valid firewall backend
 

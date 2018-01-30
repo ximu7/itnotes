@@ -205,7 +205,7 @@ margin值为 父容器宽/高的50% 减去 自身宽/高的50%：
   positon:relative;
 }
 .center{
-  positon:absolute;
+  position:absolute;
   top:0;bottom:0;left:0;right:0;
   margin:auto;
 }
@@ -216,7 +216,7 @@ margin值为 父容器宽/高的50% 减去 自身宽/高的50%：
 
 更多flex相关信息>>[MDN-弹性盒子](https://developer.mozilla.org/zh-CN/docs/Web/CSS/CSS_Flexible_Box_Layout/Using_CSS_flexible_boxes)
 
-- 在父元素上设置相关属性即可使子元素居中：
+- 父元素设置为弹性容器`display:flex`，并设置弹性容器内主轴/侧轴`justify-content/align-content`值为`center`：
 
 ```css
 .wrap{

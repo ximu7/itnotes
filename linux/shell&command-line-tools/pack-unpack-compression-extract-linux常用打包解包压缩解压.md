@@ -7,7 +7,7 @@
 
 # .zip
 
-工具zip和unzip/unzip-iconv
+工具zip和unzip/unzip-iconv（unzip-iconv用法同unzip，只是多了一个-O参数可指定编码格式）
 
 ```shell
 zip file.zip file  #打包
@@ -34,26 +34,6 @@ rar a file.rar file  #压缩
 unrar file.rar  #解压
 ```
 
-# .gz
-
-```shell
-gnuzip file  #压缩
-gnuzip -d file.gz  #解压
-```
-
-# .xz
-
-```shell
-xz -z file  #压缩
-xz -d file.xz  #解压
-```
-# .bz2
-
-```shell
-#使用bzip2或bunzip2
-bzip2 -z file  #压缩
-bzip2 -d file.bz2  #解压
-```
 # .tar
 
 ```shell
@@ -61,9 +41,30 @@ tar -cvf file  #打包
 tar -xvf file.tar  #解包
 ```
 
-- 在命令中加上-z可以在打包/解包时进行压缩/解压gz tar.gz
-- 在命令中加上-j可以在打包/解包时进行压缩/解压bz2 tar.gz
+- 在命令中加上-z可以在打包/解包时进行压缩/解压.tar.gz
+- 在命令中加上-j可以在打包/解包时进行压缩/解压.tar.bz2
 - .tar.xz需要先使用tar解包在使用xz解压（压缩则反向进行）
+
+# .gz
+
+```shell
+gnuzip file  #压缩
+gnuzip -d file.gz  #解压
+```
+
+# .bz2
+
+```shell
+#使用bzip2或bunzip2
+bzip2 -z file  #压缩
+bzip2 -d file.bz2  #解压
+```
+# .xz
+
+```shell
+xz -z file  #压缩
+xz -d file.xz  #解压
+```
 
 # .rpm
 

@@ -69,6 +69,8 @@ webpack的loader配置是从上往下，从右往左读取的，且后读取的�
   - autoprefixer  浏览器前缀自动补全
   - precss  可以在使用像sass/less等预处理语言的特性（不必再使用sass/less的loader，文件扩展名依然用.css）
   - postcss-import 监听@import引用的css文件
+  - postcss-sorting 给规则的内容以及@规则排序
+  - postcss-cssnext 未来的 CSS 特性（包括 autoprefixer）
 
   webpack为配置示例（loader中css相关部分，示例使用了抽离css的插件[extract-text-webpack-plugin](#plugin)）：
 

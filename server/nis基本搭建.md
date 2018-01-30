@@ -2,6 +2,8 @@
 
 # 服务端
 
+## 安装
+
 安装`yp-tools` `ypserv` `ypbind` `rpcbind`
 
 ## 配置
@@ -77,13 +79,17 @@ passwd user2
 - 第一次出现的`next host to add:`按下`ctrl`-`d`即可
 - `is this correct?`询问时，如果信息无误，按下`y`即可。
 
-如果运行出现错误
-
-
+如果运行出现错误则根据错误提示信息进行解决后再生成资料库。
 
 # 客户端
 
+## 安装
+
 安装`ypbind` `yp-tools`
+
+## 启用相关服务
+
+`启用rpcbind`和`ypbind`服务。
 
 ## 配置
 
@@ -146,3 +152,4 @@ group:  files nis
   - 修改密码 `yppasswd`   --功能同`passwd`
   - 修改shell  `ypchsh`  --功能同`chsh`
   - 修改finger  `ypchfn`  --功能同`chfn`
+

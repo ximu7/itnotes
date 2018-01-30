@@ -107,6 +107,18 @@ ff指firefox，ch指的是chrome/chromium，没有说明则默认ff。以firefox
 - syncthing　同步工具   （图形界面 syncthing-gtk）
 - freefilesync  同步＋对比
 
+### 远程桌面
+
+- teamviewer    有客户端和服务端
+- splashtop    有客户端和服务端
+- vnc
+  - 服务端
+    - vino
+    - tigervnc
+  - 客户端
+    - vinagre    支持vnc rdp spice
+    - realvnc-vnc-viewer
+
 ## 网络代理
 
 - shadowsocks    影梭
@@ -405,7 +417,7 @@ ff指firefox，ch指的是chrome/chromium，没有说明则默认ff。以firefox
 - displaycal   显示器色彩调整
 - bleachbit    磁盘清理（清除缓存、清理缩略图、粉碎文件……）
 - xev 按键检测
-- hotapd  无线热点（可以开启wifi热点，android系统不支持linux默认的ad-hoc）
+- hotapd  无线热点
 - cron计划任务
   - 命令行：cronie、dcron等等
   - 图形界面
@@ -432,7 +444,7 @@ ff指firefox，ch指的是chrome/chromium，没有说明则默认ff。以firefox
 - grub-customizer   grub管理
 - 显示器色温调节
   - gnome桌面自带（设置-显示器-夜光）
-  - redshif
+  - redshift
   - xflux
 - 更换壁纸
   - wallch
@@ -465,3 +477,4 @@ ff指firefox，ch指的是chrome/chromium，没有说明则默认ff。以firefox
   - ccal   字符界面中国日历
   - chinese-calendar  农历（带日程便签功能）
   - wunderlistux  奇妙清单
+  - gnome-todo  代办事项 可连接todoist

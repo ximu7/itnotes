@@ -89,7 +89,7 @@ tail -c 10 file    #显示file文件最后10个字符
 - `-e`或`--regexp=PATTERN`  指定字符串作为匹配规则
 - `-G`或`--basic-regexp`  基本正则（**默认**）
 - `-E`或`--extended-regexp`  扩展正则（同`egrep` ）
-- `-P`或`--perl-regexp`   perl正则
+- `-P`或`--perl-regexp`   perl正则引擎
 - `-F`或`--fixed-strings`  不使用正则（按照字面意思匹配）
 - `-w`或`--word-regexp`   仅完全匹配的字词
 - `-x`或`--line-regexp`  仅完全匹配一行

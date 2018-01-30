@@ -4,7 +4,7 @@
 
 # 安装
 
-服务端和客户端均安装`ntf-utils`
+服务端和客户端均安装`nfs-utils`
 
 # 服务端配置
 
@@ -12,7 +12,7 @@
 
 以下以 `/srv/share`目录（注意目录的权限）为例。编辑`/etc/exports`，添加共享目录相关配置，示例：
 
->/srv/share  192.168.0.0/24(rw,async,insecure,anonuid=1000,anongid=1000,no_root_squash)
+>/srv/share 192.168.0.0/24(rw,async,insecure,anonuid=1000,anongid=1000)
 
 注意：如果服务运行时修改了 `/etc/exports` 文件， 你需要重新导出使其生效：
 
@@ -23,7 +23,7 @@ exportfs -ra
 查看已经配置的共享目录：
 
 ```shell
-sudo exportfs
+exportfs
 ```
 
 部分配置说明：
@@ -42,9 +42,7 @@ sudo exportfs
 
 ## 启动nfs相关服务
 
-启用以下服务：
-
-`rpcbind`  `nfs` `nfslock`（可选，锁定文件）`nfs-idmap` （可选）
+启动服务：`rpcbind`  `nfs` `nfslock`（可选，锁定文件）`nfs-idmap` （可选）
 
 ## 防火墙配置
 
@@ -61,7 +59,13 @@ firewall-cmd --reload
 
 # 客户端配置
 
-- 启用相关服务`systemctl start rpcbind && systemctl enable rpcbind`
+## 启用相关服务
+
+启用`rpcbind`
+
+```shell
+systemctl start rpcbind && systemctl enable rpcbind
+```
 
 ## 挂载共享目录
 
@@ -81,6 +85,12 @@ firewall-cmd --reload
 
   写入`/etc/fstab`， 示例：
 
-  > 192.168.1.100:/var/nfs    /mnt/nfs  nfs defaults 0 0
+  ```shell
+  192.168.0.101:/srv/share   /srv/share  nfs  default	0 0
+  ```
 
-  ​
+## 常见错误
+
+### clnt_create: RPC: Port mapper failure - Unable to receive: errno 113 (No route to host)服务端防火墙
+
+服务端防火墙（firewall、iptables等）未添加规则，关闭防火墙或者添加相应的规则。

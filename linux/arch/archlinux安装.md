@@ -5,21 +5,29 @@
 ## 工具和必要技能
 
 - 划分一定量的磁盘空间用于linux安装（推荐至少30G）
+
 - **在bios设置中关闭启设置中的安全启动**（如有没有该设置则略过，对archlinux使用安全启动可参考[archwiki-Secure Boot](https://wiki.archlinux.org/index.php/Secure_Boot_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)))
+
 - 互联网（安装需要联网）
+
 - U盘（使用u盘安装方便许多）
-- [Arch Linux ISO文件](https://www.archlinux.org/download/)（在该页面根据国家和地区选择网站，下载**.iso**文件）
+
+- [Arch Linux 系统镜像](https://www.archlinux.org/download/)（在该页面根据国家和地区选择网站，下载**.iso**文件）
+
 - nano或vim基本操作技能（安装过程中编辑配置文件）
+
 - 启动盘制作工具（制作启动盘）
 
-  - windows可使用[usbwriter](https://sourceforge.net/projects/usbwriter/)、[poweriso](http://www.poweriso.com)、[winsetupfromusb](http://www.winsetupfromusb.com/)等工具。
+  - 如果设备支持UEFI，直接将下载的系统镜像文件（解压或挂载到虚拟光驱后）的内容复制的U盘根目录即可。（建议）
 
-  - Linux/OSX可使用dd命令。示例：
+  - windows下可使用[usbwriter](https://sourceforge.net/projects/usbwriter/)、[poweriso](http://www.poweriso.com)、[winsetupfromusb](http://www.winsetupfromusb.com/)等工具。
+
+  - Linux/OSX下可使用dd命令。示例：
 
     ```shell
     dd if=/path/arch.iso of=/dev/sdb bs=10M
     ```
-  `/path/arch.iso`是archlinux的ISO文件的路径，`sdx`是U盘的设备编号如sda、sdb、sdc等（可插上优盘后在终端用`df -h`命令查看），`10M`是读写块的大小（默认512b）。
+    `/path/arch.iso`是archlinux的ISO文件的路径，`sdx`是U盘的设备编号如sda、sdb、sdc等（可插上优盘后在终端用`df -h`命令查看），`10M`是读写块的大小（默认512b）。
 
 ---
 
