@@ -149,7 +149,7 @@ CriticalPowerAction的取值有Poweroff、Hibernate和Hybid-sleep。
 
 ### 调频工具
 
-**cpupower**属于Linux内核工具系列 但有的发行版不一定会默认安装。
+**cpupower**属于Linux内核工具系列，但有的发行版不一定会默认安装。
 
 执行`cpupower frequency-info` 可查看到相关信息，`cpupower set`可进行频率设置。
 

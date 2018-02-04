@@ -1,6 +1,6 @@
 [TOC]
 
-个人在**[archlinux](http://archlinux.org)下的日常使用经验**列出，故而在archlinux及其衍生发行版中，以下所列软件**几乎**可以从archlinux官方源或者[aur](https://aur.archlinux.org)中搜索下载安装，所列出名字**一般**即是其包名，使用pacman或yaourt/pacaur等工具搜索即可。
+个人在[archlinux](http://archlinux.org)下的日常使用经验列出，故而在archlinux及其衍生发行版中，以下所列软件**几乎**可以从archlinux官方源或者[aur](https://aur.archlinux.org)中搜索下载安装，所列出名字**一般**即是其包名，使用pacman或yaourt/pacaur等工具搜索即可。
 
 **较少**包括这些类型的软件：
 
@@ -43,10 +43,10 @@
 - chromium    （blink内核）
 - epiphany    (webkit内核)
 
-### chromium/chrome APP
+### web APP
 
 - 日程规划、待办事项
-  - wunderlist for chrome  奇妙清单[wunderlist](https://www.wunderlist.com)
+  - wunderlist  奇妙清单[wunderlist](https://www.wunderlist.com)
   - todoist   待办事项[todoist](https://todoist.com/)
 - pocket   网页收集[pocket](https://getpocket.com/)
 ### 浏览器扩展/插件
@@ -322,7 +322,7 @@ ff指firefox，ch指的是chrome/chromium，没有说明则默认ff。以firefox
 
 ## 笔记
 
--  nixnote2   第三方的evernote（印象笔记）
+-  nixnote2  第三方的evernote（印象笔记）
 -  wiznote    为知笔记（同步需要收费）多层级笔记
 -  workflowy   单页列表式层级笔记
 -  dynalist    模仿workflowy(增加部分功能)
@@ -335,9 +335,9 @@ ff指firefox，ch指的是chrome/chromium，没有说明则默认ff。以firefox
 
 ## 思维图/流程图/设计稿
 
-- pencil     设计稿制作（web页面、桌面程序界面、移动应用界面……）
 - scribus     出版物设计软件（设计杂志、海报、演示稿件等等）
 - mockingbot   [墨刀](http://modao.cc) 原型设计工具
+- pencil     设计稿制作（web页面、桌面程序界面、移动应用界面……）
 - dia    示意图制作（丰富的类型：流程图、UML、气象、地理、工程……）
 - 思维图
   - vym
@@ -401,7 +401,7 @@ ff指firefox，ch指的是chrome/chromium，没有说明则默认ff。以firefox
   - multibootusb    在一个U盘安装多个系统的工具
 
 
-- manpages-zh_cn和manpages-zh_tw  [中文man手册](https://github.com/man-pages-zh/manpages-zh)
+- man-pages-zh_cn和man-pages-zh_tw  [中文man手册](https://github.com/man-pages-zh/manpages-zh)
 - 电源节能
   - tlp   电源管理工具（默认配置已针对电池优化，安装后以systemctl enable tlp启用即可） 
   - laptop-mode-tools    笔记本电源管理
@@ -424,6 +424,7 @@ ff指firefox，ch指的是chrome/chromium，没有说明则默认ff。以firefox
     - gnome-schedule
     - fcronq
     - gcrontab
+- etckeeper  使用版本控制备份etc目录
 ##  安全
 
 - 防火墙

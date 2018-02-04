@@ -28,40 +28,22 @@ LNMP（linux,nginx,mariadb,php）部署，以下默认在root权限下操作，�
 
 ## php配置
 
-编辑**/etc/php.ini**文件，找到如**session.save_path**行，去掉注释，修改如下：
+- 修改php-fpm的执行用户为nginx组的nginx（默认为apache组的apache）
 
-`session.save_path = "/var/lib/php/session"`
+  编辑/**etc/php-fpm.d/www.conf**，修改用户名和组：
 
-查看session目录是否存在，如果不存在，则手工创建 ： 
-```shell
-ls /var/lib/php/session
-mkdir /var/lib/php/session
-```
-为确保权限符合，更改session目录文件权限：
+  ```shell
+  user = nginx #修改用户为nginx
+  group = nginx #修改组为nginx
+  ```
 
-`chown nginx:nginx /var/lib/php/session -R`
+- 将储存php会话(session)记录文件夹权限赋给nginx组的nginx（默认属于apache组的apache）：
 
-## phpmyadmin配置
+  ```shell
+  chown nginx:nginx /var/lib/php/session -R
+  ```
 
-复制phpMyAdmin目录到nginx根目录，以根目录为/srv/web为例：
-
-`cp /usr/share/phpMyAdmin/ /srv/web/phpMyAdmin;`
-
-！说明：centos以yum安装的phpmyadmin在/usr/share/目录下，archlinux的在/usr/share/webapps/目录下，其余发行版根据情操作。
-
-phpMyAdmin可改为phpmyadmin或者其他便于操作的名字。如果更改了名字，那么nginx的配置时要改为相应的目录名称。
-
-×也可软链接phpmyadmin目录：
-
-`ln -sf /usr/share/phpMyAdmin /srv/web/phpMyAdmin`
-
-## php-fpm配置
-
-编辑/**etc/php-fpm.d/www.conf**，修改用户名和组：
-```p
-user = nginx #修改用户为nginx
-group = nginx #修改组为nginx
-```
+提示：自定义session路径，可在`/etc/php.ini`中找到`session.save_path`行，去掉其注释，指定自定义路径值
 
 ## nginx配置
 
@@ -72,7 +54,7 @@ group = nginx #修改组为nginx
 server {
   listen 80;     #80是默认的端口
   server_name www.xxx.com;    #服务器名
-  root /srv/http;    #ngnix默认的主目录，可根据具体情况修改
+  root /srv/web;    #ngnix默认的主目录，可根据具体情况修改
   index index.html index.php;    #默认主页
   charset utf-8,gbk;    #防止中文乱码可加上
 }
@@ -92,7 +74,7 @@ location ~ \.php$ {
 
 ### SSL和HTTP2
 
-使用ssl/http2，需在listen后的端口号后面加上ssl/http2；填写ssl的证书路径和私钥路径。示例（仅示例server中ssl和http2相关配置部分）：
+使用ssl和http2，需在listen后的端口号后面加上ssl/http2；填写ssl的证书路径和私钥路径。示例（仅示例server中ssl和http2相关配置部分）：
 
 ```nginx
 server{
@@ -153,7 +135,7 @@ location /wsapp/ {
    server{
      listen 80;
      server_name ~^(?<subdomain>.+).xx.com$;
-     root   /home/http/website/$subdomain;
+     root   /srv/web/$subdomain;
      index index.html;
    }
    ```
@@ -199,6 +181,16 @@ autoindex_localtime on;
   auth_basic "passwd";  #passwd是使用htpasswd生成的密码
   auth_basic_user_file /var/www/html/.htpasswd;  #密码文件路径
   ```
+
+## phpmyadmin配置
+
+将phpMyAdmin复制`/usr/share/phpMyAdmin`到web根目录`/srv/web`下，或者创建一个软链接：
+
+```shell
+ln -s /usr/share/phpMyAdmin /usr/share/nginx/html
+```
+
+提示：有的发行版中，通过包管理安装的phpmyadmin位于`/usr/share/webapps`目录下。
 
 ### 权限问题
 

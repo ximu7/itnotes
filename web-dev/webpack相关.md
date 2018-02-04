@@ -7,7 +7,7 @@ webpack常用配置简单示例
 ```javascript
 //各种import(require)
 //import xxx from 'xxxxx'
-cosnt webapcConfig={
+const webapcConfig={
   entry:{},
   output:{},
   module:{
@@ -18,6 +18,7 @@ cosnt webapcConfig={
   devServer:{}, //webpack-dev-server
   devtool: 'source-map', //source map
   //......
+   mode: 'production'  //或development
 }
   
 export default webpackConfig
@@ -239,18 +240,20 @@ new webpack.optimize.CommonsChunkPlugin({
   filename: 'js/base.js' //要提取到的路径
 }),
 ```
-## webpack-parallel-uglify-plugin 压缩JavaScript代码
+## 压缩JavaScript代码
 
-建议开发环境不使用。简单使用如下（更多配置项参看[webpack-parallel-uglify-plugin](https://github.com/gdborton/webpack-parallel-uglify-plugin)）：
+uglifyjs-webpack-plugin或webpack-parallel-uglify-plugin
 
-```javascript
-new ParallelUglifyPlugin()
-```
+建议开发环境不使用。
+
+导入插件后，在配置中new 一个即可，更多参数参看其文档。
 
 
 # 开发的其他常用配置
 
 ## webpack-dev-server
+
+提示：webpack-dev-server生成在内存众的各项资源可在http://localhost:8080/webpack-dev-server下查看（这里假设端口设置为8080）。
 
 配合webpack的简单web服务器。webpack-dev-server的配置直接在module下，`plugins[]`外。
 

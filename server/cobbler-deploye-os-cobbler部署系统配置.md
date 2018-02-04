@@ -64,10 +64,10 @@ setenforce 0  #暂时关闭selinux
 | rsync                   | rsyncd   | 同步工具                 |
 | tftp                    | tftpd    | 小型文件传输服务             |
 | dhcp                    | dhcpd    | 动态主机配置服务（可选）         |
-| bind                    | named    | DNS服务                |
+| bind                    | named    | DNS服务（可选）            |
 | dnsmasq                 | dnsmasq  | 管理DHCP和DNS（可选）       |
-| cobbler-web             |          | cobbler的web服务包（可选）   |
 | httpd                   | httpd    | apache web服务（可选）     |
+| cobbler-web             |          | cobbler的web服务包（可选）   |
 | fence-agents            |          | 电源管理工具 （可选）          |
 | system-config-kickstart |          | 生成kickstart文件的工具（可选） |
 
@@ -161,7 +161,10 @@ openssl passwd -1 -salt 'salt-word' <yourpassword>
 
 ### DHCP和DNS
 
-提示：*nix DHCP server 对 IP 的分配是从高到低的，Windows则相反。
+提示：
+
+- *nix DHCP server 对 IP 的分配是从高到低的，Windows则相反。
+- 多个DHCP服务器在同一物理网段中时，客户端计算机分配到的网络参数信息来自于最先响应的那个服务器，因此在已经正常运作的网络中运行新的DHCP服务器，可能会使得该网段原有设备连接到新部署的DHCP服务器上。为避免这种干扰，需要选择合适的地址池（ip段，即配置中的range项），或可关闭地址池。
 
 #### ISC DHCP server管理的DHCP
 
@@ -174,9 +177,19 @@ subnet 192.168.100.0 netmask 255.255.255.0 {  #网段 这里分配到192.168.100
      option routers             192.168.0.9;   #网关就是上文settings中的server ip
      option domain-name-servers 192.168.0.9;  #dns服务器地址  同上
      option subnet-mask         255.255.255.0;  #子网掩码
-     range dynamic-bootp        192.168.100.1 192.168.100.10;  #dhcp服务器IP地址租用的范围
+     #dhcp服务器IP地址租用的范围  可注释该行关闭地址池
+     range dynamic-bootp        192.168.100.1 192.168.100.10;
     #中间部分内容略
 }
+#dhcp分组
+group {
+host name1 {  #name是主机名 注意 该网络中主机名不可重复 否则会报错
+    hardware ethernet A4:DC:BE:F2:06:31;  #MAC地址
+    fixed-address 192.168.30.50;  #分配的静态IP
+        }
+ #host name2
+ #......
+    ｝
 ```
 
 #### bind管理DNS服务
@@ -222,7 +235,8 @@ options {
   dhcp-boot=pxelinux.0
   dhcp-boot=net:normalarch,pxelinux.0
   dhcp-boot=net:ia64,$elilo
-  #dhcp-ignore=tag:!known  #阻止未注册的客户端从服务器引导
+  #dhcp-ignore=tag:!known  #忽略未注册的客户端从服务器引导
+  #dhcp-host=11:22:33:44:55:66,ignore  #忽略该MAC的主机
   tftp
   $insert_cobbler_system_definitions
   ```
@@ -325,12 +339,12 @@ cobbler组件概念：
    ```shell
    DEFAULT menu
    PROMPT 0
-   MENU TITLE Cobbler | http://cobbler.github.io/
+   MENU TITLE Cobbler | http://cobbler.github.io/  #标题名
    TIMEOUT 5  #将默认超时改短 默认是200(单位秒)
-   TOTALTIMEOUT 6000
+   TOTALTIMEOUT 60
    ONTIMEOUT centos7.4-x86_64  #将超时启动项改成了下面的第二个LABEL 默认是local
 
-   LABEL local  #启动项1  硬盘启动
+   LABEL local  #启动项1 硬盘启动
            MENU LABEL (local)
            MENU DEFAULT
            LOCALBOOT -1
@@ -384,25 +398,33 @@ cobbler sync  #务必进行一次同步
 text
 #graphical
 
-# Use network installation
-url --url= https://192.168.100.1/cobbler/ks_mirror/centos74/
+# Installation method
+url --url= https://192.168.100.1/cobbler/ks_mirror/centos7.4/
+#nfs --server=192.168.100.1  --dir=/srv/nfs/centos7.4
+#cdrom
+#harddrive
 
 # Install OS instead of upgrade
 install
+#upgrade
 
 # Action after installation
 reboot
+#poweroff
+#halt
 
 # Partition clearing information
 clearpart --all --initlabel
 #clearpart --none --initlabel
+#clearpart  --drives=sda  --all
 
 # Clear the Master Boot Record
 zerombr
 
 # Disk Partitioning information
+autopart
 #autopart --type=lvm
-# part /boot --fstype="ext4" --size=200
+# part /boot --fstype="vfat" --size=200
 # part pv.008 --size=61440
 # volgroup vg0 --pesize=8192 pv.008
 # logvol / --fstype=ext4 --name=root --vgname=vg0 --size=20480
@@ -410,15 +432,8 @@ zerombr
 # logvol /usr --fstype=ext4 --name=usr --vgname=vg0 --size=10240
 # logvol /var --fstype=ext4 --name=var --vgname=vg0 --size=20480
 
-# Allow anaconda to partition the system as needed
-autopart
-
-# Use CDROM installation media
-#cdrom
-
 # System bootloader configuration
-bootloader --append=" crashkernel=auto quiet" --location=mbr --boot-drive=sda
-#bootloader --location=mbr
+bootloader --append=" crashkernel=auto rhgb quiet" --location=mbr --boot-drive=sda,hda,vda
 
 # Run the Setup Agent on first boot
 firstboot --disable
@@ -440,6 +455,7 @@ timezone Asia/Shanghai --isUtc
 # Network information
 network  --bootproto=dhcp --device=eth0 --ipv6=auto --activate
 network  --hostname=manager
+#network --onboot=yes --device=eth0 --bootproto=static --ip=192.168.100.2 --netmask=255.255.255.0 --gateway=192.168.100.1 --nameserver=192.168.100.1
 
 # Root password
 rootpw --iscrypted $default_password_crypted
@@ -447,27 +463,35 @@ rootpw --iscrypted $default_password_crypted
 # System authorization information
 auth --enableshadow --passalgo=sha512
 
-# System services
-services --enabled="chronyd"
-
 # Firewall
 firewall --disabled
+#firewall --service=ssh
+#firewall --port=22:tcp
+#firewall --port=2049:udp
+#firewall  --port=22:tcp,25:tcp,80:tcp   --trust eth1
+
 # SELinux configuration
 selinux --disabled
+#selinux --permisive
+# selinux --enforcing
+
+# System services
+services --enabled="chronyd"
+services  --disabled  cups,kdump,acpid,portreserve
 
 # additional repostories get added here
 $yum_repo_stanza
 
 # Packages what will be installed
 %packages
-@^minimal
 
 # Packages group
+@^minimal
 @core
 @base
 #@base-x
- epel-release
  
+epel-release
 #firefox
 
 # chrony: NTP client
@@ -481,6 +505,10 @@ kexec-tools
 %addon com_redhat_kdump --enable --reserve-mb='auto'
 
 %end
+
+#%pre
+
+#%end
 
 %post
 # create user
@@ -564,3 +592,4 @@ cobbler有三种能认证用户登录cobbler_web的方式：默认、LDAP和PAM�
 
 - 客户机使用pxe引导启动。
 - 客户机内存分配过小（小于等于1G）可能无法安装，出现“can not write body...”的错误。
+- 重装系统可以使用工具koan。

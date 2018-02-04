@@ -147,8 +147,6 @@ sort file | uniq -c  #排序去重并统计各行出现的次数
 sort file | uniq -d  #将file中的重复行列出
 ```
 
-### 
-
 ## sort
 
 用于文件行排序。`sort 选项 参数`   sort常用选项：

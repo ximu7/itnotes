@@ -75,7 +75,7 @@ pacman -U pkgname    #安装软件包
   **只提交PKGBUILD文件和.SRCINFO文件，软件包相关资源应在PKGBUILD的source中提供URI，而不是上传到aur的git服务器。**
 
   ```shell
-  updpkgsums     #生成校验码 如果不想使用校验，跳过该步骤
+  updpkgsums     #生成校验码 如果不使用校验，跳过该步骤
   makepkg --printsrcinfo > .SRCINFO     #生成信息文件
   git add PKGBUILD .SRCINFO	# 提交变动到暂存区
   git commit -m 'some description'     #增加快照
@@ -87,3 +87,4 @@ pacman -U pkgname    #安装软件包
   - 每次更新了软件包都需要重新生成校验码(sums)和信息文件（如果希望PKGBUILD文件的md5sum等加密方式的值为**SKIP**，则无需执行 ）。
   - aur的git服务器不允**不允许强制推送**，只能在最新快照上更新推送。
   - **每一次提交中都包含[.SRCINFO](https://wiki.archlinux.org/index.php/.SRCINFO)文件**，如果忘记在提交中包含`.SRCINFO`，即使稍后补上该文件，AUR也会拒绝接收推送请求。 要解决这个问题，可以使用[git rebase](https://git-scm.com/docs/git-rebase) 中的 `--root` 选项或是 [git filter-branch](https://git-scm.com/docs/git-filter-branch) 中的 `--tree-filter` 选项。
+

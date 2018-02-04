@@ -1,7 +1,8 @@
 # By Levin
 # Default display
-innerip=`ip addr | grep -o -E '1[^2][0-9?](\.[0-9]{1,3}){3}\/' -o | cut -d '/' -f 1`
-echo -e "\e[1m `uname -srm` \e[0m\e[1;35m $innerip \e[0m"
+innerip=`ip addr | grep -o -P '1[^2][0-9?](\.[0-9]{1,3}){3}(?=\/)'`
+gateway=`ip route | grep 'via' |cut -d ' ' -f 3`
+echo -e "\e[1m `uname -srm`\e[0m  \nGATEWAY:\e[1;32m$gateway\e[0m <-- IP:\e[1;35m$innerip\e[0m"
 echo -e "\e[1;36m `date` \e[0m"
 
 # gnome-terminal transparent
@@ -136,7 +137,7 @@ alias npmlist='npm list -g --depth=0'
 alias npmlistproject='npm list --depth=0'
 
 # iconv -f GBK -t UTF-8 filename > newfilename
-alias iconvgbk='iconv -f GBK -t UTF-8' 
+alias iconvgbk='iconv -f GBK -t UTF-8'
 # convmv -f GBK -T UTF-8 --notest --nosmart filename
 alias convmvgbk='convmv -f GBK -T UTF-8 --notest --nosmart'
 
