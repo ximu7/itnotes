@@ -2,8 +2,7 @@
 # Default display
 innerip=`ip addr | grep -o -P '1[^2][0-9?](\.[0-9]{1,3}){3}(?=\/)'`
 gateway=`ip route | grep 'via' |cut -d ' ' -f 3`
-echo -e "\e[1m `uname -srm`\e[0m  \nGATEWAY:\e[1;32m$gateway\e[0m <-- IP:\e[1;35m$innerip\e[0m"
-echo -e "\e[1;36m `date` \e[0m"
+echo -e "\e[1m `uname -srm`\e[0m  \nGATEWAY:\e[1;32m$gateway\e[0m <-- IP:\e[1;35m$innerip\e[0m \n \e[1;36m `date` \e[0m"
 
 # gnome-terminal transparent
 if [ -n "$WINDOWID" ]; then
@@ -12,7 +11,7 @@ if [ -n "$WINDOWID" ]; then
 fi
 
 # default info display
-PS1='[\u@\h > \w ] \$ '
+PS1="[\u @ \h > \w ] \$ "
 
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
@@ -26,7 +25,7 @@ export PATH="$PATH:`yarn global bin`"
 
 # *** alias ***
 
-# ==device==
+# ==device&system==
 
 # ---disk---
 # trim for ssd
@@ -73,6 +72,15 @@ alias beep='sudo rmmod pcspkr && sudo echo "blacklist pcspkr" > /etc/modprobe.d/
 alias bluetoothon='sudo systemctl start bluetooth'
 alias bluetoothoff='sudo systemctl stop bluetooth'
 
+# ---print---
+alias cupsstart='sudo systemctl start org.cups.cupsd.service'
+
+# atd
+alias atd='systemctl start atd'
+
+# tree
+alias tree='tree -C -L 1 --dirsfirst'
+
 # ===system===
 
 # Arch
@@ -94,7 +102,7 @@ alias la='ls -lah'
 alias cp='cp -i'
 alias grep='grep --color'
 
-# ===other softwares===
+# ===other alias===
 
 # --- network---
 
@@ -118,7 +126,6 @@ alias stoplamp='sudo systemctl stop httpd mariadb'
 # update hosts
 alias hosts='sudo curl -# -L -o /etc/hosts https://raw.githubusercontent.com/googlehosts/hosts/master/hosts-files/hosts'
 
-
 # shadowsocks 1080
 alias ssstart='sudo systemctl start shadowsocks@ss'
 alias ssstop='sudo systemctl stop shadowsocks@ss'
@@ -132,20 +139,16 @@ alias privoxyrestop='sudo systemctl stop privoxy'
 #proxychains
 alias pc='proxychains'
 
-# npm
-alias npmlist='npm list -g --depth=0'
-alias npmlistproject='npm list --depth=0'
-
 # iconv -f GBK -t UTF-8 filename > newfilename
-alias iconvgbk='iconv -f GBK -t UTF-8'
+alias iconvgbk='iconv -f GBK -t UTF-8' 
 # convmv -f GBK -T UTF-8 --notest --nosmart filename
 alias convmvgbk='convmv -f GBK -T UTF-8 --notest --nosmart'
 
-# atd
-alias atd='systemctl start atd'
+#teamviwer
+alias teamviewerstart='sudo systemctl start teamviewerd.service'
 
-# tree
-alias tree='tree -C -L 1 --dirsfirst'
+#docker
+alias dockerstart='sudo systemctl start docker'
 
 # youdao dict 有道词典
 alias yd='ydcv'
@@ -163,5 +166,8 @@ alias starwar='telnet towel.blinkenlights.nl'
 # quarium
 alias quarium='asciiquarium'
 
+# ssh connect
+
 # bash-powerline : https://github.com/riobard/bash-powerline
 source ~/.bash-powerline.sh
+

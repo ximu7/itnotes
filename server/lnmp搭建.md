@@ -62,7 +62,7 @@ server {
 
 ### php解析
 
-在server中添加[php解析](nginx/backend-parse/php)：
+在server中添加[php解析](nginx/conf.d/backend-parse/php)：
 
 ```nginx
 location ~ \.php$ {
@@ -95,6 +95,7 @@ server{
   listen 80;
   server_name xxx;
   return 301 https://$server_name$request_uri;
+  #或rewrite ^(.*) https://$host$1 permanent;
 }
 ```
 
@@ -129,7 +130,7 @@ location /wsapp/ {
 
 1. 确保在域名解析服务商设置了泛解析：使用A记录，主机记录填写`*`
 
-2. 配置一个server，简单[示例](nginx/conf.d/donotvisitbyip.conf)：
+2. 配置一个server，示例：
 
    ```nginx
    server{
@@ -142,7 +143,7 @@ location /wsapp/ {
 
 ### 目录浏览
 
-在server（或者指定的location中）添加（示例[autoindex](nginx/indexview/autoindex) ）：
+在server（或者指定的location中）添加（示例[autoindex](nginx/conf.d/indexview/autoindex) ）：
 
 ```nginx
 autoindex on;
@@ -152,7 +153,7 @@ autoindex_localtime on;
 
 - [fancy插件](https://github.com/aperezdc/ngx-fancyindex) ：如果要修改目录浏览页面的样式需要使用
 
-  1. 在server中添加[fancy配置](nginx/indexview/fancy)（使用fancy配置就不要再添加autoindex相关配置了）：
+  1. 在server中添加[fancy配置](nginx/conf.d/indexview/fancy)（使用fancy配置就不要再添加autoindex相关配置了）：
 
   ```nginx
   fancyindex on;
@@ -175,7 +176,7 @@ autoindex_localtime on;
 
 - 目录浏览加密
 
-  可以用htpasswd工具来生成密码，然后在要加密的目录的location中单独[配置](nginx/indexview/passlock)：
+  可以用htpasswd工具来生成密码，然后在要加密的目录的location中单独[配置](nginx/conf.d/indexview/passlock)：
 
   ```nginx
   auth_basic "passwd";  #passwd是使用htpasswd生成的密码

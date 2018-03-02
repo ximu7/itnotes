@@ -230,12 +230,12 @@ new htmlWebpackPlugin({
 })
 ```
 
-## webpack.optimize.CommonsChunkPlugin 提取公共模块
+## optimize.splitChunks 提取公共模块
 
 该模块内置。
 
 ```javascript
-new webpack.optimize.CommonsChunkPlugin({
+new webpack.optimize.splitChunks({
   name: 'common', //将entry中的名为common模块提取出来
   filename: 'js/base.js' //要提取到的路径
 }),

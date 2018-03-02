@@ -252,7 +252,11 @@ max_freq="2.5GHz"    #最大频率
 
    重新生成 initramfs 镜像: `mkinitcpio -p linux`
 
-## 独显管理
+## 显卡管理
+
+根据需求选择以下方法。
+
+### 禁用独显
 
 如果不需要运行大量耗费GPU资源的程序，可以禁用独立显卡，只使用核心显卡，一些禁用方法如：
 
@@ -278,7 +282,7 @@ max_freq="2.5GHz"    #最大频率
 
 - 屏蔽独立显卡
 
-  将独立显卡相关模块进行屏蔽，示例屏蔽NVIDIA相关模块
+  将独立显卡相关模块进行屏蔽，示例屏蔽NVIDIA相关模块。
 
   ```shell
   lsmod | grep nvidia | cut -d ' ' -f 1 > /tmp/nvidia    #闭源的nvidia
@@ -288,11 +292,16 @@ max_freq="2.5GHz"    #最大频率
   sudo cp /tmp/nvidia.conf /etc/modprobe.d/nvidia.conf    #自动加载
   ```
 
-重启后检查NVIDIA开启情况：`lspci |grep NVIDIA`，如果输出内容后面的括号中出现了` (rev ff)` 字样则表示该显卡已关闭。
+  重启后检查NVIDIA开启情况：`lspci |grep NVIDIA`，如果输出内容后面的括号中出现了` (rev ff)` 字样则表示该显卡已关闭。
 
-在Linux中可使用以下方法来切换显卡。参看相关资料：
+###双显卡切换
+
+在Linux中可使用以下方法来切换显卡。参看连接的相关资料进行配置：
 
 - [prime](https://wiki.archlinux.org/index.php/PRIME_%28%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87%29)（NVIDIA和ATI均支持）
 - [NVIDIA optimus](https://wiki.archlinux.org/index.php/NVIDIA_Optimus_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))（NVIDIA的方案，这里主要推荐以下两个）
   - [bumblebee](https://wiki.archlinux.org/index.php/Bumblebee_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))
-  - ###### [nvidia-xrun](https://github.com/Witko/nvidia-xrun)（该方案支持Vulkan接口。配置方法参考archlinux安装中其他配置-双显卡管理。）
+
+    默认情况下使用bbswitch关闭独显，需要使用独显时，使用`optirun %command`来运行程序。
+
+  - ###### [nvidia-xrun](https://github.com/Witko/nvidia-xrun)

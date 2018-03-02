@@ -2,35 +2,76 @@
 
 # 安装配置
 
-- 安装docker（包名docker)
-
+- 安装docker
 - 启动docker服务`systemctl start docker`
-
 - 查看docker状态`docker info`
 
-  使用非root账户运行docker`usermod -aG docker username`或`gpasswd -a user docker`，重新登入系统使之生效（或使用`newgrp docker`立即使其生效)
+## 非root用户使用docker
 
-  ​
+要将该用户添加到docker组中：
+
+```shell
+usermod -aG docker username
+#或
+gpasswd -a user docker
+#重新登入系统或使用以下命令使其立即生效：
+newgrp docker
+```
+
+## 修改存放目录
+
+默认情况下，Docker镜像和容器的默认存放位置为:`/var/lib/docker`，可`docker info | grep 'Root Dir'`命令查看。
+
+假如要设定的存放路径为`/home/docker/` ，可使用以下方法：
+
+- 使用软链接
+
+  将要设定的存放路径链接到当前的存放位置。
+
+  ```shell
+  mv /var/lib/docker /home/docker
+  ln -sf /home/docker /var/lib/docker
+  ```
+
+- 指定存放路径参数
+
+  `docker --graph=/home/docker -d`
+
+- 修改全局配置文件
+
+  各个操作系统中的存放位置不一致， Ubuntu 中的位置是：`/etc/default/docker`，在 CentOS 中的位置是：`/etc/sysconfig/docker`。
+
+  在配置文件中添加：
+
+  ```shell
+  OPTIONS=--graph="/root/data/docker" -H fd://
+  ```
+
+  如果系统有selinux并已经开启，则添加关闭selinux的参数：
+
+  ```shell
+  OPTIONS=--graph="/root/data/docker" --selinux-enabled -H fd://
+  ```
 
 # 镜像使用
 
 - 列出所有镜像`docker images`
-- 删除镜像`docker rmi [image name]`
+- 删除镜像`docker rm [image name]`
 
 ## 从仓库获取镜像
 
--  查找镜像docker search [key words]
+ 这里是指从[DockerHub](https://hub.docker.com/explore/)仓库获取。
 
+-  查找`docker search [key words]`
 
-   从[DockerHub](https://hub.docker.com/explore/)安装：`docker pull [options] [docker registry ]<resposiory name>:<tag name>`
+-  安装  `docker pull [options] [docker registry ]<resposiory name>:<tag name>`
 
-   示例：
+   ```shell
+   docker pull base/archlinux    #archlinux
+   docker pull centos    #centos
+   docker pull unbuntu:17.04    #ubuntu 17.04
+   ```
 
-```shell
-docker pull base/archlinux    #archlinux镜像
-docker pull nginx    #nginx镜像
-docker pull unbuntu:17.04    #ubuntu 17.04镜像   17.04是tag name
-```
 
 ## Dockerfile构建镜像
 
@@ -103,8 +144,8 @@ sha256:07e33465974800ce65751acc279adc6ed2dc5ed4e0838f8b86f0c87aa
 
   `docker run -it base/archlinux /bin/bash`
 
+  base/archlinux 时要使用的镜像，-i交互式操作，-t打开终端，/bin/bash使用bash。
 
-base/archlinux 要使用的基础镜像，-i交互式操作，-t打开终端，/bin/bash使用bash。
 
   - `--rm`参数可以在退出容器后将其删除
 

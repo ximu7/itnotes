@@ -20,7 +20,7 @@
   - [OCS-Store](https://www.linux-apps.com/p/1175480/)  OCS的客户端
 
 # 模拟器/虚拟机/wine
-- virtualbox  即vbox可前去下载[微软官方提供的vbox镜像](https://developer.microsoft.com/en-us/microsoft-edge/tools/vms/)（免费使用）
+- virtualbox  下载[微软官方提供的vbox镜像](https://developer.microsoft.com/en-us/microsoft-edge/tools/vms/)（免费使用）
 - genymotion    安卓模拟器（需安装virtualbox）
 - android-emulator   安卓模拟器
 - ppsspp    PSP模拟器
@@ -43,35 +43,13 @@
 - chromium    （blink内核）
 - epiphany    (webkit内核)
 
-### web APP
-
-- 日程规划、待办事项
-  - wunderlist  奇妙清单[wunderlist](https://www.wunderlist.com)
-  - todoist   待办事项[todoist](https://todoist.com/)
-- pocket   网页收集[pocket](https://getpocket.com/)
-### 浏览器扩展/插件
-
-ff指firefox，ch指的是chrome/chromium，没有说明则默认ff。以firefox为主。
-- 类vim操作：ff--vixen   ch--vimium
-- 网络代理：ff&ch--switchyomega
-- RSS订阅： ff&ch--feedly notifier （ [feedly官网](https://feedly.com)）
-- 消息推送：[pushbullet]([https://www.**pushbullet**.com/ ) 
-- 屏蔽广告：ff&ch--ublock origin
-- 网页收集：ch--save to pocket(保存到[pocket](https://getpocket.com))  ff集成了保存到pocket
-- UA更改：user-agent-switcher
-- 视频抓取：ff&ch--video downlodhelper
-- 脚本管理：ff-greasemonkey    ch--tampermonkey  ([下载其他脚本管理器](https://greasyfork.org/zh-CN))
-- 网页风格：stylish   ([下载配置](https://userstyles.org/))
-- 网页截图：easy screenshot   (ff自带截取页面功能，按下`：`——即`shift+;`，输入screenshot)
-- 下载工具：ff--flashgot(下载、下载工具管理、抓取视频)  ff&ch--downthemall（特点是批量下载）
-
 ## 上传/下载/网络存储
 
 ### 下载工具
 
 -   命令行     
     -   aria2
-    -   axiel
+    -   axel
     -   you-get  支持多个视频网站（youku、iqiyi、bilibili、qq……等网站），相关介绍查看[github:you-git](https://github.com/soimort/you-get)。可使用you-get和本地播放器观看视频：
     ```bash
     you-get -p mpv url    #mpv是要调用的播放器，url是视频所在网页地址。
@@ -176,6 +154,8 @@ ff指firefox，ch指的是chrome/chromium，没有说明则默认ff。以firefox
   - empathy
 
 # 文件管理
+
+- extundelete  恢复删除的ext分区中的文件
 
 ## 打包、压缩和解压
 
@@ -301,7 +281,7 @@ ff指firefox，ch指的是chrome/chromium，没有说明则默认ff。以firefox
   - aegisub
   - gnome-subtitles
 
-# 记录写作/教育学习
+# 记录写作/学习办公
 
 - office套件
   - libreoffice
@@ -311,6 +291,7 @@ ff指firefox，ch指的是chrome/chromium，没有说明则默认ff。以firefox
 - calibre    电子书制作编辑格式转换
 - stellarium    天文软件
 - [anki](https://apps.ankiweb.net/)  跨平台、多语言的词汇卡片学习工具
+- ganttproject  甘特图项目管理工具
 
 ## pdf
 
