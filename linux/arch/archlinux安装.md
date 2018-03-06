@@ -2,42 +2,55 @@
 
 # 准备工作
 
-## 工具和必要技能
-
 - 划分一定量的磁盘空间用于linux安装（推荐至少30G）
 
 - **在bios设置中关闭启设置中的安全启动**（如有没有该设置则略过，对archlinux使用安全启动可参考[archwiki-Secure Boot](https://wiki.archlinux.org/index.php/Secure_Boot_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)))
 
-- 互联网（安装需要联网）
+- **互联网**（安装需要联网）
 
-- U盘（使用u盘安装方便许多）
+- U盘（本文是使用u盘作为启动介质）
 
-- [Arch Linux 系统镜像](https://www.archlinux.org/download/)（在该页面根据国家和地区选择网站，下载**.iso**文件）
+- [Arch Linux 系统镜像](https://www.archlinux.org/download/)（根据国家和地区选择网站下载会更快）
 
 - nano或vim基本操作技能（安装过程中编辑配置文件）
 
-- 启动盘制作工具（制作启动盘）
+- 启动盘制作
 
-  - 如果设备支持UEFI，直接将下载的系统镜像文件（解压或挂载到虚拟光驱后）的内容复制的U盘根目录即可。（建议）
+  - 如果设备支持[UEFI](https://wiki.archlinux.org/index.php/Unified_Extensible_Firmware_Interface_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))，直接将下载的系统镜像文件解压或挂载，复制其中的内容到U盘根目录即可。
 
-  - windows下可使用[usbwriter](https://sourceforge.net/projects/usbwriter/)、[poweriso](http://www.poweriso.com)、[winsetupfromusb](http://www.winsetupfromusb.com/)等工具。
+  - 使用工具制作启动盘
 
-  - Linux/OSX下可使用dd命令。示例：
+    - windows下可使用[usbwriter](https://sourceforge.net/projects/usbwriter/)、[poweriso](http://www.poweriso.com)、[winsetupfromusb](http://www.winsetupfromusb.com/)等工具。
 
-    ```shell
-    dd if=/path/arch.iso of=/dev/sdb bs=10M
-    ```
-    `/path/arch.iso`是archlinux的ISO文件的路径，`sdx`是U盘的设备编号如sda、sdb、sdc等（可插上优盘后在终端用`df -h`命令查看），`10M`是读写块的大小（默认512b）。
+    - Linux/OSX下可使用dd命令。示例：
+
+      ```shell
+      dd if=/path/arch.iso of=/dev/sdb bs=10M
+      ```
+
+      `/path/arch.iso`是archlinux的ISO文件的路径，`sdx`是U盘的设备编号如sda、sdb、sdc等（可插上优盘后在终端用`df -h`命令查看），`10M`是读写块的大小（默认512B）。
 
 ---
 
-插上U盘启动盘，使用USB启动（不同设备方法不同），计算机载入U盘上的系统后，回车选择**第一项**（默认）进入，等待一切载入完毕……
+插上U盘启动盘 > 使用USB启动（不同设备方法设置不同）> 载入U盘上的系统 > 回车选择**第一项**（默认）进入 > 等待一切载入完毕……
 
-## 分区和挂载
+# 基础安装
 
-可以先使用`lsblk`查看所有硬盘情况，使用`fdisk -l /dev/sda`查看硬盘a的情况（硬盘b则为`/dev/sdb` ），确定系统安装位置。
+以下安装过程中遇到需要选择的地方，如不清楚如何选择，可直接回车。
 
-分区工具`cfdisk`的简单使用：
+## 系统分区
+
+准备工作：
+
+如果对设备硬盘分区情况不了解，可先了解分区情况，例如使用如下命令：
+
+```shell
+lsblk  #列出所有可用块设备的信息
+fdisk -l /dev/sda  #使用fdisk工具查看sda的情况
+cfdisk  #使用cfdisk工具查看第一块硬盘的情况
+```
+
+这里简单介绍`cfdisk`工具的使用方法，本文后续分区操作将会使用到该工具。
 
 - 查看整个磁盘的情况 `cfdisk /dev/sda` （第二块硬盘则是`cfdisk /dev/sdb` ）
 - 利用箭头进行上下左右移动，选中项会高亮显示，回车键确定操作。
@@ -47,28 +60,70 @@
 - `Write`用于保存操作。
 - `quit`退出（直接输入`q`亦可）。
 
-如果硬盘未进行划分，执行cfdisk即会提示选择分区方式，如今[建议使用GPT](https://wiki.archlinux.org/index.php/Partitioning_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)#.E9.80.89.E6.8B.A9GPT_.E8.BF.98.E6.98.AF_MBR) 。以下基于GPT+UEFI叙述创建分区（MBR在其中亦有说明）。
+如果硬盘未进行划分，执行`cfdisk`会提示选择分区方式，如果设备支持[GPT](https://wiki.archlinux.org/index.php/Partitioning_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)#.E9.80.89.E6.8B.A9GPT_.E8.BF.98.E6.98.AF_MBR)则建议使用GPT 。
+
+附注：老一代的系统用的MBR+BIOS的方式，MBR 分区表加主板上的 BIOS 引导；如今大多数设备都采用GPT+EFI的方式。
+
+------
+
+### 建立分区
+
+本文中规划以下几个分区和建议大小：
+
+- boot  引导  200m+
+
+  已经足够装下好几个系统引导文件
+
+- root  系统根目录  10+
+
+  视具体使用情况而定
+
+- swap  交换空间  4g+
+
+  物理内存很大也可以不划分。需要进行大量使用内存的操作而可能造成内存耗尽建议划分，要使用休眠功能必须划分。
+
+- home  用户家目录
+
+  **如果作为日常使用需要存放文件，当然越大越好。**
+
+  即使不怎么在该目录存放文件也建议至少划分4g+，因为用户的各种配置和应用缓存（如浏览器）将会存在该目录中。
 
 ---
 
-### 分区建立和格式化
+注意：**下文中sdx是本文中的示例，请根据实际情况更换。**
 
-- [EFI系统分区](https://wiki.archlinux.org/index.php/EFI_System_Partition_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))（又称为esp，以下均以esp称呼）
+- boot分区
 
-  GPT使用esp引导系统，在linux中将esp挂在的`/boot` ，linux的启动文件置于该分区中。
+  - 使用[EFI系统分区](https://wiki.archlinux.org/index.php/EFI_System_Partition_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))（EFI system partition，简称esp）
 
-  - 如果不存在esp，创建一个**类型为`EFI system`的分区**（以下假设esp使用`/dev/sda1`） ，并对其格式化：
+    GPT使用esp引导系统，将esp挂在的`/boot` ，根据具体情况有如下操作方式：
 
-    ```shell
-    mkfs.vfat /dev/sda1    #1. 格式化esp
-    ```
+    - 已经存在一个esp：如果设备上已经安装有其他系统（例如已经有一个Windows）且打算保留，则不要对该esp进行格式化，否则会造成其他系统无法启动。
 
-  - 如果已经存在一个esp（例如已经有一个Windows系统，且打算保留），则不要对其进行格式化，否则造成其他系统无法启动。
+      提示：安装windows时，其默认的eps大小为100M，容量略小（但也足够放下一个windows+一个ArchLinux的引导文件），可在windows硬盘管理工具（或使用其他工具）将esp扩大。
+
+    - 如果不存在esp：则使用cfdisk创建一个**类型为`EFI system`的分区**（以下假设esp使用`/dev/sda1`） ，并对其格式化：
+
+      ```shell
+      mkfs.vfat /dev/sda1    # 格式化esp
+      ```
+
+  - 不使用esp
+
+    使用cfdisk新建一个boot分区，并对其格式化（命令同上）。
+
+    提示：在linux中，boot分区可以是主分区也可以是扩展分区中的逻辑分区（其他分区亦同）。
+
+    ​
 
 
-- 其他分区
+- 其他分区（root、home和swap）
 
-  - 使用`cfdisk`新建**root分区**（推荐20G以上，假设为`/dev/sda2`）home分区（最好单独分区,假设为`/dev/sda3`）和swap分区（可选，假设为`/dev/sda4`）等，然后格式化各个分区：
+  以下两种分区方式任选其一。
+
+  - 普通分区方式
+
+    使用`cfdisk`新建各个分区，然后格式化各个分区：
 
     ```shell
       mkfs.ext4 /dev/sda2    #格式化root
@@ -76,32 +131,30 @@
       mkswap /dev/sda4       #格式话swap
     ```
 
-  - LVM分区法
+  - [LVM](https://wiki.archlinux.org/index.php/LVM_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))分区方式
 
-      这里使用lvm，将root、home和swap均放置到一个卷组（vg）中。（LVM相关查看[archwiki:lvm](https://wiki.archlinux.org/index.php/LVM_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))）
-
-      先用`cfdisk`建立一个分区（假设为`/dev/sda2` ），再**建立物理卷->建立卷组->建立逻辑卷**->格式化逻辑卷：
+    先用`cfdisk`建立一个分区（假设为`/dev/sda2` ），再**建立物理卷->建立卷组->建立逻辑卷**->格式化逻辑卷：
 
     ```shell
-      #1.建立物理卷：在 /dev/sda2建立物理卷
-      pvcreate /dev/sda2
-      #2.建立卷组：新建名为linux的卷组并将sda2加入到卷组中
-      vgcreate linux /dev/sda2
-      #3.建立逻辑卷：在linux卷组中建立root、swap和home逻辑卷
-      lvcreate -L 30G linux -n root
-      lvcreate -L 4G linux -n swap
-      lvcreate -L 100G linux -n home
-      # lvcreate -l +100%FREE linux -n home  #3.2.1  用linux卷组中所有剩余空间建立home逻辑卷
-
-      mkfs.ext4 /dev/mapper/Linux-root    #格式化root
-      mkfs.ext4 /dev/mapper/Linux-home    #格式化home
-      mkswap /dev/mapper/Linux-swap       #格式化swap
+    #1.建立物理卷：在 /dev/sda2建立物理卷
+    pvcreate /dev/sda2
+    #2.建立卷组：新建名为linux的卷组 并 将sda2加入到卷组中
+    vgcreate linux /dev/sda2
+    #3.建立逻辑卷：在linux卷组中建立root、swap和home逻辑卷
+    lvcreate -L 30G linux -n root
+    lvcreate -L 4G linux -n swap
+    lvcreate -L 100G linux -n home
+    # lvcreate -l +100%FREE linux -n home  #3.2.1  用linux卷组中所有剩余空间建立home逻辑卷
+    #4.格式化各个逻辑卷
+    mkfs.ext4 /dev/mapper/Linux-root    #格式化root
+    mkfs.ext4 /dev/mapper/Linux-home    #格式化home
+    mkswap /dev/mapper/Linux-swap       #格式化swap
     ```
-
 
 ### 分区挂载
 
-- 一般分区法
+- 普通分区法
+
 ```shell
 mount /dev/sda2 /mnt         #挂载root分区
 mkdir /mnt/boot /mnt/home    #建立boot和home挂载点
@@ -119,26 +172,23 @@ mount /dev/sda1 /mnt/boot    #挂载esp到/boot
 mount /dev/mapper/linux-home /mnt/home    #挂载home逻辑卷到/home
 swapon /dev/mapper/linux-swap    #激活swap
 ```
-# 基础安装
-
-以下安装过程中遇到需要选择的地方，如不清楚如何选择，可直接回车。
-
-## 配置镜像源
-
-在安装前最好选择较快的镜像，以加快下载速度。
-编辑` /etc/pacman.d/mirrorlist`，选择首选源（按所处国家地区关键字索搜选择，如搜索china），将其添加到文件开头，保存并退出。一些中国地区镜像源如：
-
-```
-Server = https://mirrors.ustc.edu.cn/archlinux/repo/os/arch
-Server = https://mirrors.163.com/archlinux/repo/os/arch
-```
 
 ## 连接网络
 
 ```shell
 dhcpcd    #有线网络
 wifi-menu    #无线网络 执行后会扫描网络 选择网络并连接即可
-ping -c 5 z.cn  #可先测试连接情况
+ping -c 5 z.cn  #可测试连接情况
+```
+
+## 配置镜像源
+
+在安装前最好选择较快的镜像，以加快下载速度。
+编辑` /etc/pacman.d/mirrorlist`，选择首选源（按所处国家地区关键字索搜选择，如搜索china），将其添加到文件开头，保存并退出。一些中国地区镜像源如：
+
+```shell
+Server = https://mirrors.ustc.edu.cn/archlinux/repo/os/arch
+Server = https://mirrors.163.com/archlinux/repo/os/arch
 ```
 
 ## 安装基础系统
@@ -160,7 +210,7 @@ arch-chroot /mnt
 
 ## 激活lvm2钩子
 
-**使用了lvm安装，需要执行该步骤**，否则跳过。
+**使用了lvm分区方式，需要执行该步骤**，否则跳过。
 
 编辑/etc/mkinitcpio.conf文件，找到类似字样：
 
@@ -180,11 +230,11 @@ mkinitcpio -p linux
 - 用户和密码
 ```shell
 passwd     #设置或更改root用户密码  接着输入两次密码（密码不会显示出来）
-useradd -m -g users -s /bin/bash user1    #添加新普通用户  user1是新建的用户名
+useradd -m -g users -s /bin/bash user1    #添加名为user1的普通用户
 passwd user1    #设置或更改user1用户密码 接着输入两次密码
 ```
 
-- sudo用户
+- sudo权限
 
 
 ```shell
@@ -202,6 +252,8 @@ hwclock --systohc --utc     #使用utc时间 推荐
 
 ```shell
 echo MyPC > /etc/hostname
+#或者
+hostname MyPC
 ```
 MyPC是要设置的主机名。
 
@@ -218,32 +270,48 @@ pacman -S iw wpa_supplicant dialog    #无线网络需要安装这些工具
 
 ## 系统引导
 
-```shell
-#安装引导程序 grub 和 efi管理工具
-pacman -S grub efibootmgr --noconfirm
-# 如安装有多系统 需安装 os-prober
-pacman -S os-prober
-# 安装引导  使用了efi的情况
-grub-install --efi-directory=/boot --bootloader-id=grub
-# 生成引导配置
-grub-mkconfig -o /boot/grub/grub.cfg
-```
+1. 安装工具
 
-**注意**：os-prober可能需要在系统安装完毕后，**重启**进入系统**再次执行**生成**引导配置命令**就能检测到其他系统。
+   ```shell
+   #安装引导程序 grub 和 efi管理工具
+   pacman -S grub efibootmgr
+   # 如安装有多系统 需安装 os-prober
+   pacman -S os-prober
+   ```
+
+
+2. 安装引导
+
+   - 使用esp
+
+     ```shell
+     grub-install --efi-directory=/boot --bootloader-id=grub
+     ```
+
+
+   - 不使用esp（使用mbr）
+
+     ```shell
+     grub-install --target=i386-pc /dev/sda
+     ```
+
+3. 生成配置
+
+   ```shell
+   grub-mkconfig -o /boot/grub/grub.cfg
+   ```
+
+   ​
+
+**注意**：os-prober可能需要在系统安装完毕后，**重启**进入系统**再次执行**引导**生成配置**命令就能检测到其他系统。
+
+---
 
 至此基础的系统安装完成，可以连续按两次`ctrl`+`d` ，输入`reboot`重启并拔出u盘。
 
-提醒：如果使用多系统，安装了os-prober，**重启后再后执行一次**：
+如果windows+archlinux双系统用户在重启后直接进入了Windows系统，可参看[选择grub为第一启动项](#选择grub为第一启动项) 解决。
 
-```shell
-grub-mkconfig -o /boot/grub/grub.cfg
-```
-
-如果双系统用户直接进入了Windows系统，可参看[选择grub为第一启动项](#选择grub为第一启动项) 。
-
-
-
-# 系统配置
+# 常用配置
 
 ## 图形界面
 
@@ -267,33 +335,35 @@ pacman -S nvidia                       #nvidia
 
 ```shell
 pacman -S plasma sddm --noconfirm && systemctl enable sddm
+#或
 pacman -S gnome gdm --noconfirm && systemctl enable gdm
 ```
 - 窗口管理器，如[i3wm](https://wiki.archlinux.org/index.php/I3_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))或[openbox](https://wiki.archlinux.org/index.php/Openbox_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))
 
 ```shell
-pacman -S xorg-server xorg-xinit  --noconfirm    #安装窗口管理器也必须安装这两个包
+pacman -S xorg-server xorg-xinit  --noconfirm    #安装窗口管理器须安装这两个包
 pacman -S i3
+#或
 pacman -S awesome
 ```
 
-窗口管理还需要自行配置[显示管理器](https://wiki.archlinux.org/index.php/Display_manager_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))和[xinitrc](https://wiki.archlinux.org/index.php/Xinitrc_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))
+窗口管理还需要自行配置[显示管理器](https://wiki.archlinux.org/index.php/Display_manager_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))和[xinitrc](https://wiki.archlinux.org/index.php/Xinitrc_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)) 。
 
 ### 字体
 
 参看[archwiki:fonts](https://wiki.archlinux.org/index.php/Fonts_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))选择安装字体。
 
 - 终端等宽字体，如`ttf-dejavu`
-- 数学和符号字体，如`ttf-symbola`（包含emoji表情，emoji也可安装`noto-fonts-emoji` ）
+- 数学和符号字体，如`ttf-symbola`（包含emoji表情，也可安装`noto-fonts-emoji` ）
 - 中文字体参看下文[中文显示](#中文显示)。
 
 ### 中文本地化
 
 参看[ArchLinux中文本地化](https://wiki.archlinux.org/index.php/Arch_Linux_Localization_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))
 
-- Locale设置
+- [Locale](https://wiki.archlinux.org/index.php/Locale_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)) 设置
 
-编辑`/etc/locale.gen`，根据本地化需求移除对应行前面的注释符号（＃），[Locale](https://wiki.archlinux.org/index.php/Locale_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)) 决定了可使用的语言、书写习惯和字符集。以中文用户常用locale为例，选择英文（美国）UTF-8、简体中文GBK、简体中文UTF-8和繁体中文UTF-8，去掉这些行之前前面#号：
+编辑`/etc/locale.gen`，根据本地化需求移除对应行前面的注释符号。以中文用户常用locale为例，选择英文（美国）UTF-8、简体中文GBK、简体中文UTF-8和繁体中文UTF-8，去掉这些行之前前面#号：
 
 ```shell
 en_US.UTF-8 UTF-8
@@ -310,7 +380,7 @@ locale-gen
 
 #### 中文显示
 
-安装中文字体如：
+选择一款（或多款）中文字体安装，如：
 
 ```shell
 pacman -S wqy-micorhei    #文泉驿微米黑
@@ -324,24 +394,26 @@ pacman -S ttf-arphic-uming    #文鼎明体
 
 可选择[fcitx](https://wiki.archlinux.org/index.php/Fcitx_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))或[ibus](https://wiki.archlinux.org/index.php/IBus_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))。
 
-- fcitx本体带有：拼音（主流双拼支持）、二笔、五笔（支持五笔拼音混输）等，
+- fcitx本体带有：拼音（主流双拼支持）、二笔、五笔（支持五笔拼音混输）等：
 
 ```shell
 pacman -S fcitx  fcitx-im fcitx-configtool     #安装fcitx
 
 pacman -S fcitx-cloudping        #云拼音插件（推荐拼音用户安装）
-pacman -S fctix-rime                    #rime中州韵（即小狼毫/鼠须管）引擎
-pacman -S fcitx-libpinyin           #智能拼音（支持搜狗词库）
-pacman -S fcitx-sogoupinyin    #可使用搜狗拼音（自带云拼音）
+pacman -S fctix-rime                    #rime中州韵（即小狼毫/鼠须管）引擎 任选
+pacman -S fcitx-libpinyin           #智能拼音（支持搜狗词库）任选
+pacman -S fcitx-sogoupinyin    #可使用搜狗拼音（自带云拼音）任选
 ```
+
+提示：云拼音插件不支持RIME和搜狗，默认使用谷歌，可在fcitx设置中选用百度。
 
 环境变量设置：在`/etc/environment`添加
 
-> export GTK_IM_MODULE=fcitx
->
-> export QT_IM_MODULE=fcitx
->
-> export XMODIFIERS="@im=fcitx"
+```shell
+export GTK_IM_MODULE=fcitx
+export QT_IM_MODULE=fcitx
+export XMODIFIERS="@im=fcitx"
+```
 
 - ibus
 
@@ -360,11 +432,11 @@ ibus-setup
 
 环境变量设置：在`/etc/environment`添加：
 
-> export GTK_IM_MODULE=ibus
->
-> export XMODIFIERS=@im=ibus
->
-> export QT_IM_MODULE=ibus
+```shell
+export GTK_IM_MODULE=ibus
+export XMODIFIERS=@im=ibus
+export QT_IM_MODULE=ibus
+```
 
 ## 声音
 
@@ -379,21 +451,22 @@ alsamixer    #安装上一个包后可使用该命令控制声音设备
 
 ## 软件包管理器
 
-###pacman
+### pacman
 
 更多信息查看[archwiki:pacman]((https://wiki.archlinux.org/index.php/Pacman_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))
 
-- 常用命令
+- 常用命令一览
 ```shell
 pacman -Syu    #升级整个系统
 pacman -S name    #安装软件
 pacman -Ss words    #查询有某关键字的软件 words即是要查询的关键字
 pacman -R name    #移除某软件但不移除其依赖
 pacman -Qi name   #查看已经安装的某软件的信息
+pacman -Qdt  #查看和卸载不被依赖的包
 ```
 
 
-- pacman 设置
+- pacman 设置（可选）
   配置文件在`/etc/pacman.conf`，编辑该文件：
 
   - 彩色输出：取消`#Color`中的#号。
@@ -402,15 +475,19 @@ pacman -Qi name   #查看已经安装的某软件的信息
 
   - 社区镜像源：在末尾添加相应的源，[中国地区社区源archlinuxcn](https://github.com/archlinuxcn/mirrorlist-repo)
 
-    例如添加archlinuxcn.org的源
+    例如添加archlinuxcn.org的源（**建议添加**）
 
-    > [archlinuxcn]
-    >
-    > SigLevel = Optional TrustedOnly
-    >
-    > Server = http://repo.archlinuxcn.org/$arch
+    ```shell
+    [archlinuxcn]
+    SigLevel = Optional TrustedOnly
+    Server = http://repo.archlinuxcn.org/$arch
+    ```
 
-    添加完后执行： `pacman -Syu archlinuxcn-keyring`。
+    添加完后执行：
+
+    ```shell
+    pacman -Syu archlinuxcn-keyring
+    ```
 
 ### AUR和yaourt
 
@@ -426,7 +503,7 @@ pacman -Syu yaourt
 yaourt words    #搜索关键字 words是要搜索的关键字
 yaourt -Syua    #更新整个系统
 yaourt -S name    #安装软件
-yaourt -Qdt    #查找孤儿包
+yaourt -Qdt    #查找和卸载不被依赖的包
 ```
 此外可使用 [pacman图形化的前端工具](https://wiki.archlinux.org/index.php/Graphical_pacman_frontends_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))，如tkpacman：
 
@@ -466,30 +543,32 @@ ntfs-3g /dev/sda5 /mnt/ntfs       #挂载分区
 ```
 ### U盘和MTP设备
 
-桌面环境一般能自动挂载。窗口管理器用户：
+**桌面环境一般能自动挂载**。窗口管理器用户：
 
 - 使用[udisk](https://wiki.archlinux.org/index.php/Udisks_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))和libmtp
 
-```shell
-pacman -S udiskie udevil
-systemctl enable devmon@username.service    #username是用户名
-pacman -S libmtp
-```
-​	在/media目录下即可看到挂载的移动设备。
+  ```shell
+  pacman -S udiskie udevil
+  systemctl enable devmon@username.service    #username是用户名
+  pacman -S libmtp
+  ```
 
-- 使用gvfs gvfs-mtp（xfce、lxde等桌面如果不能挂在mtp，也可安装`gvfs-mtp` ）
+  在/media目录下即可看到挂载的移动设备。
 
-```shell
-pacman -S gvfs    #可自动挂载u盘
-pacman -S gvfs-mtp    #可自动挂载mtp设备
-```
+- 使用gvfs gvfs-mtp（thunar pcmafm等文件管理器如果不能挂在mtp，也可安装`gvfs-mtp` ）
 
-# 其他配置(问题解决)
+  ```shell
+  pacman -S gvfs    #可自动挂载u盘
+  pacman -S gvfs-mtp    #可自动挂载mtp设备
+  ```
 
-## 选择grub为第一启动项
+# 其他配置(常见问题解决)
 
-安装系统后重启，**直接进入了windows** ，因为windows的引导程序bootloader并不会将linux启动项加入到启动选择中，且windows的引导程序处于硬盘启动的默认项。
-进入BIOS，找到启动设置，**将硬盘启动的默认启动项改为grub（一般BIOS中按f5上调选项，f10保存）**。
+## 开机后直接进入windows系统
+
+安装系统后重启，**直接进入了windows** ，因为windows的引导程序bootloader并不会将linux启动项加入到启动选择中，且windows的引导程序处于硬盘启动的默认项。（在windows上进行重大更新后也会出现该情况）
+
+解决：进入BIOS，找到启动设置，**将硬盘启动的默认启动项改为grub（一般BIOS中按f5上调选项，f10保存）**。
 
 ## 无法启动图形界面
 
@@ -503,15 +582,16 @@ pacman -S gvfs-mtp    #可自动挂载mtp设备
 
 重装一次`xorg-server`
 
-## 关闭windows快速启动
+## 无法挂在硬盘（不能进入Linux）
 
 **windows快速启动导致无法进入Linux**。**windows开启了快速启动可能导致linux下无法挂载**，提示如
 
 >The disk contains an unclean file system (0, 0).
 >Metadata kept in Windows cache, refused to mount.
 
-等内容。需要在windows里面的 电源选项管理 > 系统设置 > 当电源键按下时做什么， 去掉勾选启用快速启动。
-或者直接在cmd中运行：`powercfg /h off`。
+等内容。
+
+解决：在windows里面的 电源选项管理 > 系统设置 > 当电源键按下时做什么， 去掉勾选启用快速启动。或者直接在cmd中运行：`powercfg /h off`。
 
 ## 高分辨率（HIDPI）屏幕字体过小
 
@@ -525,34 +605,40 @@ echo "blacklist pcspkr" > /etc/modprobe.d/nobeep.conf   #直接屏蔽
 ```
 ## 双显卡管理
 
-如果不需要运行大量耗费GPU资源的程序，可以禁用独立显卡，只使用核心显卡。
+更多内容可参看[双显卡管理](../laptop笔记本相关.md#显卡管理)
 
-可执行以下命令关闭独立显卡：
+- 显卡切换
 
-```shell
-su    #必须切换到root用户才能执行下一条命令
-echo OFF > /sys/kernel/debug/vgaswitcheroo/switch  #注意，如果使用了bbswtich那么应该是没有这个文件的！
-```
-或者屏蔽独立显卡相关模块，如nvidia设备执行：
+  在Linux中可使用以下方法来切换显卡。参看相关资料：
 
-```shell
-lsmod | grep nvidia | cut -d ' ' -f 1 > /tmp/nvidia
-lsmod | grep  nouveau | cut -d ' ' -f 1 > > /tmp/nvidia
-sort -n /tmp/nvidia | uniq >  /tmp/nvidia.conf#去重
-sed -i 's/^\w*$/blacklist &/g' /tmp/nvidia.conf  #添加blacklist
-sudo cp /tmp/nvidia.conf /etc/modprobe.d/nvidia.conf  #移动
-```
-
-重启后，`lspci |grep NVIDIA`检查NVIDIA开启情况。如果输出内容后面的括号中出现了` (rev ff)` 字样则表示该显卡已关闭。
+  - [prime](https://wiki.archlinux.org/index.php/PRIME_%28%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87%29)（NVIDIA和ATI均支持）
+  - [NVIDIA optimus](https://wiki.archlinux.org/index.php/NVIDIA_Optimus_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))（NVIDIA的方案，这里主要推荐以下两个）
+    - [bumblebee](https://wiki.archlinux.org/index.php/Bumblebee_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))
+    - [nvidia-xrun](https://github.com/Witko/nvidia-xrun)（该方案支持Vulkan接口）
 
 
+- 关闭独显
 
-在Linux中可使用以下方法来切换显卡。参看相关资料：
+  如果不需要运行大量耗费GPU资源的程序，可以禁用独立显卡，只使用核心显卡。
 
-- [prime](https://wiki.archlinux.org/index.php/PRIME_%28%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87%29)（NVIDIA和ATI均支持）
-- [NVIDIA optimus](https://wiki.archlinux.org/index.php/NVIDIA_Optimus_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))（NVIDIA的方案，这里主要推荐以下两个）
-  - [bumblebee](https://wiki.archlinux.org/index.php/Bumblebee_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))
-  - [nvidia-xrun](https://github.com/Witko/nvidia-xrun)（该方案支持Vulkan接口）
+  可执行以下命令关闭独立显卡：
+
+  ```shell
+  su    #必须切换到root用户才能执行下一条命令
+  echo OFF > /sys/kernel/debug/vgaswitcheroo/switch  #注意，如果使用了bbswtich那么应该是没有这个文件的！
+  ```
+
+  或者屏蔽独立显卡相关模块，如nvidia设备执行：
+
+  ```shell
+  lsmod | grep nvidia | cut -d ' ' -f 1 > /tmp/nvidia
+  lsmod | grep  nouveau | cut -d ' ' -f 1 > > /tmp/nvidia
+  sort -n /tmp/nvidia | uniq >  /tmp/nvidia.conf#去重
+  sed -i 's/^\w*$/blacklist &/g' /tmp/nvidia.conf  #添加blacklist
+  sudo cp /tmp/nvidia.conf /etc/modprobe.d/nvidia.conf  #移动
+  ```
+
+  重启后，`lspci |grep NVIDIA`检查NVIDIA开启情况。如果输出内容后面的括号中出现了` (rev ff)` 字样则表示该显卡已关闭。
 
 ## 科学上网
 
