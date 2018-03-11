@@ -2,12 +2,16 @@
 
   `cd /etc/sysconfig/network-scripts/  `编辑第一个（一般是ifcg-eth0）将最后一行的`onboot`的值由`no`改成`yes`
 
-- epel源
-  许多软件包都在epel源中，可以直接使用yum安装该源
+- 常用源
+
+  - epel
+  - yum-utils
+
+  可以直接使用yum安装这些源
 
   ``` shell
   yum repolist  #查看所有yum源
-  yum install epel-release  #安装  dnf同理
+  yum install epel-release  yum-utils #安装
   yum makecache  #更新yum 缓存
   yum update  #更新一下
   ```

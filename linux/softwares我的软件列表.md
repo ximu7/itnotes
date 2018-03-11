@@ -419,6 +419,8 @@
   - truecrypt    跨平台的硬盘加密工具
   - veracrypt    加密硬盘 基于TrueCrypt
   - cryptsetup    加密硬盘（命令行）
+- [微码](https://wiki.archlinux.org/index.php/Microcode_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))更新
+  - intel-ucode
 
 ## 个性化设置
 

@@ -387,7 +387,7 @@ cobbler sync  #务必进行一次同步
 
 提示：运行`cobbler distro list`和`cobbler profile list`获取准确的name和distro值。
 
-###kickstart文件示例
+### kickstart文件示例
 
 参看[redhat-kickstart文件](https://access.redhat.com/documentation/zh-cn/red_hat_enterprise_linux/6/html/installation_guide/s1-kickstart2-file)
 

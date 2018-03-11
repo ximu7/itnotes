@@ -2,6 +2,29 @@
 
 # 字符串转数字
 
+- 全局函数`Number()`（注意N大写）和`parseInt()`/`parseFloat`
+
+  - 二者在无法转换成数字时会返回`NaN`，但是，如果字符串以数字开头：
+    - `parseInt()`/`parseFloat`会取得字符串前面的连续的数字并返回该数字，连续数字中最后一个数字后面的内容被舍弃
+    - `Number()`直接返回`NaN`
+  - 二者都能识别字符中的十六进制标识（0x开头）和八进制标识（0开头）。
+  - `parseInt()`可以接受两个参数：string（必须，要解析的字符串）和radix（可选，要解析的数字的基数——进制，取值2~36）；`parseFloat()`只接受一个参数，即要解析的字符串。
+
+  ```javascript
+  Number('11')  //11
+  parseInt('11') //11
+  parseInt('11,2')  //3 二进制的11等于十进制的3
+
+  Number('12ab3') //NaN
+  parseInt('12ab3') //12
+  parseInt('1.2') //1
+  parseInt('0x10',16) //16
+
+  Number({}) //NaN
+  parseInt([]) //NaN
+  ```
+
+
 - 使用一些算数运算符  注意**`+`任意一侧是字符串则以字符串拼接处理**
 
   ```javascript
@@ -10,25 +33,6 @@
   '2'/1 //2
   '2n'-1 //NaN
   Math.pow('2',2) //4
-  ```
-
-- 全局函数`Number()`（注意N大写）和`parseInt()`/`parseFloat`
-
-  - 二者在无法转换成数字时会返回`NaN`，但是，如果字符串以数字开头：
-    - `parseInt()`/`parseFloat`会取得字符串前面的连续的数字并返回该数字，连续数字中最后一个数字后面的内容被舍弃
-    - `Number()`直接返回`NaN`
-  - 二者都能识别字符中的十六进制标识（0x开头）和八进制标识（0开头）。
-  - `parseInt()`可以接受两个参数：string（必须，要解析的字符串）和radix（可选，要解析的数字的基数，取值2~36）；`parseFloat()`只接受一个参数，即要解析的字符串。
-
-  ```javascript
-  Number('123')  //123
-  parseInt('123') //123
-  Number({}) //NaN
-  parseInt([]) //NaN
-  Number('12ab3') //NaN
-  parseInt('12ab3') //12
-  parseInt('1.2') //1
-  parseInt('0x10',16) //16
   ```
 
 # 数字转字符串
