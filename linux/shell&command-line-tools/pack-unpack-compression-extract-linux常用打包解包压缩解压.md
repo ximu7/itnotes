@@ -49,8 +49,9 @@ tar -xvf file.tar  #解包
 # .gz
 
 ```shell
-gnuzip file  #压缩
+gnuzip file.gz  #解压
 gnuzip -d file.gz  #解压
+gzip file  #压缩
 ```
 
 # .bz2

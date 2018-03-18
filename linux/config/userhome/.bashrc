@@ -73,7 +73,7 @@ alias bluetoothon='sudo systemctl start bluetooth'
 alias bluetoothoff='sudo systemctl stop bluetooth'
 
 # ---print---
-alias cupsstart='sudo systemctl start org.cups.cupsd.service'
+alias printer='sudo systemctl start org.cups.cupsd.service'
 
 # atd
 alias atd='systemctl start atd'
@@ -145,7 +145,7 @@ alias iconvgbk='iconv -f GBK -t UTF-8'
 alias convmvgbk='convmv -f GBK -T UTF-8 --notest --nosmart'
 
 #teamviwer
-alias teamviewerstart='sudo systemctl start teamviewerd.service'
+alias tvstart='sudo systemctl start teamviewerd.service'
 
 #docker
 alias dockerstart='sudo systemctl start docker'
@@ -170,4 +170,3 @@ alias quarium='asciiquarium'
 
 # bash-powerline : https://github.com/riobard/bash-powerline
 source ~/.bash-powerline.sh
-

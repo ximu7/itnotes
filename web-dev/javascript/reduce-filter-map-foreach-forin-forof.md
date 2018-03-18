@@ -5,7 +5,7 @@ for、for in 、for of 、forEach 、map对比
 - 数组方法every、some和filter都是安装某条件（一个回调函数）对数组元素逐一检验。every和some返回的是true或者false，即数组是否通过了检验；而filter是返回的是数组中符合检验条件的元素所组成的新数组。some和every顾名思义，some即某些元素通过检验就为true，而every需要每个元素都通过检验才为true。
 - 以下数组方法中除了reduce之外，均是接受两个参数：第二个参数用以指定this值，可省略；第一个参数是一个函数，该函数又有三个参数：数组元素(item)、数组元素下标(index)、数组(array)。
 - 除了**for in只适合遍历（可枚举）对象**，其余都可以用来遍历数组。
-- **遍历对象（可枚举属性）时，for-in遍历的是键名（key），for-of遍历的是键值（value）** 。
+- for-in遍历的是键名（key），for-of遍历的是键值（value）。
 
 
 
@@ -166,11 +166,11 @@ for(let key in obj){
 
 与数组的forEach方法对比：可以使用break、continue和reutrn；
 
-与for-in语句对比：不会将数组索引对应的值转为字符串。（因此可以用来遍历数组）
+与for-in语句对比：不会将数组索引对应的值转为字符串。只可以循环可迭代对象的可迭代属性，不可迭代属性在循环中将被忽略。
 
 **for-of循环不仅支持数组，还支持大多数类数组对象**，例如DOM [NodeList对象](https://developer.mozilla.org/en-US/docs/Web/API/NodeList)。支持Map和Set对象遍历。
 
-`for...of`不会遍历对象的key，只会遍历出value，遍历对象时可搭配`Object.keys()`使用。
+`for...of`不会遍历对象的key，只会遍历出value，**不能遍历普通的对象**，需要通过和`Object.keys()`搭配使用（这种情况建议使用for...in）。
 
 参数：
 
@@ -181,6 +181,12 @@ for(let key in obj){
 const arr=[1,2,3];
 for(let item of arr){
     console.log(item+":"+item]);
+}
+
+//遍历普通对象
+const obj={a:1,b:2}
+for(const key of Object.keys(obj) ){
+    console.log(key+":"+obj[key])
 }
 ```
 

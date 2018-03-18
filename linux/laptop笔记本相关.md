@@ -246,7 +246,7 @@ max_freq="2.5GHz"    #最大频率
 
    > HOOKS="base udev resume autodetect modconf block filesystems keyboard fsck"
 
-   **注意**：如果使用lvm分区，需要将`resume`放在`lvm`后面，示例：
+   **注意**：如果使用lvm分区，需要将`resume`放在`lvm2`后面，示例：
 
    > HOOKS="base udev autodetect modconf block lvm2 resume filesystems keyboard fsck"
 
@@ -272,36 +272,43 @@ max_freq="2.5GHz"    #最大频率
 
 如果不需要运行大量耗费GPU资源的程序，可以禁用独立显卡，只使用核心显卡，一些禁用方法如：
 
-- 在BIOS中关闭独立显卡（如果可以）
+- 在BIOS中关闭独立显卡（不是所有设备都具有该功能）
 
-- 执行`echo OFF > /sys/kernel/debug/vgaswitcheroo/switch`以下命令关闭独立显卡（注意，如果使用了bbswtich那么应该是没有这个文件的！）
+- 执行`echo OFF > /sys/kernel/debug/vgaswitcheroo/switch`临时关闭独立显卡（注意，如果使用了bbswtich那么应该是没有这个文件的！）。
 
 - 使用bbswitch
 
   ```shell
   #设置bbswitch模块参数
-  echo 'options bbswitch load_state=0 unload_state=1'> /etc/modprobe.d/bbswitch.conf
+  echo 'bbswitch load_state=0 unload_state=1' > /etc/modprobe.d/bbswitch.conf
   #开机自动加载bbswitch模块
-  echo 'bbswitch ' > /etc/modules-load.d/bbswitch
+  echo 'bbswitch ' > /etc/modules-load.d/bbswitch.conf
+
+  modprobe -r nvidia nvidia_modeset nouveau #卸载相关模块
+  sudo mkinitcpio -p linux  #重新生成initramfs--系统引导时的初始文件系统
   ```
 
-  使用以下命令控制bbswitch进行开关显卡：
+  可使用以下命令控制bbswitch进行开关显卡：
 
   ```shell
   sudo tee /proc/acpi/bbswitch <<<OFF  #关闭独立显卡
   sudo tee /proc/acpi/bbswitch <<<ON  #开启独立显卡
   ```
 
-- 屏蔽独立显卡
+- 屏蔽相关模块
 
   将独立显卡相关模块进行屏蔽，示例屏蔽NVIDIA相关模块。
 
   ```shell
-  lsmod | grep nvidia | cut -d ' ' -f 1 > /tmp/nvidia    #闭源的nvidia
-  lsmod | grep  nouveau | cut -d ' ' -f 1 > > /tmp/nvidia    #开源的nouveau
-  sort -n /tmp/nvidia | uniq >  /tmp/nvidia.conf    #去重
-  sed -i 's/^\w*$/blacklist &/g' /tmp/nvidia.conf    #添加blacklist
-  sudo cp /tmp/nvidia.conf /etc/modprobe.d/nvidia.conf    #自动加载
+  echo nouveau > /tmp/nvidia    #开源的nouveau
+  lsmod | grep nvidia | grep -E '^nvidia'|cut -d ' ' -f 1 >> /tmp/nvidia    #闭源的nvidia
+  sed -i 's/^\w*$/blacklist &/g' /tmp/nvidia  #添加为blacklist
+  sudo cp /tmp/nvidia /etc/modprobe.d/nvidia-blacklist.conf  #自动加载
+
+  modprobe -r nvidia nvidia_modeset nouveau #卸载相关模块
+  sudo mkinitcpio -p linux  #重新生成initramfs--系统引导时的初始文件系统
   ```
 
   重启后检查NVIDIA开启情况：`lspci |grep NVIDIA`，如果输出内容后面的括号中出现了` (rev ff)` 字样则表示该显卡已关闭。
+
+  注意：如果某些依赖nvidia的模块启用时，也会将nvidia模块载入，即使nvidia模块已经加入黑名单。

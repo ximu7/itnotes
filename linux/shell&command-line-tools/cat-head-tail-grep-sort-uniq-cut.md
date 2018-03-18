@@ -67,7 +67,7 @@ tail -c 10 file    #显示file文件最后10个字符
 
 ## grep常用选项
 
-- `-v`或`--revert-match` 反向选择（**除匹配项所在行之外的行**，相当于过滤功能）grep使用`-V`查看版本号
+- `-v`或`--revert-match` **反向**选择（**除匹配项所在行之外的行**，相当于过滤功能）grep使用`-V`查看版本号
 - `-i`或`--ignore-case` 忽略大小写
 - `-n`或`--line-number `  显示行号
 - `-o`或`--only-matching`   只显示匹配的部分
@@ -126,27 +126,6 @@ grep -o -E '\b[0-9]{1,3}(\.[0-9]{1,3}){3}\b' /etc/resolv.conf  #查看DNS服务�
 
 # sort排序和uniq去重
 
-## uniq
-
-用于报告或忽略文件中的重复行 `uniq 选项 参数`  uniq常用选项：
-
-- `-c`或`--count`  在每列旁边显示该行重复出现的次数
-- `-d`或`--repeated`  仅显示重复出现的行列
-- `-f<栏位>`或`--skip-fields=<栏位>`  忽略比较指定的栏位
-- `-s<字符位置>`或`--skip-chars=<字符位置>`  忽略比较指定的字符
-- `-u`或`--unique`  仅显示出一次的行列
-- `-w<字符位置>`或`--check-chars=<字符位置>`  指定要比较的字符
-
-注意：uniq只会对**相邻的重复行**进行操作，因此全文去重应配合sort。
-
-```shell
-sort file | uniq  #对file内容行排序，再忽略相邻重复行
-sort -u file  #同上一行
-uniq file  #注意uniq只会删除相邻行中的重复
-sort file | uniq -c  #排序去重并统计各行出现的次数
-sort file | uniq -d  #将file中的重复行列出
-```
-
 ## sort
 
 用于文件行排序。`sort 选项 参数`   sort常用选项：
@@ -170,21 +149,40 @@ sort file | uniq -d  #将file中的重复行列出
 - -t指定分隔符，分隔符分隔的各个区块即是域。未使用-t分隔，默认整行就是第1域。
 - -k指定域，可以使用类似`1.2`的方式表示指定第一个域的第二个字符。未使用-k制定域，默认按第一个域的第一个字符排序。
 
-某文件friut内容如下：
+文件friut
 
-```shell
-banana:30:5.5
-apple:10:2.5
-pear:90:2.3
-orange:20:3.4
-```
+> banana:30:5.5
+> apple:10:2.5
+> pear:90:2.3
+> orange:20:3.4
 
-每行以冒号分隔的三项分别表示：水果名称，水果数量，水果价格，对其进行排序处理：
+每行以冒号分隔的三项分别表示：名称，数量，价格，对其进行排序处理：
 
 ```shell
 sort friut  #默认按第一个域的第一个字符排序，依次是apple banana orange pear
- sort -k 1.2 friut   #对第一个域的第二个字符排序，依次是banana pear apple orange
- sort -n -k 2 -t : friut  #以:为分隔符，对第2域内容（水果价格）以数值进行排序 
+sort -k 1.2 friut   #对第一个域的第二个字符排序，依次是banana pear apple orange
+sort -n -k 2 -t : friut  #以:为分隔符，对第2域内容（水果价格）以数值进行排序 
+```
+
+## uniq
+
+用于报告或忽略文件中的重复行 `uniq 选项 参数`  uniq常用选项：
+
+- `-c`或`--count`  在每列旁边显示该行重复出现的次数
+- `-d`或`--repeated`  仅显示重复出现的行列
+- `-f<栏位>`或`--skip-fields=<栏位>`  忽略比较指定的栏位
+- `-s<字符位置>`或`--skip-chars=<字符位置>`  忽略比较指定的字符
+- `-u`或`--unique`  仅显示出一次的行列
+- `-w<字符位置>`或`--check-chars=<字符位置>`  指定要比较的字符
+
+注意：uniq只会对**相邻的重复行**进行操作，因此全文去重应配合sort。
+
+```shell
+sort file | uniq  #对file内容行排序，再忽略相邻重复行
+sort -u file  #同上一行
+uniq file  #注意uniq只会删除相邻行中的重复
+sort file | uniq -c  #排序去重并统计各行出现的次数
+sort file | uniq -d  #将file中的重复行列出
 ```
 
 # cut列提取
@@ -211,12 +209,59 @@ sort friut  #默认按第一个域的第一个字符排序，依次是apple bana
 
 ```shell
 cut -c-10 /etc/fstab  #查看/etc/fstab文件中每行的第1-10个字符
-cut -d ':' -f 1 /etc/passwd  #以:为分隔符 选取分隔出的第一列 查看当前系统的所有用户名
+cut -d ':' -f 1 /etc/passwd  #以:为分隔符 选取分隔出的第1列
 cut -d ':' -f 1,3 /etc/passwd #查看所有用户及其id
-who | cut -d '  ' -f 1  #以空格为分隔符 选取分隔出的第一列 查看当前所有已登录的用户
 ```
 
 # paste列合并
+
+选项
+
+- `-d` 或`--delimiters` 指定间隔字符 
+- `-s`或`--serial` 串列进行而非平行处理（将文件格列内容进行横排）
+
+示例：
+
+文件a
+
+> girl
+>
+> boy
+
+文件b
+
+> 0
+>
+> 1
+
+```shell
+paste -d ':' a b  #将a内容列合并到b 显然如下
+```
+
+> girl:0
+> boy:1
+
+```shell
+paste -s a b
+```
+
+> girl	boy	
+> 0	1
+
+# tr字符替换
+
+选项
+
+- `-c`或`--complerment`  取代所有不属于第一字符集的字符
+- `-d`或`--delete  `删除所有属于第一字符集的字符
+- `-s`或`--squeeze-repeats`  把连续重复的字符以单独一个字符表示
+- `-t`或`--truncate-set1`  先删除第一字符集较第二字符集多出的字符
+
+```shell
+echo "hello bash" | tr 'a-z' 'A-Z'  #转为HELLO BASH
+echo 'cool' | tr -s 'o'  #col
+echo -e "I\tam" | tr '\t' ' '  #制表符转换成空格 I am
+```
 
 # 流编辑器：sed和awk
 

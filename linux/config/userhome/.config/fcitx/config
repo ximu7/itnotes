@@ -1,11 +1,11 @@
 [Hotkey]
-# 切换激活/非激活输入法
+# 切換啟用或非啟用輸入法
 TriggerKey=SUPER_SPACE
-# 只在用额外切换键取消激活后才使用它进行切换
+# 只在用額外切換鍵取消啟動後才使用它進行切換
 # Available Value:
 # True False
 UseExtraTriggerKeyOnlyWhenUseItToInactivate=False
-# 额外的激活输入法快捷键
+# 額外的啟用輸入法快捷鍵
 # Available Value:
 # R_CTRL
 # R_SHIFT
@@ -28,119 +28,119 @@ UseExtraTriggerKeyOnlyWhenUseItToInactivate=False
 # Disabled
 # Custom
 SwitchKey=SHIFT Both
-# 自定义切换键
+# 自訂切換鍵
 #CustomSwitchKey=
-# 激活输入法
+# 啟用輸入法
 #ActivateKey=
-# 取消激活输入法
+# 不啟用輸入法
 #InactivateKey=
-# 启用输入法间切换
+# 啟用輸入法間切換
 # Available Value:
 # True False
 #IMSwitchKey=True
-# 输入法间切换时包含未激活状态
+# 輸入法間切換時包含未啟用狀態
 # Available Value:
 # True False
 IMSwitchIncludeInactive=True
-# 输入法切换键
+# 輸入法切換鍵
 # Available Value:
 # CTRL_SHIFT
 # ALT_SHIFT
 # CTRL_SUPER
 # ALT_SUPER
 #IMSwitchHotkey=CTRL_SHIFT
-# 重新载入配置
+# 重新載入設定
 #ReloadConfig=CTRL_5
-# 输入间隔
+# 輸入間隔
 #TimeInterval=250
-# 切换虚拟键盘
+# 切換虛擬鍵盤
 VKSwitchKey=ALT_SUPER_V SHIFT_SUPER_V
-# 切换联想模式
+# 切換聯想模式
 #RemindSwitchKey=
-# 切换全角
+# 切換全形字元模式
 FullWidthSwitchKey=SHIFT_SPACE SHIFT_SPACE
-# 切换全角标点
+# 切換全形標點符號
 PuncSwitchKey=CTRL_. CTRL_.
-# 上一页
-PrevPageKey=PGUP ,
-# 下一页
-NextPageKey=PGDN .
-# 选择第二第三候选词
+# 上一頁
+PrevPageKey=PGUP UP
+# 下一頁
+NextPageKey=PGDN DOWN
+# 選擇第二第三候選詞
 #SecondThirdCandWordKey=
-# 保存配置及输入历史
+# 保存所有設定及輸入歷史
 #SaveAllKey=CTRL_ALT_S
 # Switch Embedded Preedit
 #SwitchPreedit=CTRL_ALT_P
-# 上一个候选词
+# 前一個候選字
 #PrevWord=SHIFT_TAB
-# 下一个候选词
+# 下一個候選字
 #NextWord=TAB
 
 [Program]
-# Fcitx 真正启动前延迟的秒数
+# Fcitx 真正啟動前延遲的秒數
 DelayStart=88
-# 在窗口间共享状态
+# 在視窗間共享狀態
 # Available Value:
 # No
 # All
 # PerProgram
 ShareStateAmongWindow=All
-# 默认输入法状态
+# 預設輸入法狀態
 # Available Value:
 # Inactive
 # Active
 #DefaultInputMethodState=Inactive
 
 [Output]
-# 数字后跟半角符号
+# 數字後跟半形標點符號
 # Available Value:
 # True False
 #HalfPuncAfterNumber=True
-# 联想模式禁用翻页
+# 聯想模式停用翻頁
 # Available Value:
 # True False
 #RemindModeDisablePaging=True
-# 切换状态时提交
+# 切換狀態時提交
 # Available Value:
 # True False
 #SendTextWhenSwitchEng=True
-# 候选词个数
-CandidateWordNumber=9
-# 提示词库中词组
+# 候選字數
+CandidateWordNumber=10
+# 提示詞庫中字詞
 # Available Value:
 # True False
 #PhraseTips=True
-# 窗口失去焦点时不提交预编辑文本
+# 未聚焦視窗時，不要提交預編輯文字
 # Available Value:
 # True False
 #DontCommitPreeditWhenUnfocus=False
 
 [Appearance]
-# 切换输入法时显示输入法提示
+# 切換輸入法時顯示輸入法提示
 # Available Value:
 # True False
 #ShowInputWindowAfterTriggering=True
-# 获得输入焦点并且输入法变化时显示输入法提示
+# 獲得輸入焦點並且輸入法變化時顯示輸入法提示
 # Available Value:
 # True False
 #ShowInputWindowWhenFocusIn=False
-# 输入法提示只在激活状态显示
+# 輸入法提示只在啟用狀態顯示
 # Available Value:
 # True False
 #ShowInputWindowOnlyWhenActive=True
-# 显示输入速度
+# 顯示輸入速度
 # Available Value:
 # True False
 #ShowInputSpeed=False
-# 显示版本
+# 顯示版本
 # Available Value:
 # True False
 #ShowVersion=False
-# 只有预编辑字符串时不显示输入窗口
+# 只有預編輯字串時不顯示輸入視窗
 # Available Value:
 # True False
 #HideInputWindowWhenOnlyPreeditString=False
-# 只有一个候选词和预编辑字符串时不显示输入窗口
+# 只有一個候選詞和預編輯字串時不顯示輸入視窗
 # Available Value:
 # True False
 #HideInputWindowWhenOnlyOneCandidate=False

@@ -62,8 +62,7 @@ webpack的loader配置是从上往下，从右往左读取的，且后读取的�
 - style-loader  将样表插入html
 
 - css-loader  处理css文件
-
-  ### postcss-loader及常用插件
+### postcss-loader及常用插件
 
   （sass使用sass-loader和node-sass，less使用less-loader和less）
 

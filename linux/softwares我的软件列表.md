@@ -48,8 +48,8 @@
 ### 下载工具
 
 -   命令行     
-    -   aria2
-    -   axel
+    -   aria2（或aria2c） 多协议下载工具
+    -   axel  支持多线程和断点续传的HTTP/ftp下载工具
     -   you-get  支持多个视频网站（youku、iqiyi、bilibili、qq……等网站），相关介绍查看[github:you-git](https://github.com/soimort/you-get)。可使用you-get和本地播放器观看视频：
     ```bash
     you-get -p mpv url    #mpv是要调用的播放器，url是视频所在网页地址。
@@ -108,20 +108,7 @@
 
 - hosts  
 
-  - [github-googlehosts/hosts](https://github.com/googlehosts/hosts) ，可执行一下命令更新：
-
-    ```shell
-    sudo curl -# -L -o /etc/hosts https://raw.githubusercontent.com/googlehosts/hosts/master/hosts-files/hosts 
-    ```
-
-    为方便起见，可用alias写入.bashrc中（zsh用户则是~/.zshrc）：
-
-    ```shell
-    alias hosts='sudo curl -# -L -o /etc/hosts https://raw.githubusercontent.com/googlehosts/hosts/master/hosts-files/hosts' >> .bashrc
-    source .bashrc
-    ```
-
-    以后执行`hosts`命令即可。
+  - [github-googlehosts/hosts](https://github.com/googlehosts/hosts)
 
   - adhost    [github-levinit/adhosts](https://github.com/levinit/adhosts)    科学上网+屏蔽广告
 
@@ -353,7 +340,7 @@
   - lgogdownloader   下载gog平台上支持linux游戏的命令行工具
 - 围棋
   - gopanda  [熊猫围棋igs](http://pandanet-igs.com/communities/gopanda2)客户端
-  - qgo  围棋客户端（支持tom、igs、Wing、cybergo等）和sgf棋谱编辑工具 可调用gnugo人机对弈
+  - qgo  围棋客户端和sgf棋谱工具 可调用gnugo人机对弈
   - gnugo  围棋引擎
   - [leela](https://www.sjeng.org/leela.html?utm_source=org.mozilla.firefox&utm_medium=social)
 - 0.a.d   类似帝国时代的即时策略游戏  [帝国崛起0.a.d](https://play0ad.com/)

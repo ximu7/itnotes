@@ -1,6 +1,10 @@
 [TOC]
 
-示例中，网桥名为`br0` ，有线网卡设备名为`eth0` ，无线网卡设备名为`wlo1`（网卡设备名可使用`ip addr`命令查看）。
+> **桥接器**（英语：network bridge），又称**网桥，**将[网络](https://zh.wikipedia.org/wiki/%E7%BD%91%E7%BB%9C)的多个[网段](https://zh.wikipedia.org/wiki/%E7%BD%91%E6%AE%B5)在[数据链路层](https://zh.wikipedia.org/wiki/%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82)（[OSI模型](https://zh.wikipedia.org/wiki/OSI%E6%A8%A1%E5%9E%8B)第2层）连接起来（即桥接）。
+
+
+
+*示例中，网桥名为`br0` ，有线网卡设备名为`eth0` ，无线网卡设备名为`wlo1`（网卡设备名可使用`ip addr`命令查看）。*
 
 # 创建网桥
 

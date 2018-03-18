@@ -2,19 +2,18 @@
 
 # shell扩展
 
-需先安装有gome-tweak-tool。
+需先安装有gnome-tweak。
 
-可在https://extensions.gnome.org/中下载安装.注册该网站，浏览器会提示安装相应扩展。
+可在 https://extensions.gnome.org/ 中下载安装.注册该网站，浏览器会提示安装相应扩展。
 
 *archlinux可以在aur中搜索[gnome-shell-extension](https://aur.archlinux.org/packages/?O=0&K=gnome-shell-extension)的关键字查找（以”插件名+shell“进行搜索，如`yaourt weather shell`）。*
 
 一些扩展（部分扩展在gnome-shell-extensions这个包里面）：
 
-- usertheme    启用后可自定义shell主题
+- user-theme    启用后可自定义shell主题
 - dash-to-dock    dock设置
 - unite    将左下角通知栏融入顶部栏（仿unity风格）
 - topicons plus    将左下角通知栏融入顶部栏
-- taskbar    任务栏
 - hide-top-bar  定义顶部栏隐藏策略
 - pixel-saver    窗口最大化时将标题栏融合进顶部pannel
 - coverflow-alt-tab    alt+tab进行切换时可显示大幅预览
@@ -49,68 +48,82 @@
 
 在[gnome-look](gnome-look.org)或源中可下载一些主题图标，也可是使用[ocsstore](https://www.linux-apps.com/p/1175480/)下载，一些主题如：
 
-- gtk主题：arc united flat-plat candy paper vertex adapta osx-arc gnome-osx
+- gtk主题：arc flat-plat candy  united gnome-osx paper vertex adapta osx-arc
 - 图标主题：numix-circle papirus masalla paper flattr moka la-capitaine-icon-theme pinbadge
 - 鼠标主题：osx-elcap xcursor-flatbed xcursor-numix numix-cursor-theme neoalien
 
-# gnome系软件使用
+# 工具配置
 
 ## nautilus鹦鹉螺文件管理器
 
-- 右键添加新建文件菜单
-  在Templates文件夹中建立模板（如果对文件夹汉化过，则在“模板”文件夹内建立）。
+### 右键添加新建文件菜单
 
-  如建立.md类型文件：
-  `touch ~/Templates/md.md`
+在Templates文件夹中建立模板（如果对文件夹汉化过，则在“模板”文件夹内建立）。
 
-- 已汉化文件夹恢复
+如建立.md类型文件：
+`touch ~/Templates/md.md`
 
-  删除或更改~/.config下的user.dirs文件内容。
+### 已汉化文件夹恢复英文名
 
-- 网络存储
-  - webDav
-    nautilus可添加webDav服务。[坚果云nutstore](http://www.jianguoyun.com)支持webDav。
-  - 网盘插件
-    - natilus-nutstore  坚果云的nautilus插件
-    - nautilus-megasync  [Megasync](https://mega.nz/)的nautilus插件
-    - nautilus-dropbox  [dropbox](https://www.dropbox.com/)的nautilus插件
+- 删除或更改~/.config下的user.dirs文件内容。
+- 设置中更改语言为英文，注销即可生效。（再次更改为中文时不要点选更改目录名的按钮）
+
+### 网络存储
+
+- webDav
+  nautilus可添加webDav服务。[坚果云nutstore](http://www.jianguoyun.com)支持webDav。
+- google云盘，安装有gvfs-google，且在设置--在线帐号中登录谷歌即可。
+- nextcloud，在设置--在线帐号中登录谷歌即可。
+- 网盘插件
+  - natilus-nutstore  坚果云的nautilus插件
+  - nautilus-megasync  [Megasync](https://mega.nz/)的nautilus插件
+  - nautilus-dropbox  [dropbox](https://www.dropbox.com/)的nautilus插件
 
 ## gnome terminal透明
 
-在/.bashrc（zsh用户在/.zshrc）中写入：
+- 使用gnome-terminal-transparency替代gnome-terminal
 
-```shell
-if [ -n "$WINDOWID" ]; then
-  TRANSPARENCY_HEX=$(printf 0x%x $((0xffffffff * 77/100)))
-  xprop -id "$WINDOWID" -f _NET_WM_WINDOW_OPACITY 32c -set _NET_WM_WINDOW_OPACITY "$TRANSPARENCY_HEX"
-fi
-```
+- 在/.bashrc（zsh用户在/.zshrc）中写入：
 
-65/100是透明系数（65%）。
-注意：wayland中无效。
+  ```shell
+  if [ -n "$WINDOWID" ]; then
+    TRANSPARENCY_HEX=$(printf 0x%x $((0xffffffff * 77/100)))
+    xprop -id "$WINDOWID" -f _NET_WM_WINDOW_OPACITY 32c -set _NET_WM_WINDOW_OPACITY "$TRANSPARENCY_HEX"
+  fi
+  ```
+
+  65/100是透明系数（65%）。注意：wayland中无效。
 
 ## 修改gnome屏幕录制时间上限
 
-使用`ctrl`-`alt`-`shift`-`r`可以录制不超过30秒的短视频，可以使用dconf-editor修改`/org/gnome/settings-daemon/plugins/media-keys/max-screencast-length`的值。
+使用`ctrl`-`alt`-`shift`-`r仅能`录制不超过30秒的短视频。
+使用dconf-editor修改`/org/gnome/settings-daemon/plugins/media-keys/max-screencast-length`的数值。
 
 ## 修改夜光(nigh-light)色温值
 
-gnome的设置中的夜光（night-light）默认色温值是4000，可使用dconf-editor修改`/org/gnome/settings-daemon/plugins/color/night-light-temperature`的值。
+gnome的设置中的夜光（night-light）默认色温值是4000。
+
+使用dconf-editor修改`/org/gnome/settings-daemon/plugins/color/night-light-temperature`的数值。
 
 ## 修改networkmanager网络热点（AP)密码
 
-首先在网络设置中开启热点，会随机生成一串密码，然后关闭热点，再修改`etc/NetworkManager/system-connections/ap`文件中`psk=`后面的内容为想要修改的新密码。重启networkmanager后再开启热点就会使用修改后的密码。
+1. 在网络设置中开启热点，会随机生成一串密码，`etc/NetworkManager/system-connections/`中也会生成一个该热点的配置文件
+2. 修改`etc/NetworkManager/system-connections/ap`文件中`psk=`后面的内容为想要修改的新密码。
+3. 重启networkmanager，再开启热点，修改的密码就会生效。
 
-## gnome相关软件
 
-一些gnome系软件
+
+## 其他gnome相关软件
+
+一些gnome系相关软件
 
 - gnome-software   软件商店
-- gnome-todo  待办事项清单 可连接到todoist（在设置-在线帐号众添加todoist帐号）
-- gedit的插件：gedit-code-assistance和gedit-plugins。
-- file-roller 压缩解压打包
-- geary   邮箱客户端 简洁
-- gvfs-google  在nautilus 挂载GoogleDrive
+
+
+- gedit的插件  gedit-code-assistance和gedit-plugins。
+- file-roller  压缩解压打包工具的图形前端
+- geary   风格简洁的邮箱客户端
+- gvfs-google  登录google账户后 可在nautilus 挂载GoogleDrive
 - gitg    图形界面的git工具
 - polari    IRC客户端
 - vinagre   vnc客户端
@@ -120,6 +133,7 @@ gnome的设置中的夜光（night-light）默认色温值是4000，可使用dco
 - epipthany gnome浏览器（webkit内核，可生成网页应用--其实就是快捷方式，编辑页面文件后保存时能够**自动刷新**）
 - gnome-schedule   计划任务（cron图形端）
 - gnome-search-tool  搜索工具(可所搜文件中的文字)
+- gnome-todo  待办事项清单 可连接到todoist（在设置-在线帐号众添加todoist帐号）
 - gnome appfolder manager   管理应用程序文件夹
 
 # 快捷键
@@ -157,15 +171,22 @@ gnome的设置中的夜光（night-light）默认色温值是4000，可使用dco
 
 # 电源管理
 
-- 按下alt后，电池图标中的关机/重启按钮会变成暂停按钮。
-- hibernate-status   扩展可以增加休眠等按钮。
-- systemctl hybrid-sleep/hibernate/supend 命令分别是：混合睡眠（通电状态，保存到硬盘和内存）、休眠（关机状态，保存到硬盘）和睡眠（通电状态，保存到内存）。为了方便使用可将他们设置别名，在~/.bashrc中写入：
+可参看[laptop笔记本相关](../laptop笔记本相关.md)
 
-```
-alias hs='systemctl hybrid-sleep'  #混合睡眠
-alias hn='systemctl hibernate'    #休眠
-alias sp='systemctl suspend'  #暂停（挂起)
-```
+- 按下alt后，电池图标中的关机/重启按钮会变成暂停按钮。
+
+- hibernate-status   扩展可以增加休眠等按钮。
+
+- systemctl hybrid-sleep/hibernate/supend 命令分别是：混合睡眠（通电状态，保存到硬盘和内存）、休眠（关机状态，保存到硬盘）和睡眠（通电状态，保存到内存）。
+
+  为了方便使用可将他们设置别名，在~/.bashrc中写入：
+
+  ```shell
+  alias hs='systemctl hybrid-sleep'  #混合睡眠
+  alias hn='systemctl hibernate'    #休眠
+  alias sp='systemctl suspend'  #暂停（挂起)
+  ```
+
 
 - 笔记本用户推荐安装[tlp](https://wiki.archlinux.org/index.php/TLP)或者[laptop-mode-tools]()
 - intel可安装[powertop](https://wiki.archlinux.org/index.php/Powertop)
@@ -180,12 +201,12 @@ alias sp='systemctl suspend'  #暂停（挂起)
 
 -   `Alt+Space`    可以弹出标题栏右键菜单
 
--   按住`Alt`键时关机按钮会变成暂停按钮（suspend）
+-   按住`Alt`键时关机按钮会变成暂停（suspend）按钮
 
 -   鼠标滚轮/鼠标中键点击dock上的图标会打开一个程序的新窗口
 
     按住`Ctrl`时鼠标左键点击dock上的图标会打开一个程序的新窗口
 
--   拖动窗口到屏幕左/右边缘会平铺该窗口到屏幕左/右
+-   拖动窗口到屏幕左/右边缘（或按下win+左右箭头）会平铺该窗口到屏幕左/右
 
--   gnome3.24自带夜光功能，无需使用redshift和xflux
+-   gnome3.24自带夜光功能，无需使用redshift或xflux

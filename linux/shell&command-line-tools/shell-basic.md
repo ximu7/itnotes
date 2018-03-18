@@ -96,22 +96,22 @@ cat /etc/shells    #查看当前系统支持的shell
 
 注意：退格键\b并不会在内容中删除\b前面一个字符，它**只是让光标**向前**移动**一格而已，回车键\r同理。
 
-|    控制符    | 意义                         |
-| :-------: | :------------------------- |
-| \a 或 \007 | 警告声alert bell              |
-|    \b     | 退格键（backspace）             |
-|    \E     | 退出键（escpae）                |
-|    \f     | 换页符-formfeed               |
-|    \n     | 换行符-new line               |
-|    \r     | 回车键（return）                |
-|    \t     | 表格跳位键/制表符（tab）             |
-|    \v     | 垂直表格跳位键/垂直制表符-vertical tab |
-|    \c     | 取消行末换行符 cancel             |
-|   \0nnn   | 八进制数(nnn表示八进制数)            |
-|   \xhh    | 十六进制数(hh表示十六进制数)           |
-| \e[或\033[ | 字符转义为ANSI escape code      |
+|   控制符   | 意义                                    |
+| :--------: | :-------------------------------------- |
+| \a 或 \007 | 警告声/响铃（alert bell）               |
+|  \b或\010  | 退格（backspace）                       |
+|  \E或\033  | 退出/取消（escpae）                     |
+|  \f或\014  | 换页符（formfeed）                      |
+|  \n或\012  | 换行符（new line）                      |
+|  \r或\012  | 回车（return）                          |
+|  \t或\011  | 表格跳位/制表符（tab）                  |
+|     \v     | 垂直表格跳位/垂直制表符（vertical tab） |
+|     \c     | 取消行末换行符 （cancel）               |
+|   \0nnn    | 八进制数(nnn表示八进制数)               |
+|    \xhh    | 十六进制数(hh表示十六进制数)            |
+| \e[或\033[ | 字符转义为ANSI escape code              |
 
-###ANSI escape code
+### ANSI escape code
 
 `\e[`或`\033`是CSI，全称为“控制序列引导器”（Control Sequence Introducer/Initiator），能将字符转义成[ANSI escape code](https://en.wikipedia.org/wiki/ANSI_escape_code)
 

@@ -8,12 +8,11 @@ Git 是 Linus Torvalds 在 2002 年用 C 语言编写的一个**分布式版本�
 仓库名、分支名、文件名等等）。
 
 参考：[git-scm](https://git-scm.com/book/zh/v2)
-[git 简明指南](http://rogerdudler.github.io/git-guide/index.zh.html)
-[图解 git](http://marklodato.github.io/visual-git-guide/index-zh-cn.html)
+[git 简明指南](https://rogerdudler.github.io/git-guide/index.zh.html)
+[图解 git](https://marklodato.github.io/visual-git-guide/index-zh-cn.html)
 [git 参考手册](http://gitref.org/zh/creating/)
-[archlinux-wiki:git](<https://wiki.archlinux.org/index.php/Git_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)>)
+[archlinux-wiki:git](https://wiki.archlinux.org/index.php/Git_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))
 [猴子都能看懂的 git 入门](http://backlogtool.com/git-guide/cn/)
-[廖雪峰：git 教程](http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000)
 
 ---
 
@@ -29,8 +28,7 @@ Git 是 Linus Torvalds 在 2002 年用 C 语言编写的一个**分布式版本�
 
   * 图形化 git 例如：
 
-    * gitk 命令行自带图形界面，在 git 仓库中执行`gitk`或在任何地方执行`git
-      gui`启动。
+    * gitk 命令行自带图形界面，在 git 仓库中执行`gitk`或在任何地方执行`git gui`启动。
     * [gitkraken](https://www.gitkraken.com/)
     * [source tree](https://www.sourcetreeapp.com/)
     * [github desktop](https://desktop.github.com/)
@@ -115,7 +113,7 @@ Git 保存数据是对文件系统的一组快照。 每次提交更新时，它
     * 查看已暂存的改动：`git diff --cached`
   * 显示**最近**快照和工作区内容的差异：`git diff HEAD`
     * 显示指定文件的差异`git diff HEAD --<filename>`
-* 查看历史操作：`git reflog`
+* 查看历史提交：`git reflog`
 
 ## 提交快照
 
@@ -181,7 +179,10 @@ Git 保存数据是对文件系统的一组快照。 每次提交更新时，它
   默认情况下`git rm <file-name>`也会将文件从暂存区和硬盘中（工作目录）删除。如果
   要在工作目录中留存该文件，可以使用`git rm --cached <file-name>`保留。
 
-* 回退到指定版本：`git reset --hard <commit-id>`
+* 回退到指定版本
+
+  * `git reset --hard <commit-id>`   回到指定版本并抛弃该版本之后的所有提交
+  * `git revert --hard <commit-id>`  回到指定版本并提交一次
 
   commit id 可以使用前文的`git reflog`命令在历史操作记录中查找。
 
@@ -283,8 +284,7 @@ git rev-parse --short HEAD #最近一次提交快照的前面部分（7位）has
 
 - 删除分支：`git branch -d <branch-name>` 强行删除**未被合并过**的分支：`git branch -D <branch-name>`
 
-  这只是删除了本地的分支，如果要删除远程仓库的分支，参
-  看[# 推送和下载分支](推送和下载分支)有关推送的说明。
+  这只是删除了本地的分支，如果要删除远程仓库的分支，参看下文。
 
 ## 推送和获取分支
 
@@ -295,17 +295,15 @@ git rev-parse --short HEAD #最近一次提交快照的前面部分（7位）has
 
 - 推送分支：`git push <repo-name> <local-branch-name>:<remote-branch-name>`
 
-  * 如果省略远程分支名，则表示远程分支名和本地分支名一致，如此**远程分支名不存在
-    ，则会新建一个远程分支**。
+  * 如果省略远程分支名，则表示远程分支名和本地分支名一致，如此远程分支名不存在，则会在远程仓库新建该分支。
 
-    示例：`git push origin dev`
+    示例：`git push origin master`
 
-  * 如果省略本地分支名，则表示**删除指定的远程分支**，因为这等同于推送一个空的本
-    地分支到远程分支。
+  * 如果省略本地分支名，则表示删除指定的远程分支，因为这等同于推送一个空的本地分支到远程分支。
 
     示例：`git push origin :dev`
 
-  * 如果本地分支名和远程分支名都省略，则表示将**当前分支**推送到远程的对应分支。
+  * 如果本地分支名和远程分支名都省略，则表示将当前分支推送到追踪的远程分支。
 
     示例：`git push origin`
 
@@ -401,7 +399,7 @@ git 的配置文件在`~/.gitconfig`，仓库的配置文件是仓库内的`.git
 
 部分设置命令：
 
-加上`--globle`参数，则设置内容对当前用户生效，不加`--global`则对当前仓库生效。
+加上`--global`参数，则设置内容对当前用户生效，不加`--global`则对当前仓库生效。
 
 * 检查配置情况：`git config --list`
 
@@ -414,8 +412,7 @@ git 的配置文件在`~/.gitconfig`，仓库的配置文件是仓库内的`.git
 * 中文文件名显示：`git config --global core.quotepath false`（避免中文显示成数字
   ）
 
-* 显示历史记录时每个提交的信息显示一行： `git --global config format.pretty
-  oneline`
+* 显示历史记录时每个提交的信息显示一行： `git --global config format.pretty oneline`
 
 * 设置用户名和电子邮箱
 
@@ -447,12 +444,10 @@ git 的配置文件在`~/.gitconfig`，仓库的配置文件是仓库内的`.git
 
 * 设置命令别名：`git config --global alias.<another name> status`
 
-      ​```shell
       git config --global alias.ci commit
       git config --global alias.br branch
       git config --global alias.unstage 'reset HEAD'
       git config --global alias.graph 'log --graph --oneline --decorate'
-      ​```
 
   # git 服务简易搭建
 
