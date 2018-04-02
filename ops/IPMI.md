@@ -12,25 +12,27 @@
 
 4. 设置impi网络参数
 
-  假如该设备目前IP为192.168.1.10，网关为192.168.1.1，则为其配置一个该网段（192.168.1.0--192.168.1.255）中未被分配使用的IP（可以先ping一下想要设置的IP以确认其是否正被使用），示例：
+  假如该设备目前IP为192.168.1.10，网关为192.168.1.1，则为其配置一个该网段中未被分配使用的IP，示例：
 
   ```shell
-  ipmitool lan set 1 ipaddr 192.168.1.100  #IP
+  ipmitool lan print  #查看配置信息
+  ipmitool lan print [数字]  #从0开始一个一个试 找到该设备上默认的ipmi的channel值
+  ipmitool lan set 1 ipaddr 192.168.1.100  #IP  #这里假设channel时1 下同
   ipmitool lan set 1 netmask 255.255.255.0  #子网掩码
   ipmitool lan set 1 defgw ipaddr 192.168.1.1  #网关
   ipmitool lan set 1 access on  #启用 （off为关闭）
-  ipmitool lan print  #查看配置信息
   ```
+
+更多`ipmi`命令可在输入`ipmitool`回车后查看，在`ipmitool lan`回车后可查看配置LAN控制相关命令。
 
 - 设置管理用户
 
-  假如设置一个admin用户，密码也为admin，示例：
-
   ```shell
-  ipmitool lan set 1 admin #设置用户admin
-  ipmitool lan set 1 password admin  #设置admin密码
-  ipmitool user list 1 # 查看当前用户列表
+  ipmitool user list 1  #查看当前用户列表
+  ipmitool user set name <user id> <username>   #修改用户名
+  ipmitool user set password <user id>  #设置admin密码（密码可能有位数要求）
   ```
+  更多命令帮助，在`ipmitool user`回车后可查看。
 
 - 检查
 

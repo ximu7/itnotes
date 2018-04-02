@@ -77,18 +77,19 @@ vm.vfs_cache_pressure=50
   tmpfs /tmp      tmpfs nodev,nosuid,size=6G          0 0
   ```
 
-  保存后，重新挂载（或重启）使其生效：
+  重启后生效。
 
-  ```shell
-  umount /dev/tmp
-  mount /dev/tmp
-  ```
 
 ##  浏览器cache使用tmpfs
 
-- firefox在地址栏中输入 about:config 后回车，然后点击右键新建一个 String ， name 为 `browser.cache.disk.parent_directory` ， value 为 `/dev/shm/firefox`。
+- firefox
 
-- Chromium（或Chrome）找到Chrmium（或Chrmoe）程序图标所在位置（一般在`/usr/share/applications/chromium.desktop` ），编辑文件中`Exec`一行为：
+  1. 在地址栏中输入 about:config 后回车，进入高级设置页
+  2. 点击右键新建一个 String ， name 为 `browser.cache.disk.parent_directory` ， value 为 `/dev/shm/firefox`。
+
+- Chromium（或Chrome）
+
+  找到Chromium程序图标所在位置（一般在`/usr/share/applications/chromium.desktop` ），编辑文件中`Exec`一行为：
 
   ```shell
   Exec=/usr/bin/chromium --disk-cache-dir="/dev/shm/chromium/"

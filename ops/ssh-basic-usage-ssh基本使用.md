@@ -141,7 +141,7 @@ ssh -L B  <host>:<port>:<host>:<port> <user>@<host>  #-R同理
    - 这里的用户名userT是目标服务器上的用户名而不是外网代理服务器上的用户名。
    - 有的云服务器会有安全组规则，如果端口不能访问，需要开启要使用的端口。
 
-# SCP
+# scp远程复制
 
 scp是基于ssh的远程复制，使用**类似cp命令**。基本形式：
 
@@ -168,8 +168,52 @@ scp ~/.ssh/id_rsa.pub root@ip:/root/.ssh/authorized_keys
 scp -P 999 ~/.ssh/id_rsa.pub root@ip:/root.ssh/authorized_keys
 ```
 
-# sftp
+# sftp传输协议
 
 使用sftp协议可以同ssh服务器进行文件传输，访问地址类似：
 
 > sftp://192.168.1.100:22/home/<user>/path/to/file
+
+# 服务器安全策略
+
+- 在`/var/log/secure`可查看到失败的ssh登录记录
+- 禁止指定ip登录ssh
+  - 在`/etc/hosts.deny`中添加ip，格式`sshd:ip地址`。
+  - 使用[denyhosts](https://zh.wikipedia.org/wiki/DenyHosts)工具，安装后启用`denyhosts`服务即可。
+
+
+- 更改默认的22端口
+
+- 使用非对称加密密钥
+
+  ```shell
+  ssh-keygen  #或者ssh-keygen -t rsa 4096  客户机生成密钥
+  ssh-copy-d -p 23579 ip@8.8.8.8  #上传公钥到服务器（23579是端口号，8.8.8.8是ip地址）
+  ```
+
+
+- 用户控制
+
+  - 禁用root登录
+
+  - 限制用户登录shell
+    例如为建立git仓库而使用的git用户，找到`/etc/passwd`文件中git所在行，将其中的`/bin/bash`(根据不同shell可能是/bin/zsh或者其他的)改为`/bin/git-shell`，使得git用户无法登录shell，但仍可通过命令行访问git仓库。
+
+  - 完全禁止登录shell
+
+    - 在`/etc/passwd`文件中找到该用户所在行，将`/bin/bash`字样改为`/sbin/nologin`。	
+
+    - 在ssh配置文件中添加`DenyUsers username`（username即用户名，下同）。
+
+    - 在`/etc/pam.d/sshd`文件中添加：
+
+      > auth  required  pam_listfile.so  item=user  sense=allow  file=/etc/ssh/deny onerr=succeed
+
+      在`/etc/ssh/deny`中加上要禁止的用户名
+
+  - 只允许某些用户登录
+
+    在ssh配置文件中内容：
+
+    - 允许单用户：`AllowUsers username`
+    - 允许用户组：`AllowGroups groupname`（groupname是组名）

@@ -1,5 +1,7 @@
 [TOC]
 
+提示：archlinux及其衍生版本用户可使用aur helper工具搜索关键字进行下载安装以下扩展、主题、图标等。
+
 # shell扩展
 
 需先安装有gnome-tweak。
@@ -10,23 +12,35 @@
 
 一些扩展（部分扩展在gnome-shell-extensions这个包里面）：
 
-- user-theme    启用后可自定义shell主题
 - dash-to-dock    dock设置
-- unite    将左下角通知栏融入顶部栏（仿unity风格）
-- topicons plus    将左下角通知栏融入顶部栏
+
+- drop-down-terminal    下拉式终端
+
+- media-player  媒体播放信息显示及快捷控制（部分播放器可能不支持）
+
+   附 media player indicator设置中l展示播放信息的pango设置示例：
+
+  ```html
+ <span foreground="#eb3f2f">{trackTitle}</span> --> <span foreground="#81c2d6">{trackAlbum}</span> @ <span foreground="#c3bed4">{trackArtist}</span>
+  ```
+
+
+- topicons plus    顶部栏显示程序托盘图标
 - hide-top-bar  定义顶部栏隐藏策略
+- simple-netspeed    显示网速
+- clipboard-indicator    剪切板
+- gno-menu   程序启动器
+- unite    将左下角通知栏融入顶部栏（仿unity风格）
+- user-theme    启用后可自定义shell主题
 - pixel-saver    窗口最大化时将标题栏融合进顶部pannel
 - coverflow-alt-tab    alt+tab进行切换时可显示大幅预览
-- workspace-indicator    显示工作区序号
+- workspace-indicator   显示工作区序号
 - top-panel-workspace-scroll    顶部栏上滚动鼠标滚轮可切换工作区
-- drop-down-terminal    下拉式终端
 - removable-drive-menu    显示可移除设备（如U盘）拔插提示
 - places-status-indicator    显示文件管理器导航菜单
-- netspeed或simple-netspeed    显示网速
 - system-monitor    系统监控
 - web-search-dialog    快捷搜索（可添加搜索引擎）
 - weather    天气显示
-- clipboard-indicator      剪切板工具（最多可存储50条记录）
 - easyscreencast     截屏录屏
 - screenshot    截屏
 - audio-output-switcher    切换音频输出
@@ -35,18 +49,10 @@
 - clac    计算器
 - randwall     壁纸切换
 - caffeine     阻止桌面锁屏和系统暂停
-- media-player  媒体播放信息显示及快捷控制（部分播放器可能不支持）
-
- 附 media player indicator设置中l展示播放信息的pango设置示例：
-```pango
-<span foreground="#eb3f2f">{trackTitle}</span> --> <span foreground="#81c2d6">{trackAlbum}</span> @ <span foreground="#c3bed4">{trackArtist}</span>
-```
-
- 
 
 # 主题外观
 
-在[gnome-look](gnome-look.org)或源中可下载一些主题图标，也可是使用[ocsstore](https://www.linux-apps.com/p/1175480/)下载，一些主题如：
+[gnome-look](gnome-look.org)或源中可下载一些主题图标，也可使用[ocsstore](https://www.linux-apps.com/p/1175480/)下载，一些主题如：
 
 - gtk主题：arc flat-plat candy  united gnome-osx paper vertex adapta osx-arc
 - 图标主题：numix-circle papirus masalla paper flattr moka la-capitaine-icon-theme pinbadge
@@ -117,9 +123,7 @@ gnome的设置中的夜光（night-light）默认色温值是4000。
 
 一些gnome系相关软件
 
-- gnome-software   软件商店
-
-
+- gnome-software   软件商店 (gnome-software-packagekit-plugin)
 - gedit的插件  gedit-code-assistance和gedit-plugins。
 - file-roller  压缩解压打包工具的图形前端
 - geary   风格简洁的邮箱客户端
@@ -195,18 +199,18 @@ gnome的设置中的夜光（night-light）默认色温值是4000。
 
 *以下是没有更改默认设置的情况下*
 
--   `Alt+F2`    快速使用命令(`r`命令重启shell，`rt`命令重载shell主题）
+- `Alt+F2`    快速使用命令(`r`命令重启shell，`rt`命令重载shell主题）
 
--   开启application menu扩展可以在右上角添加分类程序菜单（默认`alt+f1`)
+- 开启application menu扩展可以在右上角添加分类程序菜单（默认`alt+f1`)
 
--   `Alt+Space`    可以弹出标题栏右键菜单
+- `Alt+Space`    可以弹出标题栏右键菜单
 
--   按住`Alt`键时关机按钮会变成暂停（suspend）按钮
+- 按住`Alt`键时关机按钮会变成暂停（suspend）按钮
 
--   鼠标滚轮/鼠标中键点击dock上的图标会打开一个程序的新窗口
+- 鼠标滚轮/鼠标中键点击dock上的图标会打开一个程序的新窗口
 
     按住`Ctrl`时鼠标左键点击dock上的图标会打开一个程序的新窗口
 
--   拖动窗口到屏幕左/右边缘（或按下win+左右箭头）会平铺该窗口到屏幕左/右
+- 拖动窗口到屏幕左/右边缘（或按下win+左右箭头）会平铺该窗口到屏幕左/右
 
--   gnome3.24自带夜光功能，无需使用redshift或xflux
+- gnome3.24自带夜光功能，无需使用redshift或xflux

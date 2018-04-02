@@ -10,18 +10,17 @@
 
 # 软件资源
 - [pkgs.org](https://pkgs.org/)    搜索各个发行版的软件包
-- [launchpad.net](https://launchpad.net/)  软件协作平台（能下载到不少软件包，偏向deb系）
+- [launchpad.net](https://launchpad.net/)  软件协作开发平台（能下载到不少软件包）
 - [fedora中文社区](https://www.fdzh.org/)  一些fedora的中文使用者相关软件包社区源
 - [electron apps](https://electron.atom.io/apps/)  一些基于electron的软件
 - [awesome linux softwares](https://github.com/LewisVo/Awesome-Linux-Software)  一些linux软件列表
 - [archinux.org-list of applications](https://wiki.archlinux.org/index.php/List_of_applications)    archlinux.org的软件列表页面
-- [aur](https://aur.archlinux.org/)    archlinux的用户社区源（也利用包管理工具如yaourt搜索和安装）
+- [aur](https://aur.archlinux.org/)   archlinux的用户社区源（也利用包管理工具如yaourt搜索和安装）
 - [ocsstore](https://www.linux-apps.com)  下载各种linux资源，如软件、字体、桌面主题等等
-  - [OCS-Store](https://www.linux-apps.com/p/1175480/)  OCS的客户端
 
 # 模拟器/虚拟机/wine
 - virtualbox  下载[微软官方提供的vbox镜像](https://developer.microsoft.com/en-us/microsoft-edge/tools/vms/)（免费使用）
-- genymotion    安卓模拟器（需安装virtualbox）
+- genymotion   安卓模拟器（需安装virtualbox）
 - android-emulator   安卓模拟器
 - ppsspp    PSP模拟器
 - dophin-emu    Wii模拟器

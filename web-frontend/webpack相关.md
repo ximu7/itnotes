@@ -7,18 +7,54 @@ webpack常用配置简单示例
 ```javascript
 //各种import(require)
 //import xxx from 'xxxxx'
+
 const webapcConfig={
+  //模式
+  mode: 'production',  //或development 
+  //压缩
+  optimization.minimize:true,   //压缩 如果mode为production则自动启用压缩
+    
+  //入口文件
   entry:{},
+  //打包生成的文件
   output:{},
+      
+  //模块
   module:{
+    //各种loader规则
     rules:[]
   },
+      
+  //插件
   plugins:{},
+      
+  //优化
+  optimization: {
+    //chunk 提取模块
+    runtimeChunk: 'single',  //按runtime提取
+
+    splitChunks: {  //分割代码块
+        chunks: 'all',
+
+        cacheGroups: {
+            default: {
+                enforce: true,
+                priority: 1
+            },
+            vendors: {
+                test: /[\\/]node_modules[\\/]/,
+                priority: 2,
+                name: 'vendors',
+                enforce: true,
+                chunks: 'all'
+             }
+         }
+     }
+ },
   //其他常用配置项目
   devServer:{}, //webpack-dev-server
   devtool: 'source-map', //source map
   //......
-   mode: 'production'  //或development
 }
   
 export default webpackConfig
@@ -26,23 +62,22 @@ export default webpackConfig
 
 # entry
 
-入口文件（js）配置
+入口文件（js）配置。默认路径为`./src`，默认入口文件是`index.js`（如果不指定entry）。
 
 ```javascript
   entry: {
-    app: './src/index.js', // index.js打包后将变成app.js
-    util: './src/common/util.js',
-    service: ['./src/service/info.js','./src/service/host.js'] //这两个文件将合并为service.js
+    app: './index.js', // index.js打包后将变成app.js
+    util: './common/util.js',
+    service: ['./service/info.js','./service/host.js'] //这两个文件将合并为service.js
   },
 ```
 
 # output
 
-打包的目标位置，所有文件都将默认被打包到指定文件夹下。
+打包的目标位置，所有文件都将默认被打包到指定文件夹下。默认路径为`./dist`。
 
 ```javascript
 output: {
-    path: path.resolve(__dirname, 'dist'), //打包到dist文件夹
     // publicPath: '/', // web服务的根目录 绝对路径 注意末尾必须有/
     filename: 'js/[name].js' //打包后的js文件的命名方式
     chunkFilename: 'js/[name]-[hash].js' //按需加载模块的打包的名称
@@ -51,9 +86,9 @@ output: {
 
 `[name]`表示使用原名称，`[hash]`表示添加生成的hash值（`[hash:3]`使用生成的hash值的前三位）。
 
-# loader
+# rules
 
-loader配置放在module下的`rules:[]`内。
+配置放在module下的`rules:[]`内。
 
 webpack的loader配置是从上往下，从右往左读取的，且后读取的配置会覆盖先前的配置。
 
@@ -72,13 +107,13 @@ webpack的loader配置是从上往下，从右往左读取的，且后读取的�
   - postcss-sorting 给规则的内容以及@规则排序
   - postcss-cssnext 未来的 CSS 特性（包括 autoprefixer）
 
-  webpack为配置示例（loader中css相关部分，示例使用了抽离css的插件[extract-text-webpack-plugin](#plugin)）：
+  webpack为配置示例（loader中css相关部分，示例使用了抽离css的插件mini-css-extract-plugin）：
 
   ```javascript
   {
     test: /\.css$/,
-    use: extractTextWebpackPlugin.extract({
       use: [
+          MiniCssExtractPlugin.loader,
          {
             loader: 'css-loader',
             options: {
@@ -92,7 +127,6 @@ webpack的loader配置是从上往下，从右往左读取的，且后读取的�
                }
             }
           }]
-    })
   }
   ```
 
@@ -148,7 +182,7 @@ babel-loader babel-core babel-preset-env（一般使用preset-env预设即可，
 
 注意：编译代码速度慢，建议在开发过程中关闭babel（除非该特性在测试的浏览器上不支持）
 
-## expose-loader 暴露全局依赖模块
+## 暴露全局依赖模块expose-loader
 
 将模块暴露到全局（成为全局变量），用以调试或者支持依赖其他全局库的库，例如jquery。有两种使用方法以，使用jQuery为例：
 
@@ -181,37 +215,26 @@ babel-loader babel-core babel-preset-env（一般使用preset-env预设即可，
 
 # plugin
 
-plugin的配置放在module下的`plugin[]`内。注意在配置文件前面引入要使用的模块。
-
-## copy-webpack-plugin
-
-将指定文件复制到目标（打包文件目录下）路径处。例如希望将src/fonts目录复制到src/dist/fonts，
+plugin的配置放在module下的`plugin[]`内。注意在配置文件前面引入要使用的模块后才能使用，例如：
 
 ```javascript
-new copyWebpackPlugin([{from:'./src/fonts',to:'img'}])
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 ```
 
-## clean-webpack-plugin 自动清空目标文件
+## 抽离CSS样式mini-css-extract-plugin
 
-每次使用webpack打包时自动清除指定文件夹中的内容
+- 在loader中配置，见上文loader-css中的示例
+- 在`plugins[]`中配置：
 
 ```javascript
-plugins:[
-  new cleanWebpackPlugin(['dist'])
-]
+new MiniCssExtractPlugin({
+      // Options similar to the same options in webpackOptions.output
+      // both options are optional
+      filename: "[name].css",
+      chunkFilename: "[id].css"
+    })
 ```
-
-## extract-text-webpack-plugin  抽离CSS样式
-
-1. 在loader中配置，见上文loader-css中的示例
-
-2. 在`plugins[]`中配置：
-
-   ```javascript
-   new ExtractTextPlugin('css/[name].css'),
-   ```
-
-## html-webpack-plugin  生成html页面
+## 生成html页面html-webpack-plugin
 
 多个html页面项目时尤为需要
 
@@ -229,28 +252,27 @@ new htmlWebpackPlugin({
 })
 ```
 
-## optimize.splitChunks 提取公共模块
+## 复制文件copy-webpack-plugin
 
-该模块内置。
+将指定文件复制到目标（打包文件目录下）路径处。例如希望将src/fonts目录复制到src/dist/fonts，
 
 ```javascript
-new webpack.optimize.splitChunks({
-  name: 'common', //将entry中的名为common模块提取出来
-  filename: 'js/base.js' //要提取到的路径
-}),
+new copyWebpackPlugin([{from:'./src/fonts',to:'img'}])
 ```
-## 压缩JavaScript代码
 
-uglifyjs-webpack-plugin或webpack-parallel-uglify-plugin
+## 自动清空文件clean-webpack-plugin
 
-建议开发环境不使用。
+每次使用webpack打包时自动清除指定文件夹中的内容
 
-导入插件后，在配置中new 一个即可，更多参数参看其文档。
+```javascript
+plugins:[
+  new cleanWebpackPlugin(['dist'])
+]
+```
 
+# 其他
 
-# 开发的其他常用配置
-
-## webpack-dev-server
+## 开发服务器webpack-dev-server
 
 提示：webpack-dev-server生成在内存众的各项资源可在http://localhost:8080/webpack-dev-server下查看（这里假设端口设置为8080）。
 
@@ -258,11 +280,7 @@ uglifyjs-webpack-plugin或webpack-parallel-uglify-plugin
 
 ```javascript
  devServer: {
-    open: true,
-    //contentBase: '/',
-    // hot:true,
-    // hotOnly: true,
-    // publicPath: '/', //服务器路径
+    open: true,  //自动打开浏览器
     port: 8080,
     progress: true,
     stats: { colors: true },
@@ -328,9 +346,44 @@ npm start  #如用yarn 则是yarn start
 
 ## devtool
 
-webpack自带，无需额外安装
-
 ```javascript
 devtool: "source-map"
+```
+
+## 压缩代码optimization.minimize
+
+```javascript
+optimization.minimize:true   //压缩 如果mode位production则自动启用
+```
+
+## 优化设置
+
+optimization
+
+### 提取模块
+
+```javascript
+optimization: {
+    //chunk 提取模块
+    runtimeChunk: 'single',  //按runtime提取
+
+    splitChunks: {  //分割代码块
+        chunks: 'all',
+
+        cacheGroups: {
+            default: {
+                enforce: true,
+                priority: 1
+            },
+            vendors: {
+                test: /[\\/]node_modules[\\/]/,
+                priority: 2,
+                name: 'vendors',
+                enforce: true,
+                chunks: 'all'
+            }
+        }
+    }
+}
 ```
 
