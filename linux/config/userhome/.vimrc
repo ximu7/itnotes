@@ -100,14 +100,15 @@ set fileencodings=utf-8,gb18030,gb2312,gbk,big5
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
-
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
-
 
 "=====vim plugins====="
 "主题
 "Plugin 'tomasr/molokai'
+
+"powerline
+"Plugin 'powerline/powerline'
 
 "目录树
 Plugin 'scrooloose/nerdtree'
@@ -131,6 +132,10 @@ filetype plugin indent on " required
 "=====molokai theme"
 let g:molokai_original = 1
 let g:rehash256 = 1
+
+"=====powerline
+let g:powerline_pycmd="py3"
+set rtp+=/usr/lib/python3.6/site-packages/powerline/bindings/vim
 
 "=====emmet"
 
