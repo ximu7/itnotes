@@ -35,23 +35,21 @@ cobbler运行流程：
 
 # 准备工作
 
-## 安装epel源
+- 安装epel源（如过未安装）
 
-适用于最小化(mininal)安装的**centos**
+  ```shell
+  yum install -y epel-release
+  yum makecache
+  ```
 
-```shell
-yum install -y epel-release
-yum makecache
-```
+- 关闭selinux和防火墙
 
-## 关闭selinux和防火墙
+  ```shell
+  systemctl stop firewalld  #暂时关闭防火墙
+  setenforce 0  #暂时关闭selinux
+  ```
 
-```shell
-systemctl stop firewalld  #暂时关闭防火墙
-setenforce 0  #暂时关闭selinux
-```
-
-完全关闭selinux需要编辑`/etc/sysconfig/selinux`，将其中的`SELINUX=enforcing`修改为`SELINUX=disabled`，重启后生效。
+  完全关闭selinux需要编辑`/etc/sysconfig/selinux`，将其中的`SELINUX=enforcing`修改为`SELINUX=disabled`。
 
 ## 需要的工具及对应的服务
 
@@ -139,7 +137,7 @@ default_password_crypted: "$1$3jlvufj0$KJ.Ed2rDy8ijM7sQ35OaM/"
 ```shell
 openssl passwd -1  #注意这是1不是l 执行命令后会提示输入两次密码
 #或 使用-salt参数进行“加盐”将salt word替换成一个自定义字符串
-openssl passwd -1 -salt 'salt-word' <yourpassword>  
+openssl passwd -1 -salt 'salt-word' <yourpassword>
 ```
 
 提示：
@@ -386,6 +384,8 @@ cobbler sync  #务必进行一次同步
 ```
 
 提示：运行`cobbler distro list`和`cobbler profile list`获取准确的name和distro值。
+
+推荐使用图形界面的kickstart工具system-config-kickstart。
 
 ### kickstart文件示例
 

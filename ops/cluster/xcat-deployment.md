@@ -121,9 +121,9 @@ xCAT使用数十种**tables**（表）来存储不同的数据。常用tables（
 - Application  计算节点上的应用程序使用
 - Site (Public)  访问管理节点，有时用于计算节点向站点提供服务。
 
-# 安装xcat
+# xcat部署
 
-在服务机即管理节点(master)上安装xCAT。
+在管理节点上安装xCAT。
 
 ## 准备工作
 
@@ -134,8 +134,6 @@ xCAT使用数十种**tables**（表）来存储不同的数据。常用tables（
 
 - 关闭iptables/firewalld。（或者自行配置相关规则）
 
-- 关闭`NetworkManager`服务，重启`network`服务。（如果不使用NetworkManager）
-
 - 设置静态IP（根据具体情况设置）。
 
   本文中设置管理节点的IP为**192.168.1.251** 。
@@ -144,69 +142,53 @@ xCAT使用数十种**tables**（表）来存储不同的数据。常用tables（
 
 - 设置主机名和DNS
 
-  本文中，域（domain）为xcat，设置管理节点的主机名为**master.xcat** ，集群的节点名均为xx.xcat的形式：
+  本文中，域（domain）为cluster，设置管理节点的主机名为**master.cluster** ，集群的节点名均为xx.xcat的形式：
 
   ```shell
-  hostname master.xcat
-  echo -e "search master.xcat\nnameserver 192.168.1.251" >> /etc/resolv.conf
+  hostname master.cluster
+  echo -e "search cluster\nnameserver 192.168.1.251" >> /etc/resolv.conf
   ```
 
 
-## 安装
+## 安装xcat
 
-官方推荐使用go-xcat轻松安装。
+[xcat官网](https://xcat.org)下载安装包安装。
 
-1. 下载[go-xcat](https://raw.githubusercontent.com/xcat2/xcat-core/master/xCAT-server/share/xcat/tools/go-xcat)
+这里推荐使用[go-xcat](https://raw.githubusercontent.com/xcat2/xcat-core/master/xCAT-server/share/xcat/tools/go-xcat)轻松安装：
 
-   ```shell
-   wget https://raw.githubusercontent.com/xcat2/xcat-core/master/xCAT-server/share/xcat/tools/go-xcat -O - >/tmp/go-xcat
-   chmod +x /tmp/go-xcat
-   ```
+```shell
+wget https://raw.githubusercontent.com/xcat2/xcat-core/master/xCAT-server/share/xcat/tools/go-xcat -O - >/tmp/go-xcat
+chmod +x /tmp/go-xcat
+/tmp/go-xcat install            # installs the latest stable version of xCAT
+source /etc/profile.d/xcat.sh  #加载xcat的环境变量
+lsxcatd -a  #xCAT版本
+```
+- 如果**执行该命令后**安装很慢，可以终止安装，使用`yum install xCAT`进行安装，因为执行过`go-xcat install`后，xCAT源会被自动添加。
+- 如果安装仍然很慢，也可以[下载](http://xcat.org/download.html)xcat-core和xcat-dep包，解压后执行其中的`./mklocalrepo.sh`，就能使用包管理器安装了（如`yum install xCAT`）。
 
-2. 安装xCAT
+## 基本配置
 
-   ```shell
-   /tmp/go-xcat install            # installs the latest stable version of xCAT
-   ```
-   - 如果**执行该命令后**安装很慢，可以终止安装，使用`yum install xCAT`进行安装，因为执行过`go-xcat install`后，xCAT源会被自动添加。
-   - 如果安装仍然很慢，也可以[下载](http://xcat.org/download.html)xcat-core和xcat-dep包，解压后执行其中的`./mklocalrepo.sh`，就能使用包管理器安装了（如`yum install xCAT`）。
-
-3. 检查
-
-   ```shell
-   source /etc/profile.d/xcat.sh  #加载xcat的环境变量
-   lsxcatd -a  #xCAT版本
-   ```
-
-# 配置
-
-常用命令简介：
-
-- 查看table信息：`tabdump 表名`，例如`tabdump site`
-- 编辑table内容：
-  - `tabedit 表名`命令，将开启文本编辑器以编辑某个表的信息，例如`tabedit site`编辑site表。
-  - 类似`chtab key=master site.value=192.168.1.251`的命令更改表中的属性值。
-  - 类似`chdef -t site domain="xcatdomain"`的命令更改表中的属性值。
-- 创建对象：类似`mkdef -t network -o net1 net=192.168.186.0   mask=255.255.255.0 gateway=192.168.100.1`
-- 查看对象信息：` lsdef -t 对象名 -l`，例如`lsdef -t network -l` `lsdef -t osimage -l`
-
-## 基本信息
-
-主要配置site、networks和passwd。
+xcat将各种配置信息存储到各个表(table)中。相关命令参看[xcat常用命令](#xcat常用命令)
 
 ### site表
 
 site table的attritbutes参看上文[Gobal Configuration](#Gobal Configuration)。
 
-使用` lsdef -t site -l`或`tabdump stie` 检查site表的各项配置信息是否正确——主要是domain、forwarders、master和nameserver项。
+使用` lsdef -t site -l`或`tabdump stie` 检查site表的各项配置信息是否正确。在默认配置下，一般主要添加或修改项为：
 
-如有问题，可使用`tabedit`、`chtab`或`chdef`等命令修改，`chdef`修改示例：
+- forwarders  DNS的ip
+- master  管理节点的ip
+- nameservers  管理节点的ip
+- domain   集群的域名
+- ntpservers  管理节点的ip
+
+可使用`tabedit`、`chtab`或`chdef`等命令修改。`chdef`修改示例：
 
 ```shell
-chdef -t site domain="xcat" forwarders="192.168.1.1" master="192.168.1.251" nameservers="192.168.1.251"
+chdef -t site domain="cluster" forwarders="192.168.1.1" master="192.168.1.251" nameservers="192.168.1.251" ntpservers="192.168.1.251"
 ```
 
-- 检查nameserver，查看` /etc/resolv.conf `中的nameserver是否与上面的配置一致。也可以使用`nslookup xcat`命令。
+检查nameserver，查看` /etc/resolv.conf `中的nameserver是否与上面的配置一致。
 
 - 多网口设备要指定dhcp要使用的网口（或者指定dhcp使用网口的顺序）
 
@@ -221,7 +203,16 @@ chdef -t site domain="xcat" forwarders="192.168.1.1" master="192.168.1.251" name
 
 xCAT默认会对每个网卡创建一个network object。
 
-使用`lsdef -t network -l`或`tabdump networks`查看各项参数是否与上文site表中的配置——主要是netname、net、mask、gateway、dhcpserver、tftpserver、nameservers和ntpservers。
+使用`lsdef -t network -l`或`tabdump networks`查看各项参数是否与上文site表中的配置，在默认配置下，一般主要添加或修改项为：
+
+- netname
+- net
+- mask
+- gateway
+- dhcpserver
+- tftpserver
+- nameservers
+- ntpservers
 
 如不一致需对其进行修改，配置示例：
 
@@ -236,16 +227,37 @@ chtab netname=192_168_1_0-255_255_255_0 \
         networks.ntpservers=192.168.1.251
 ```
 
+然后
+
+增加一个ip为管理节点ip的ntp服务器：
+
+```shell
+echo "server 192.168.1.251 \nfudge 192.168.1.251 stratum 10" >> /etc/ntp.conf
+systemctl restart ntpd && systemctl enable ntpd
+```
+
+设置管理节点默认的域名，编辑`/etc/sysconfig/network`，示例：
+
+```shell
+NETWORKING=yes
+HOSTNAME=master
+DOMAINNAME=cluster
+```
+
+添加集群中节点的DNS解析到`/etc/hosts中`，或者添加到[节点](#节点)的hosts表中，示例：
+
+```shell
+192.168.1.251  master master.cluster
+192.168.1.11  node1 node1.cluster
+```
+
+---
+
 如果要自行添加一个networks，可使用类似命令：
 
 ```shell
 mkdef -t network -o net1 net=192.168.100.0 mask=255.255.0.0 gateway=192.168.100.1
-makedhcp -n
 ```
-
-//tod o   
-
-makedhcp -n
 
 ### passwd表
 
@@ -266,7 +278,71 @@ makedhcp -n
   chtab key=xcat passwd.username=xcatuser1 passwd.password=<xcatws_password>
   ```
 
+### 节点
+
+节点（node）时要被发现/管理的设备。可根据不同作用将各个节点划分到不同的群组（group）中。
+
+节点的数据表——节点信息存放在nodelist、nodetype、noderes、mac、hosts等表中。
+
+分别编辑各个表进行增改节点信息比较繁琐，建议使用以下方式进行操作。
+
+- 添加节点`nodeadd 节点名 <其他配置属性>`
+
+  ```shell
+  nodeadd io3 \
+      groups=io,all \
+      mac.interface=eth0 \
+      mac.mac=a0:d3:c1:f2:e7:a8 \
+      hosts.ip=192.168.1.203 \
+      noderes.netboot=pxe \
+      noderes.xcatmaster=192.168.1.251 \
+      noderes.installnic=eth0 \
+      noderes.primarynic=eth0 \
+      noderes.nfsserver=192.168.1.251 \
+      nodetype.os=centos7.4 \
+      nodetype.arch=x86_64 \
+      nodetype.nodetype=osi
+  ```
+
+  提示：如果某个group不存在，添加节点时会自动创建groups属性中对应的组。根据实际需要，这些属性并非都需要配置。
+
+- 删除节点：`noderm 节点名`
+
+- 添加节点到某个组中
+
+  ```shell
+  #将指定节点添加到某个组中
+  chdef -t node -p -o cn1,cn2,cn3 groups=compute
+  ```
+
+### 群组
+
+`makdef -t group -o 群组名 <其他配置属性>`
+
+```shell
+#创建一个静态群组compute 直接指定成员节点 多个节点使用逗号分隔
+mkdef -t group -o compute members="io"
+#创建一个动态群组compute
+mkdef -t group -o compute -d -w os=~centos[0-9]+ -w arch=x86_64
+```
+
+静态群组不指定members会提示`Warning: Cannot determine a member list for group xxx`
+
+动态群组是指用perl的操作`==`, `!=`, `=~` and `!~`等设置属性值，参看[perl文档](http://www.perl.com/doc/manual/html/pod/perlre.html) 。
+
+群组信息存放在**nodegroup 表**中，也可以通过编辑该表添加群组。
+
+## kickstart
+
+修改`/opt/xcat/share/xcat/install/`目录下相关系统的tmpl文件实现定制安装，该类tmpl文件为kickstart文件。
+
+参看[kickstart](https://access.redhat.com/documentation/zh-cn/red_hat_enterprise_linux/6/html/installation_guide/s1-kickstart2-file)相关文档。
+
+推荐使用`system-config-kickstart`图形工具创建该配置文件。
+
 ## 系统镜像
+
+### 创建系统镜像文件
 
 假如系统镜像存在当前操作目录下，其文件名为`centos.iso` ，创建操作系统安装文件
 
@@ -277,96 +353,12 @@ lsdef -t osimge  #检查镜像情况
 
 系统文件信息存放在osdistro、osdistroupdate和osimage表中（还有特定系统镜像信息的table，如linuximage——Linux系统，winimage——windows系统）
 
-## 群组和节点
-
-配置要被发现/管理的设备--node。当node过多时，可根据不同作用将各个node划分到不同的group中，方便管理。
-
-- 群组
-
-  `makdef -t group -o 群组名 <其他配置属性>`
-
-  ```shell
-  #创建一个静态群组compute 直接指定成员节点 多个节点使用逗号分隔
-  mkdef -t group -o compute members="io"
-  #创建一个动态群组compute
-  mkdef -t group -o compute -d -w os=~centos[0-9]+ -w arch=x86_64
-  ```
-
-  静态群组不指定members会提示`Warning: Cannot determine a member list for group xxx`
-
-  动态群组是指用perl的操作`==`, `!=`, `=~` and `!~`等设置属性值，参看[perl文档](http://www.perl.com/doc/manual/html/pod/perlre.html) 。
-
-  群组信息存放在**nodegroup 表**中，也可以通过编辑该表添加群组。
-
-
-- 节点
-
-  - 添加节点 `nodeadd 节点名 <其他配置属性>`
-
-    提示，如果某个group不存在，添加节点时会自动创建groups属性中对应的组。
-
-    ```shell
-    nodeadd io3 \
-        groups=io,all \
-        mac.interface=eth0 \
-        mac.mac=a0:d3:c1:f2:e7:a8 \
-        hosts.ip=192.168.1.203 \
-        noderes.netboot=pxe \
-        noderes.xcatmaster=192.168.1.251 \
-        noderes.installnic=eth0 \
-        noderes.primarynic=eth0 \
-        noderes.nfsserver=192.168.1.251 \
-        nodetype.os=centos7.4 \
-        nodetype.arch=x86_64 \
-        nodetype.nodetype=osi
-    ```
-
-    根据实际需要，这些属性并非都需要配置。
-
-  - 删除节点：`noderm 节点名`
-
-  - 添加节点到某个组中
-
-    ```shell
-    #将指定节点添加到某个组中
-    chdef -t node -p -o cn1,cn2,cn3 groups=compute
-    ```
-
-  - 节点的数据表
-
-    节点信息存放在以下table中
-
-    - nodelist
-    - nodetype
-    - noderes
-    - mac
-    - hosts
-
-    //todo
-
-    因此也可以根据实际需求，通过编辑这些表的内容。
-
-    例如通过集群中各个节点的MAC地址来管理，需收集各个设备的MAC地址，添加到mac表中。编辑mac表——`tabedit mac`，按照注释的提示填写各项值，示例：
-
-    ```shell
-    #node,interface,mac,comments,disable
-    "io","eth0",52:54:00:2d:6c:90
-    "cn1","eth0",52:54:00:4e:6a:62
-    "cn2","eth0",52:54:00:1f:5c:4f
-    ```
-
-## kickstar
-
-//todo 
-
-/opt/xcat/share/xcat/install下
-
-## 为节点配置安装镜像
+### 为节点配置安装镜像
 
 ```shell
 makehosts
 makedns -n
-makedhcp
+makedhcp -n
 ```
 
 > 因为 makedns 命令要求管理节点必须是domain的一部分，所以如果没有需要手动添加。
@@ -386,13 +378,13 @@ nodeset cn1 osimage=centos-x86_64-install-compute
 
 ## web UI
 
-安装`xCAT-UI-deps`，浏览器访问//todo
+ .安装`xCAT-UI-deps`，浏览器访问//todo
 
 ## 常见问题
 
 - 内存过小(小于等于1G)，会报ks.cfg找不到的错误
 
-## 卸载
+## 卸载xcat
 
 参看[Remove xCAT](http://xcat-docs.readthedocs.io/en/stable/guides/install-guides/maintenance/uninstall_xcat.html?highlight=remove#remove-xcat)
 
@@ -417,3 +409,14 @@ rm -rf /etc/xcat
 #/opt/xcat/
 #/mnt/xcat
 ```
+## xcat常用命令
+
+- 查看table信息：`tabdump 表名`，例如`tabdump site`
+- 编辑table内容：
+  - `tabedit 表名`命令，将开启文本编辑器以编辑某个表的信息，例如`tabedit site`编辑site表。
+  - 类似`chtab key=master site.value=192.168.1.251`的命令更改表中的属性值。
+  - 类似`chdef -t site domain="xcatdomain"`的命令更改表中的属性值。
+- 创建对象：类似`mkdef -t network -o net1 net=192.168.186.0   mask=255.255.255.0 gateway=192.168.100.1`
+- 查看对象信息：` lsdef -t 对象名 -l`，例如`lsdef -t network -l` `lsdef -t osimage -l`
+
+## 

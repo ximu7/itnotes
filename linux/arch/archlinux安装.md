@@ -42,7 +42,7 @@
 
 ### 准备工作
 
-在进行分区操作前或许要进行以下操作：
+在进行分区操作前或许要进行以下准备工作。
 
 - 了解硬盘情况
 
@@ -108,7 +108,7 @@
 
 - boot分区
 
-  使用efi系统分区i或者不使用efi系统分区采取不同操作：
+  使用efi系统分区或者不使用efi系统分区采取不同操作：
 
   - 使用[EFI系统分区](https://wiki.archlinux.org/index.php/EFI_System_Partition_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))（**EFI system partition，简称esp**）
 
@@ -303,10 +303,10 @@ MyPC是要设置的主机名。
 
 ```shell
 systemctl enable dhcpcd    #开机自启动有线网络  当然也可以手动执行 dhcpcd 连接
-pacman -S iw wpa_supplicant dialog    #无线网络需要安装这些工具
+pacman -S iw wpa_supplicant dialog    #无线网络需要安装这些工具使用wifi-menu联网
 ```
 
-参看[网络配置](https://wiki.archlinux.org/index.php/Network_configuration_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))了解更多。
+参看archlinux-wiki的[netctl](#https://wiki.archlinux.org/index.php/Network_configuration_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))和[网络配置](https://wiki.archlinux.org/index.php/Network_configuration_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))了解更多。
 
 注意：linux自带的`linux-frimware`已经支持大多数驱动，如果某些设置不能使用，参看[archwiki:网络驱动](https://wiki.archlinux.org/index.php/Wireless_network_configuration_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)#.E5.AE.89.E8.A3.85_driver.2Ffirmware)
 
@@ -503,7 +503,7 @@ alsamixer    #安装上一个包后可使用该命令控制声音设备
 
 ### pacman
 
-更多信息查看[archwiki:pacman]((https://wiki.archlinux.org/index.php/Pacman_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))
+更多信息查看[archwiki:pacman]((https://wiki.archlinux.org/index.php/Pacman_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))。
 
 - 常用命令
 
@@ -599,7 +599,18 @@ ntfs-3g /dev/sda5 /mnt/ntfs       #挂载分区到/mnt/ntfs目录
   pacman -S gvfs-mtp    #可自动挂载mtp设备
   ```
 
-# 其他配置(常见问题解决)
+# 其他配置/常见问题
+
+## 参考资料
+
+- [获取和安装Arch](#https://wiki.archlinux.org/index.php/Category:Getting_and_installing_Arch_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))
+- [Arch相关](#https://wiki.archlinux.org/index.php/Category:About_Arch_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))
+- [系统维护](https://wiki.archlinux.org/index.php/System_maintenance_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))
+- [pacman提示和技巧](#https://wiki.archlinux.org/index.php/System_maintenance_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))
+
+## 笔记本电源管理
+
+参看wiki[Laptop](#https://wiki.archlinux.org/index.php/Laptop_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))和本人笔记[laptop笔记本相关](../laptop笔记本相关.md)
 
 ## 开机后直接进入windows系统
 
@@ -739,10 +750,6 @@ Windows Registry Editor Version 5.00
 ## wayland
 
 wayland不会读取.xprofile和xinitrc等xorg的环境变量配置文件，故而不要将某些软件的相关设置写入到上诉文件中，可写入/etc/profile、 /etc/bash.bashrc 和/etc/environment。参考[archwiki-wayland](https://wiki.archlinux.org/index.php/Wayland)、[archwiki-环境变量](https://wiki.archlinux.org/index.php/Environment_variables_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)#.E5.AE.9A.E4.B9.89.E5.8F.98.E9.87.8F)和[wayland主页](https://wayland.freedesktop.org/)。
-
-## 笔记本电源管理
-
-参看[laptop笔记本相关](../laptop笔记本相关.md)
 
 # 常用软件
 

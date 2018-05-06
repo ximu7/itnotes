@@ -1,21 +1,3 @@
-"语法高亮
-syntax on
-
-"允许折叠
-set foldenable
-"折叠方式
-"根据语法syntax|手动manual|根据表达式epxr|根据未更改内容diff|根据标志marker|根据缩进indent
-set foldmethod=syntax
-"启动 vim 时关闭折叠
-"set nofoldenable
-"设置键盘映射，通过空格设置折叠
-"nnoremap <space> @=((foldclosed(line('.')) < 0) ? 'zc' : 'zo')<CR>
-
-"浅色显示当前行
-autocmd InsertLeave * se nocul
-"用浅色高亮当前行
-autocmd InsertEnter * se cul
-
 "tab缩进
 set tabstop=2
 "格式化时制表符占用空格数
@@ -33,6 +15,23 @@ set smartindent
 set cindent
 "根据类型格式缩进
 filetype indent on
+
+"语法高亮 syntax highlight
+syntax on
+"代码折叠 code folding
+set foldenable
+"折叠方式 folding style
+"根据语法syntax|手动manual|根据表达式epxr|根据未更改内容diff|根据标志marker|根据缩进indent
+set foldmethod=syntax
+"启动 vim 时关闭折叠 folding when vim launch
+"set nofoldenable
+"设置键盘映射，通过空格设置折叠 folding keymap
+"nnoremap <space> @=((foldclosed(line('.')) < 0) ? 'zc' : 'zo')<CR>
+
+"浅色显示当前行
+autocmd InsertLeave * se nocul
+"用浅色高亮当前行
+autocmd InsertEnter * se cul
 
 "文件类型识别
 filetype on
@@ -67,6 +66,8 @@ set magic
 
 "启动显示状态行
 set laststatus=2
+"状态栏信息
+set statusline=[FORMAT=%{&ff}]\ [TYPE=%Y]\ [ASCII=\%03.3b]\ [HEX=\%02.2B]\ [POS=%04l,%04v][%p%%]
 "显示输入的命令
 set showcmd
 "显示标尺 在右下角显示光标位置
@@ -107,8 +108,8 @@ Plugin 'VundleVim/Vundle.vim'
 "主题
 "Plugin 'tomasr/molokai'
 
-"powerline
-"Plugin 'powerline/powerline'
+"模糊搜索
+Plugin 'ctrlpvim/ctrlp.vim'
 
 "目录树
 Plugin 'scrooloose/nerdtree'
@@ -119,32 +120,20 @@ Plugin 'vim-syntastic/syntastic'
 "自动补全
 Plugin 'Shougo/neocomplete.vim'
 
-"emmet
-Plugin 'mattn/emmet-vim'
-
-"markdown
-Plugin 'plasticboy/vim-markdown'
-
 call vundle#end() " required
 filetype plugin indent on " required
-
 
 "=====molokai theme"
 let g:molokai_original = 1
 let g:rehash256 = 1
 
-"=====powerline
-let g:powerline_pycmd="py3"
-set rtp+=/usr/lib/python3.6/site-packages/powerline/bindings/vim
-
-"=====emmet"
-
-" Enable just for html/css
-let g:user_emmet_install_global = 0
-autocmd FileType html,xml,css,php,less,scss,sass EmmetInstall
-
-" Redefine trigger key
-"let g:user_emmet_expandabbr_key = '<C-Y>,'
+"=====ctrlp"
+set runtimepath^=~/.vim/bundle/ctrlp.vim
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\v[\/]\.(git|hg|svn)$',
+  \ 'file': '\v\.(exe|so|dll|jpg|png|jpeg)$',
+  \ }
 
 "=====nerdtree"
 "autocmd StdinReadPre * let s:std_in=1
@@ -163,9 +152,6 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
-
-"=====ctrlp"
-
 
 "=====neocomplete"
 " Disable AutoComplPop.

@@ -133,15 +133,15 @@ Git 保存数据是对文件系统的一组快照。 每次提交更新时，它
   变动包括（对文件的）新建、修改和删除，A 是 --all 的缩写，相当于以下两条命令：
 
   * `git add .` 将所有**新建和修改（但不包括删除）**提交到暂存区
-
   * `git add -u` 将所有**修改和删除（但不包括新建）**提交到暂存区（u--update ，
     只标记本地有改动的已追踪文件）
+  * **撤销暂存区**修改：`get reset HEAD <file-name>`
 
 - 提交快照并添加注解：`git commit -m "about"` about 是注解内容
 
   `-m "about"`还可和其他操作（如 merge 和 tag 等）合用。
 
-- 存储**未添加到暂存区的变动**到快照并添加注解：`git commit -am "about"`
+- 将**工作区变动直接添加到快照**并增加注解：`git commit -am "about"`
 
 - 将**暂存区**的变动**追加**到上一份快照：`git commit --amend`
 
@@ -156,30 +156,24 @@ Git 保存数据是对文件系统的一组快照。 每次提交更新时，它
 
 ## 回退快照
 
-即撤回到某次快照提交后的状态。
+- 回退文件版本
 
-* 撤销文件的修改
+  使用该文件在版本库里的版本替换工作区中的版本，需要**先撤销暂存区修改，再撤销工作区修改**：
 
-  * **撤销工作区**修改：`git checkout -- <file-name>`
+  1. **撤销暂存区**修改：`get reset HEAD <file-name>`
+  2. **撤销工作区**修改：`git checkout -- <file-name>`
 
-    此操作其实是用该文件在版本库里的版本替换工作区的版本。
+- 删除快照中的文件
 
-  * **撤销暂存区**修改：`get reset HEAD <file-name>`
-
-    将工作区中已经更改且添加到暂存区的文件，还原到工作区中未更改前的状态，需
-    要**先撤销暂存区修改，再撤销工作区修改**。
-
-* 删除版本库中的文件
-
-  1. `git rm <file-name>`
-  2. `git commit`
+  1. git rm <file-name>`
+  - `git commit`
 
   移动或改名版本库中的文件`git mv <file-name> <new-file-name>`同理，需要进行`git commit`快照提交才能生效。
 
   默认情况下`git rm <file-name>`也会将文件从暂存区和硬盘中（工作目录）删除。如果
   要在工作目录中留存该文件，可以使用`git rm --cached <file-name>`保留。
 
-* 回退到指定版本
+- 版本回退——回退到某个指定的版本
 
   * `git reset --hard <commit-id>`   回到指定版本并抛弃该版本之后的所有提交
   * `git revert --hard <commit-id>`  回到指定版本并提交一次

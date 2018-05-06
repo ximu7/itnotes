@@ -4,12 +4,6 @@ innerip=`ip addr | grep -o -P '1[^2][0-9?](\.[0-9]{1,3}){3}(?=\/)'`
 gateway=`ip route | grep 'via' |cut -d ' ' -f 3`
 echo -e "\e[1m `uname -srm`\e[0m  \nGATEWAY:\e[1;32m$gateway\e[0m <-- IP:\e[1;35m$innerip\e[0m \n \e[1;36m `date` \e[0m"
 
-# gnome-terminal transparent
-if [ -n "$WINDOWID" ]; then
-  TRANSPARENCY_HEX=$(printf 0x%x $((0xffffffff * 80/100)))
-  xprop -id "$WINDOWID" -f _NET_WM_WINDOW_OPACITY 32c -set _NET_WM_WINDOW_OPACITY "$TRANSPARENCY_HEX"
-fi
-
 # default info display
 PS1="[\u @ \h > \w ] \$ "
 
@@ -84,7 +78,7 @@ alias tree='tree -C -L 1 --dirsfirst'
 # ===system===
 
 # Arch
-alias up='yaourt -Syua'
+alias up='pacman -Syu && trizen -Syua'
 alias pacman='sudo pacman'
 
 # temporary locale
@@ -166,7 +160,13 @@ alias starwar='telnet towel.blinkenlights.nl'
 # quarium
 alias quarium='asciiquarium'
 
-# ssh connect
+alias yaourt='echo -e "please use \e[1mtrizen"'
+
+# install/update geoip database
+alias geoipdata="cd /tmp && wget http://geolite.maxmind.com/download/geoip/database/GeoLiteCountry/GeoIP.dat.gz && wget http://geolite.maxmind.com/download/geoip/database/GeoLiteCity.dat.gz && wget http://download.maxmind.com/download/geoip/database/asnum/GeoIPASNum.dat.gz && gunzip GeoIP.dat.gz && gunzip GeoIPASNum.dat.gz && gunzip GeoLiteCity.dat.gz && sudo cp GeoIP.dat GeoIPASNum.dat GeoLiteCity.dat /usr/share/GeoIP/ && cd -"
 
 # bash-powerline : https://github.com/riobard/bash-powerline
 source ~/.bash-powerline.sh
+
+alias virt='sudo modprobe virtio && sudo systemctl start libvirtd' 
+alias sshstart='sudo systemctl start sshd'

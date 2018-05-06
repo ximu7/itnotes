@@ -8,7 +8,7 @@
 
 ## 配置
 
-### nis网域设定
+### nis网域设定/etc/sysconfig/network
 
 编辑`/etc/sysconfig/network`，添加网域名称和端口，示例：
 
@@ -27,7 +27,7 @@ YPSERV_ARGS="-p 1011"
 * : * : * : deny
 ```
 
-### host配置/etc/host
+### hosts配置/etc/hosts
 
 可选。可配置服务器ip对应的域名方便访问，添加类似：
 
@@ -35,7 +35,7 @@ YPSERV_ARGS="-p 1011"
 192.168.100.101  cluster
 ```
 
-### nis密码修改
+### nis客户端密码修改功能
 
 可选，该配置启用可启用NIS 用户端的密码修改功能。
 
@@ -47,13 +47,13 @@ YPPASSWDD_ARGS="--port 1012"
 
 ## 启用服务
 
-启用`ypserv` `yppasswdd` 并设置开机自启动。
+启用/重启`ypserv` `yppasswdd` `rpcbind` `ypbind`并设置开机自启动。
 
 查看启用情况：
 
 ```shell
- rpcinfo -p localhost | grep -E '(portmapper|yp)'
- rpcinfo -u localhost ypserv
+rpcinfo -p localhost | grep -E '(portmapper|yp)'
+rpcinfo -u localhost ypserv
 ```
 
 第一条查询命令会看到postmapper、 ypserv（该示例中为1011端口）、yppasswdd（该示例中为1012端口）的端口。第二条查询命令会看到类似：
@@ -88,6 +88,14 @@ passwd user2
 
 ## 配置
 
+### nis网域设置
+
+编辑`/etc/sysconfig/network`，添加：
+
+```shell
+NISDOMAIN=cluster
+```
+
 ### 主配置文件/etc/yp.conf
 
 编辑`/etc/yp.conf`，添加类似：
@@ -100,7 +108,7 @@ domain servername server 192.168.10.1
 
 `/etc/nsswitch.conf`用于管理系统中多个配置文件查找的顺序，系统将按照配置中的顺序去查找用户信息文件。
 
-编辑该文件，在`passwd`、`shadow`和`group`添加`nis`，类似
+编辑该文件，在`passwd`、`shadow`和`group`添加`nis`（或`nisplus`），类似：
 
 ```shell
 passwd:  files nis
@@ -114,7 +122,7 @@ group:  files nis
 
 ### 启用服务
 
-重启`rpcbind`和`ypbind`服务并设置开机自启动。
+启用/重启`rpcbind`和`ypbind`服务并设置开机自启动。
 
 # 连接测试
 
@@ -126,7 +134,7 @@ group:  files nis
   yptest  #测试连接情况
   ypwhich  #显示服务器主机名
   ypwhich -x  #显示所有服务端与客户端连线共用的资料库
-  ypcat hosts.byname  #查看服务端于客户端共用的hosts资料库内容​
+  ypcat hosts.byname  #查看服务端于客户端共用的hosts资料库内容
   ```
 
   - `yptest`会进行各项连接检测

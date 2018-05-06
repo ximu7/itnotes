@@ -327,6 +327,9 @@
   - ydcv    命令行的有道在线词典
   - youdao-dict    有道词典
   - iSearch    命令行的有道词典（pip安装，使用了柯林斯词典，可存储到本地）[Github-iSearch](https://github.com/louisun/iSearch)
+- 本地化翻译：
+  - gtranslator和lokalize分别时gnome和kde的本地化翻译工具
+  - poedit  基于gettext/po-based的简单翻译工具
 
 # 游戏趣味
 

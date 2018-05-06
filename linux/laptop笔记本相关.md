@@ -7,7 +7,7 @@
 
 还可以尝试`linux-firmware-iwlwifi`(也可能名为`firmware-iwlwifi`) ，此软件包为intel相关网卡驱动。
 
-一些网卡可能需要寻找相应的驱动，可到其官网寻找支持，或者以网卡名、具体型号加firmware作为关键字搜索解决方案。可使用｀lspci | grep Network｀查看具体显卡情况。
+一些网卡可能需要寻找相应的驱动，可到其官网寻找支持，或者以网卡名、具体型号加firmware作为关键字搜索解决方案。可使用`lspci | grep Network`查看具体显卡情况。
 
 其他解决思路：换网卡；使用免驱动安装的usb网卡。
 
