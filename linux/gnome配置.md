@@ -30,7 +30,7 @@
 - simple-netspeed    显示网速
 - clipboard-indicator    剪切板
 - gno-menu   程序启动器
-- unite    将左下角通知栏融入顶部栏（仿unity风格）
+- gsconnect  与手机kdeconnect连接（类似kde的kdeconnect的作用）
 - user-theme    启用后可自定义shell主题
 - pixel-saver    窗口最大化时将标题栏融合进顶部pannel
 - coverflow-alt-tab    alt+tab进行切换时可显示大幅预览
